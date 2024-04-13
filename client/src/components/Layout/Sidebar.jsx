@@ -228,7 +228,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               fontSize: "1rem",
               backgroundColor: theme.prominent,
               fontFamily: theme.fontfamily,
-              marginTop: "20px",
+              marginTop: "500px",
             }}
           >
             <HiOutlineLogout style={{ marginRight: "10px" }} />
