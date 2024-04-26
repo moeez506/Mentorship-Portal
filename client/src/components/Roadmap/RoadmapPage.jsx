@@ -1,9 +1,8 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-import theme from "../../styles/theme";
 
 const RoadmapPage = () => {
   const [roadmapData, setRoadmapData] = useState([]);
@@ -58,7 +57,8 @@ const RoadmapPage = () => {
   };
 
   return (
-    <div
+    <>
+      {/* <div
       style={{
         backgroundColor: theme.primary,
         position: "fixed",
@@ -213,8 +213,85 @@ const RoadmapPage = () => {
           ))}
         </div>
       )}
-      <ToastContainer position="bottom-left" />
-    </div>
+        <ToastContainer position="bottom-left" />
+      </div> */}
+      <div
+        className={`bg-[#161616] fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-hidden font-Poppins`}
+      >
+        {roadmapData.length === 0 && !creatingRoadmap ? (
+          <button
+            onClick={() => setCreatingRoadmap(true)}
+            className={`bg-[#fefefe] text-[#000000] p-2 rounded-md cursor-pointer font-Poppins`}
+          >
+            Create Roadmap
+          </button>
+        ) : creatingRoadmap ? (
+          <div className={`bg-[#2e2e2e] w-[45%] p-5 rounded-lg`}>
+            <h3
+              className={`text-[#fefefe] font-Poppins text-[20px] font-semibold mb-6 text-center`}
+            >
+              Create New Roadmap
+            </h3>
+            <form
+              className="flex flex-col items-end"
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <div className="mb-3 flex flex-row w-[100%] justify-between items-center">
+                <label className={`text-[#fefefe] mr-2`}>Title:</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={newRoadmap.title}
+                  onChange={handleChange}
+                  className={`p-2 rounded-md border-[#000000] w-[70%]`}
+                />
+              </div>
+              <div className="mb-3 flex flex-row w-[100%] justify-between items-center">
+                <label className={`text-[#fefefe] mr-2`}>Description:</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={newRoadmap.description}
+                  onChange={handleChange}
+                  className={`p-2 rounded-md border-[#000000] w-[70%]`}
+                />
+              </div>
+              <button
+                onClick={handleCreateRoadmap}
+                className={`bg-[#fefefe] text-[#000000] p-2 rounded-md cursor-pointer font-Poppins w-[20%] mt-5 hover:bg-[#dedede] duration-300`}
+              >
+                Create
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div className="item-center">
+          {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-5"> */}
+            {roadmapData.map((roadmap) => (
+              <div key={roadmap.id} className={`bg-[#2e2e2e] p-5 rounded-lg`}>
+                <h3 className={`text-[#fefefe]`}>{roadmap.title}</h3>
+                <p className={`text-[#fefefe]`}>{roadmap.description}</p>
+                <div className="flex gap-5 mt-5">
+                  <button
+                    onClick={() => navigate("/tasks")}
+                    className={`bg-[#fefefe] text-[black] p-2 rounded-lg cursor-pointer mb-2 transition duration-300 hover:bg-[#dedede]`}
+                  >
+                    Create Task
+                  </button>
+                  <button
+                    onClick={() => navigate("/tasks")}
+                    className={`bg-[#fefefe] text-[black] p-2 rounded-lg cursor-pointer mb-2 transition duration-300 hover:bg-[#dedede]`}
+                  >
+                    Visit Tasks
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <ToastContainer position="bottom-left" />
+      </div>
+    </>
   );
 };
 

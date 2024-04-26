@@ -1,46 +1,12 @@
+import CloseIcon from "@mui/icons-material/Close";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import PersonIcon from "@mui/icons-material/Person";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import PersonIcon from "@mui/icons-material/Person";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import CloseIcon from "@mui/icons-material/Close";
-import { makeStyles } from "@mui/styles";
-import theme from "../../styles/theme";
-import Sidebar from "./Sidebar";
 import { useAuth } from "../../context";
-
-const useStyles = makeStyles({
-  navbar: {
-    backgroundColor: theme.primary,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    height: "70px",
-    fontFamily: theme.fontfamily,
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 999,
-  },
-  titleContainer: {
-    color: theme.text,
-    fontSize: 25,
-    display: "flex",
-    alignItems: "center",
-    marginLeft: "20px",
-    cursor: "pointer",
-  },
-  link: {
-    color: theme.text,
-    fontSize: 25,
-    marginRight: "20px",
-    textDecoration: "none",
-  },
-});
+import Sidebar from "./Sidebar";
 
 const Navbar = () => {
-  const classes = useStyles();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isStudentLoggedIn, isMentorLoggedIn } = useAuth();
@@ -61,44 +27,34 @@ const Navbar = () => {
 
   return (
     <>
-      <div className={classes.navbar}>
-        <div className={classes.titleContainer}>
-          {isSidebarOpen ? (
-            <CloseIcon
-              style={{ marginRight: "10px" }}
-              onClick={toggleSidebar}
-            />
-          ) : (
-            <KeyboardArrowRightIcon
-              style={{ marginRight: "10px" }}
-              onClick={toggleSidebar}
-            />
-          )}
-          <Link to="/" className={classes.link}>
+      <div className="bg-[#2e2e2e] fixed flex justify-between items-center w-full h-20 font-Poppins top-0 left-0 right-0 z-50 px-4">
+    <div className="text-[#fefefe] text-2xl flex items-center cursor-pointer">
+        {isSidebarOpen ? (
+            <CloseIcon className="mr-2" onClick={toggleSidebar} />
+        ) : (
+            <KeyboardArrowRightIcon className="mr-2" onClick={toggleSidebar} />
+        )}
+        <Link to="/" className="text-[#fefefe] text-2xl no-underline">
             MentorConnect
-          </Link>
-        </div>
-        <div>
-          <Link to="/dashboard" className={classes.link}>
+        </Link>
+    </div>
+    <div className="flex items-center gap-8">
+        <Link to="/dashboard" className="text-[#fefefe] text-2xl no-underline">
             Dashboard
-          </Link>
-          <Link to="/mentees" className={classes.link}>
+        </Link>
+        <Link to="/mentees" className="text-[#fefefe] text-2xl no-underline">
             My Mentees
-          </Link>
-          <Link to="/reports" className={classes.link}>
+        </Link>
+        <Link to="/reports" className="text-[#fefefe] text-2xl no-underline">
             Reports
-          </Link>
-          <PersonIcon
+        </Link>
+        <PersonIcon
+            className="text-[#fefefe] cursor-pointer"
             size={24}
-            style={{
-              color: theme.text,
-              marginRight: "20px",
-              cursor: "pointer",
-            }}
             onClick={handleUserIconClick}
-          />
-        </div>
-      </div>
+        />
+    </div>
+</div>
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
     </>
   );

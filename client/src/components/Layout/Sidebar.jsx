@@ -1,57 +1,14 @@
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import GroupsIcon from "@mui/icons-material/Groups";
+import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import React from "react";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@mui/styles";
-import ImportContactsIcon from "@mui/icons-material/ImportContacts";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import GroupsIcon from "@mui/icons-material/Groups";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { useAuth } from "../../context";
 import { toast, ToastContainer } from "react-toastify";
-import theme from "../../styles/theme";
-
-const useStyles = makeStyles({
-  sidebar: {
-    backgroundColor: theme.primary,
-    color: theme.text,
-    width: "260px",
-    height: "100vh",
-    position: "fixed",
-    top: "70px",
-    left: 0,
-    overflowX: "hidden",
-    zIndex: 999,
-    display: "flex",
-    flexDirection: "column",
-  },
-  linkContainer: {
-    padding: "20px",
-  },
-  link: {
-    color: theme.text,
-    textDecoration: "none",
-    display: "flex",
-    alignItems: "center",
-    margin: "10px 0",
-    padding: "10px",
-    borderRadius: "20px",
-    fontSize: "1rem",
-    fontFamily: theme.fontfamily,
-    transition: "background-color 0.3s",
-    "&:hover": {
-      backgroundColor: theme.prominent,
-    },
-  },
-  activeLink: {
-    backgroundColor: theme.prominent,
-  },
-  logoutContainer: {
-    marginTop: "400px",
-  },
-});
+import { useAuth } from "../../context";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
-  const classes = useStyles();
   const { isStudentLoggedIn, isMentorLoggedIn, logout } = useAuth();
 
   const handleLogout = () => {
@@ -72,64 +29,63 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <>
       {isOpen && (
-        <div className={classes.sidebar}>
-          <div className={classes.linkContainer}>
+        <div className="bg-[#2e2e2e] text-[#fefefe] w-64 h-screen fixed top-20 left-0 overflow-x-hidden z-50 flex flex-col">
+          <div className="p-5">
             <Link
               to="/dashboard"
-              className={`${classes.link} ${
-                window.location.pathname === "/dashboard" && classes.activeLink
-              }`}
+              className={`flex items-center ${
+                window.location.pathname === "/dashboard" ? "bg-[#161616]" : ""
+              } hover:bg-[#161616] rounded-full p-2 no-underline`}
             >
-              <GroupsIcon style={{ marginRight: "10px" }} />
+              <GroupsIcon className="mr-2" />
               Dashboard
             </Link>
             <Link
               to="/requests"
-              className={`${classes.link} ${
-                window.location.pathname === "/requests" && classes.activeLink
-              }`}
+              className={`flex items-center ${
+                window.location.pathname === "/requests" ? "bg-[#161616]" : ""
+              } hover:bg-[#161616] rounded-full p-2 no-underline`}
             >
-              <ImportContactsIcon style={{ marginRight: "10px" }} />
+              <ImportContactsIcon className="mr-2" />
               Requests
             </Link>
             <Link
               to="/unassigned-students"
-              className={`${classes.link} ${
-                window.location.pathname === "/unassigned-students" &&
-                classes.activeLink
-              }`}
+              className={`flex items-center ${
+                window.location.pathname === "/unassigned-students"
+                  ? "bg-[#161616]"
+                  : ""
+              } hover:bg-[#161616] rounded-full p-2 no-underline`}
             >
-              <CheckCircleIcon style={{ marginRight: "10px" }} />
+              <CheckCircleIcon className="mr-2" />
               Unassigned Students
             </Link>
             <Link
               to="/roadmaps"
-              className={`${classes.link} ${
-                window.location.pathname === "/roadmaps" && classes.activeLink
-              }`}
+              className={`flex items-center ${
+                window.location.pathname === "/roadmaps" ? "bg-[#161616]" : ""
+              } hover:bg-[#161616] rounded-full p-2 no-underline`}
             >
-              <PeopleAltIcon style={{ marginRight: "10px" }} />
+              <PeopleAltIcon className="mr-2" />
               Roadmaps
             </Link>
             <Link
               to="/messaging"
-              className={`${classes.link} ${
-                window.location.pathname === "/messaging" && classes.activeLink
-              }`}
+              className={`flex items-center ${
+                window.location.pathname === "/messaging" ? "bg-[#161616]" : ""
+              } hover:bg-[#161616] rounded-full p-2 no-underline`}
             >
-              <ImportContactsIcon style={{ marginRight: "10px" }} />
+              <ImportContactsIcon className="mr-2" />
               Messaging
             </Link>
           </div>
-          <div
-            className={`${classes.linkContainer} ${classes.logoutContainer}`}
-          >
+          <div className="p-5 fixed bottom-5 w-64">
             <Link
               to="/"
-              className={`${classes.link} ${classes.activeLink}`}
+              className={`flex items-center bg-[#161616] rounded-full p-2 no-underline`}
               onClick={handleLogout}
             >
-              <LogoutIcon style={{ marginRight: "10px" }} />
+              <LogoutIcon className="mr-2" />
               Logout
             </Link>
           </div>

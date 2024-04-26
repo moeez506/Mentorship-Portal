@@ -2,89 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  Input,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-} from "@material-ui/core";
-import theme from "../../styles/theme";
 import { useAuth } from "../../context";
 
-const useStyles = makeStyles((muiTheme) => ({
-  root: {
-    backgroundColor: theme.prominent,
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-    fontFamily: theme.fontfamily,
-  },
-  paper: {
-    maxHeight: "90%",
-    width: "30%",
-    backgroundColor: theme.primary,
-    padding: muiTheme.spacing(3),
-    borderRadius: "20px",
-    display: "flex",
-    flexDirection: "column",
-  },
-  form: {
-    backgroundColor: theme.primary,
-    display: "flex",
-    flexDirection: "column",
-  },
-  formControl: {
-    marginBottom: muiTheme.spacing(2),
-    display: "flex",
-    alignItems: "center",
-  },
-  button: {
-    backgroundColor: theme.text,
-    width: "100%",
-    color: theme.prominent,
-    padding: muiTheme.spacing(2),
-    marginTop: muiTheme.spacing(4),
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    fontFamily: theme.fontfamily,
-    "&:hover": {
-      backgroundColor: theme.text,
-    },
-  },
-  label: {
-    color: theme.text,
-    width: "200px",
-    marginRight: muiTheme.spacing(2),
-  },
-  input: {
-    flex: 1,
-    backgroundColor: theme.text,
-    color: theme.buttons,
-    padding: muiTheme.spacing(1),
-    borderRadius: "5px",
-    border: `1px solid ${theme.buttons}`,
-    outline: "none",
-    "&::placeholder": {
-      color: theme.buttons,
-    },
-    "&:focus": {
-      border: `2px solid ${theme.buttons}`,
-    },
-  },
-}));
-
 const Login = () => {
-  const classes = useStyles();
   const navigate = useNavigate();
   const { loginAsStudent, loginAsMentor } = useAuth();
 
@@ -149,53 +69,70 @@ const Login = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <form onSubmit={handleLogin} className={classes.form}>
-          <div>
-            <div className={classes.formControl}>
-              <InputLabel className={classes.label}>Email:</InputLabel>
-              <Input
-                type="email"
-                name="email"
-                value={loginData.email}
-                onChange={handleChange}
-                className={classes.input}
-                disableUnderline={true}
-              />
-            </div>
-            <div className={classes.formControl}>
-              <InputLabel className={classes.label}>Password:</InputLabel>
-              <Input
-                type="password"
-                name="password"
-                value={loginData.password}
-                onChange={handleChange}
-                className={classes.input}
-                disableUnderline={true}
-              />
-            </div>
-            <div className={classes.formControl}>
-              <InputLabel className={classes.label}>User Type:</InputLabel>
-              <Select
-                name="userType"
-                value={loginData.userType}
-                onChange={handleChange}
-                className={classes.input}
-                disableUnderline={true}
+    <>
+      <div
+        className={`fixed top-0 left-0 w-full h-full flex justify-center items-center bg-[#161616] font-Poppins`}
+      >
+        <div className="max-h-[90%] w-[30%] bg-[#2e2e2e] p-6 rounded-3xl">
+          <form onSubmit={handleLogin}>
+            <div>
+              <div className="mb-4 flex items-center justify-between">
+                <label className="text-[#fefefe] mr-2" htmlFor="email">
+                  Email:
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={loginData.email}
+                  onChange={handleChange}
+                  className="w-[50%] bg-[#fefefe] text-[#000000] p-2 border-2 border-[#000000] outline-none rounded-md"
+                  id="email"
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div className="mb-4 flex items-center justify-between">
+                <label className="text-[#fefefe] mr-2" htmlFor="password">
+                  Password:
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={loginData.password}
+                  onChange={handleChange}
+                  className="w-[50%] bg-[#fefefe] text-[#000000] p-2 border-2 border-[#000000] outline-none rounded-md"
+                  id="password"
+                  placeholder="Enter your password"
+                />
+              </div>
+              <div className="mb-4 flex items-center justify-between">
+                <label className="text-[#fefefe] mr-2" htmlFor="userType">
+                  User Type:
+                </label>
+                <select
+                  name="userType"
+                  value={loginData.userType}
+                  onChange={handleChange}
+                  className="w-[50%] bg-[#fefefe] text-[#000000] p-2 border-2 border-[#000000] outline-none rounded-md"
+                  id="userType"
+                >
+                  <option value="mentor">Mentor</option>
+                  <option value="student">Student</option>
+                </select>
+              </div>
+              <button
+                className="bg-[#fefefe] text-prominent w-full py-2 mt-8 rounded cursor-pointer font-family hover:bg-[#fefefe]"
+                type="submit"
               >
-                <MenuItem value="mentor">Mentor</MenuItem>
-                <MenuItem value="student">Student</MenuItem>
-              </Select>
+                Login
+              </button>
             </div>
-            <Button className={classes.button} type="submit">
-              Login
-            </Button>
-          </div>
-        </form>
-      </Paper>
-      <ToastContainer position="bottom-left" />
-    </div>
+          </form>
+        </div>
+        <div>
+          <ToastContainer position="bottom-left" />
+        </div>
+      </div>
+    </>
   );
 };
 

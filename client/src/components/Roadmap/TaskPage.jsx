@@ -1,8 +1,6 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import theme from "../../styles/theme";
 
 const TaskPage = () => {
   const [taskData, setTaskData] = useState([]);
@@ -70,7 +68,8 @@ const TaskPage = () => {
   };
 
   return (
-    <div
+    <>
+      {/* <div
       style={{
         backgroundColor: theme.primary,
         position: "fixed",
@@ -326,7 +325,127 @@ const TaskPage = () => {
         </>
       )}
       <ToastContainer position="bottom-left" />
-    </div>
+    </div> */}
+      <div
+        className={`bg-[#161616] fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-hidden font-Poppins`}
+      >
+        {taskData.length === 0 && !creatingTask ? (
+          <button
+            onClick={handleCreateTask}
+            className={`bg-[#fefefe] text-[black] p-2 rounded-md cursor-pointer font-Poppins`}
+          >
+            Create Task
+          </button>
+        ) : (
+          <>
+            <div
+              className={`bg-[#161616] max-h-[80%] w-[60%] p-5 rounded-lg flex flex-col overflow-y-auto no-scroll`}
+            >
+              {taskData.map((task, index) => (
+                <div
+                  key={index}
+                  className={`mb-4 border-1 border-[#000000] rounded-10 p-2 bg-[#2e2e2e]`}
+                >
+                  <div className="flex justify-between items-center">
+                    <h3 className={`text-[#fefefe]`}>{task.title}</h3>
+                    <div>
+                      <button
+                        onClick={() => handleEditTask(index)}
+                        className={`bg-[#fefefe] text-[black] p-1 rounded-lg cursor-pointer mr-1 transition duration-300 hover:bg-[#dedede]`}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteTask(index)}
+                        className={`bg-[#ff0000] text-[black] p-1 rounded-lg cursor-pointer transition duration-300 hover:bg-[#8b0000]`}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                  <p className={`text-[#fefefe]`}>
+                    <strong>Link:</strong> {task.link}
+                  </p>
+                  <p className={`text-[#fefefe]`}>
+                    <strong>Status:</strong> {task.status}
+                  </p>
+                  <p className={`text-[#fefefe]`}>
+                    <strong>Due Date:</strong> {task.dueDate}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div
+              className={`bg-[#2e2e2e] max-h-[90%] w-[30%] p-5 rounded-lg ml-5 flex flex-col`}
+            >
+              <form className="flex flex-col justify-between" onSubmit={(e) => e.preventDefault()}>
+                <div className="flex flex-col mb-4">
+                  <div className="mb-2 flex items-center">
+                    <label className={`text-[#fefefe] min-w-[45%] text-[16px]`}>
+                      Title:
+                    </label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={newTask.title}
+                      onChange={handleChange}
+                      className={`p-3 rounded border border-[#000000] min-w-[50%] w-[100%]`}
+                    />
+                  </div>
+                  <div className="mb-2 flex items-center">
+                    <label className={`text-[#fefefe] min-w-[45%] text-[16px]`}>
+                      Link:
+                    </label>
+                    <input
+                      type="text"
+                      name="link"
+                      value={newTask.link}
+                      onChange={handleChange}
+                      className={`p-3 rounded border border-[#000000] min-w-[50%] w-[100%]`}
+                    />
+                  </div>
+                  <div className="mb-2 flex items-center">
+                    <label className={`text-[#fefefe] min-w-[45%] text-[16px]`}>
+                      Status:
+                    </label>
+                    <select
+                      name="status"
+                      value={newTask.status}
+                      onChange={handleChange}
+                      className={`p-3 rounded border border-[#000000] min-w-[50%] w-[100%]`}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="in progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </div>
+                  <div className="mb-2 flex items-center">
+                    <label className={`text-[#fefefe] min-w-[45%] text-[16px]`}>
+                      Due Date:
+                    </label>
+                    <input
+                      type="date"
+                      name="dueDate"
+                      value={newTask.dueDate}
+                      onChange={handleChange}
+                      className={`p-3 rounded border border-[#000000] min-w-[50%] w-[100%]`}
+                    />
+                  </div>
+                  <button
+                    onClick={handleAddTask}
+                    className={`bg-[#fefefe] w-full text-[black] p-2 mt-4 rounded-md cursor-pointer font-Poppins`}
+                    type="button"
+                  >
+                    {editIndex !== null ? "Update Task" : "Add Task"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </>
+        )}
+        <ToastContainer position="bottom-left" />
+      </div>
+    </>
   );
 };
 
