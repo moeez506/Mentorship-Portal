@@ -1,6 +1,6 @@
-import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import { MdClose, MdDelete, MdEdit } from "react-icons/md";
+import { DataGrid } from "@mui/x-data-grid";
+import { MdDelete, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,20 +42,24 @@ const TaskPage = () => {
       const updatedTasks = [...taskData];
       updatedTasks[editIndex] = newTask;
       setTaskData(updatedTasks);
-      setEditIndex(null);
+      localStorage.setItem("taskData", JSON.stringify(updatedTasks));
+      toast.success("Task Updated Successfully", { position: "bottom-left" });
     } else {
       const updatedTaskData = [...taskData, newTask];
       setTaskData(updatedTaskData);
       localStorage.setItem("taskData", JSON.stringify(updatedTaskData));
+      toast.success("Task Added Successfully", { position: "bottom-left" });
     }
 
-    toast.success("Task Added Successfully", { position: "bottom-left" });
     setNewTask({ title: "", link: "", status: "pending", dueDate: "" });
+    setEditIndex(null);
+    setCreatingTask(false);
   };
 
   const handleEditTask = (index) => {
     setNewTask(taskData[index]);
     setEditIndex(index);
+    setCreatingTask(true);
   };
 
   const handleDeleteTask = (index) => {
@@ -148,33 +152,34 @@ const TaskPage = () => {
       type: "text",
       flex: 0.5,
       renderCell: (params) => (
-        <div
-          className="flex flex-row justify-center items-center p-3 cursor-pointer gap-5"
-          onClick={() => navigate("/tasks")}
-        >
-          <MdEdit color="white" size={20} />
-          <MdDelete color="white" size={20} />
+        <div className="flex flex-row justify-center items-center p-3 gap-5">
+          <MdEdit
+            color="white"
+            size={20}
+            onClick={() => handleEditTask(params.row.id - 1)}
+            style={{ cursor: "pointer" }}
+          />
+          <MdDelete
+            color="white"
+            size={20}
+            onClick={() => handleDeleteTask(params.row.id - 1)}
+            style={{ cursor: "pointer" }}
+          />
         </div>
       ),
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      title: "What is Software Engineering?",
-      link: "https://example.com/projects",
-      status: "pending",
-      dueDate: "23-12-2024",
-    },
-  ];
+  const rows = taskData.map((task, index) => ({
+    id: index + 1,
+    ...task,
+  }));
 
   return (
     <>
       <div
         className={`bg-[#161616] min-h-[100vh] font-Poppins flex items-end flex-col p-10`}
       >
-        {/* {taskData.length === 0 && !creatingTask ? ( */}
         <button
           onClick={handleCreateTask}
           className={`bg-[#fefefe] text-[#000000] p-2 rounded-md cursor-pointer font-Poppins`}
@@ -201,78 +206,105 @@ const TaskPage = () => {
             className={`fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm`}
           >
             <div
-              className={`bg-[#2e2e2e] max-h-[90%] w-[30%] p-5 rounded-lg ml-5 flex flex-col items-center fixed`}
+              className={`bg-[#2e2e2e] max-h-[90%] w-[40%] p-5 rounded-lg ml-5 flex flex-col items-center fixed`}
             >
-              <MdClose
-                className="cursor-pointer right-2 absolute"
-                size={25}
-                color="#fefefe"
+              <button
+                className="cursor-pointer absolute top-4 right-4 text-gray-300 hover:text-white"
                 onClick={() => setCreatingTask(false)}
-              />
-              <h3
-                className={`text-[#fefefe] font-Poppins text-[20px] font-semibold mb-6 text-center`}
               >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+              <h3 className="text-white font-semibold text-2xl mb-6 text-center">
                 New Task
               </h3>
               <form
-                className="flex flex-col justify-between"
+                className="flex flex-col justify-between w-full"
                 onSubmit={(e) => e.preventDefault()}
               >
                 <div className="flex flex-col mb-4">
-                  <div className="mb-2 flex items-center">
-                    <label className={`text-[#fefefe] min-w-[45%] text-[16px]`}>
+                  <div className="mb-4 flex items-center">
+                    <label
+                      htmlFor="title"
+                      className="text-white text-sm w-[20%]"
+                    >
                       Title:
                     </label>
                     <input
                       type="text"
+                      id="title"
                       name="title"
                       value={newTask.title}
                       onChange={handleChange}
-                      className={`p-3 rounded border border-[#000000] min-w-[50%] w-[100%]`}
+                      className="p-3 rounded border border-gray-700 w-full"
                     />
                   </div>
-                  <div className="mb-2 flex items-center">
-                    <label className={`text-[#fefefe] min-w-[45%] text-[16px]`}>
+                  <div className="mb-4 flex items-center">
+                    <label
+                      htmlFor="link"
+                      className="text-white text-sm w-[20%]"
+                    >
                       Link:
                     </label>
                     <input
                       type="text"
+                      id="link"
                       name="link"
                       value={newTask.link}
                       onChange={handleChange}
-                      className={`p-3 rounded border border-[#000000] min-w-[50%] w-[100%]`}
+                      className="p-3 rounded border border-gray-700 w-full"
                     />
                   </div>
-                  <div className="mb-2 flex items-center">
-                    <label className={`text-[#fefefe] min-w-[45%] text-[16px]`}>
+                  <div className="mb-4 flex items-center">
+                    <label
+                      htmlFor="status"
+                      className="text-white text-sm w-[20%]"
+                    >
                       Status:
                     </label>
                     <select
+                      id="status"
                       name="status"
                       value={newTask.status}
                       onChange={handleChange}
-                      className={`p-3 rounded border border-[#000000] min-w-[50%] w-[100%]`}
+                      className="p-3 rounded border border-gray-700 w-full"
                     >
                       <option value="pending">Pending</option>
                       <option value="in progress">In Progress</option>
                       <option value="completed">Completed</option>
                     </select>
                   </div>
-                  <div className="mb-2 flex items-center">
-                    <label className={`text-[#fefefe] min-w-[45%] text-[16px]`}>
+                  <div className="mb-4 flex items-center">
+                    <label
+                      htmlFor="dueDate"
+                      className="text-white text-sm w-[20%]"
+                    >
                       Due Date:
                     </label>
                     <input
                       type="date"
+                      id="dueDate"
                       name="dueDate"
                       value={newTask.dueDate}
                       onChange={handleChange}
-                      className={`p-3 rounded border border-[#000000] min-w-[50%] w-[100%]`}
+                      className="p-3 rounded border border-gray-700 w-full"
                     />
                   </div>
                   <button
                     onClick={handleAddTask}
-                    className={`bg-[#fefefe] w-full text-[black] p-2 mt-4 rounded-md cursor-pointer font-Poppins`}
+                    className="bg-gray-100 text-black p-2 rounded-md cursor-pointer self-center w-[20%]"
                     type="button"
                   >
                     {editIndex !== null ? "Update Task" : "Add Task"}
