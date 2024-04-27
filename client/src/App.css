@@ -1,0 +1,22 @@
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+.ag-theme-quartz {
+    --ag-foreground-color: #dedede !important;
+    --ag-background-color: #2e2e2e !important;
+    --ag-header-foreground-color: #dedede !important;
+    --ag-header-background-color: #2e2e2e !important;
+    --ag-odd-row-background-color: rgb(0, 0, 0, 0.03) !important;
+    --ag-header-column-resize-handle-color: #c2c2c2 !important;
+
+    --ag-font-size: 17px !important;
+    --ag-font-family: monospace !important;
+}
