@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import Sidebar from "./Sidebar";
-import { useAuth } from "../../context";
-import { IoClose } from "react-icons/io5";
 import { FaBars } from "react-icons/fa6";
-import { IoPersonSharp } from "react-icons/io5";
+import { IoClose, IoPersonSharp } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context";
+import Sidebar from "./Sidebar";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-[#2e2e2e] fixed flex justify-between items-center w-full h-20 font-Poppins top-0 left-0 right-0 z-50 px-4">
+      <div className="bg-[#2e2e2e] sticky flex justify-between items-center w-full h-20 font-Poppins top-0 left-0 right-0 z-50 px-4">
         <div className="text-[#fefefe] text-2xl flex items-center cursor-pointer">
           {isSidebarOpen ? (
             <IoClose className="mr-2" onClick={toggleSidebar} />

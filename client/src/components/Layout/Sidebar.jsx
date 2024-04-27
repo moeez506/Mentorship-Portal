@@ -1,12 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../context";
-import { toast, ToastContainer } from "react-toastify";
 import { FaCheckCircle } from "react-icons/fa";
-import { MdImportContacts } from "react-icons/md";
-import { HiUserGroup } from "react-icons/hi2";
-import { MdLogout } from "react-icons/md";
 import { FaUserGroup } from "react-icons/fa6";
+import { HiUserGroup } from "react-icons/hi2";
+import { MdImportContacts, MdLogout } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import { useAuth } from "../../context";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { isStudentLoggedIn, isMentorLoggedIn, logout } = useAuth();
@@ -30,7 +29,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     <>
       {isOpen && (
         <div className="bg-[#2e2e2e] text-[#fefefe] w-64 h-screen fixed top-20 left-0 overflow-x-hidden z-50 flex flex-col">
-          <div className="p-5">
+          <div className="p-5 flex flex-col gap-2">
             <Link
               to="/dashboard"
               className={`flex items-center ${
