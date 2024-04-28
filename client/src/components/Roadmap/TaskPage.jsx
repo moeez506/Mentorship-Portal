@@ -1,12 +1,10 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { MdClose, MdDelete, MdEdit } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const TaskPage = () => {
-  const navigate = useNavigate();
   const [taskData, setTaskData] = useState([]);
   const [newTask, setNewTask] = useState({
     title: "",
@@ -51,9 +49,11 @@ const TaskPage = () => {
 
     toast.success("Task Added Successfully", { position: "bottom-left" });
     setNewTask({ title: "", link: "", status: "pending", dueDate: "" });
+    setCreatingTask(false);
   };
 
   const handleEditTask = (index) => {
+    setCreatingTask(true);
     setNewTask(taskData[index]);
     setEditIndex(index);
   };
@@ -67,7 +67,13 @@ const TaskPage = () => {
 
   const handleCreateTask = () => {
     setCreatingTask(true);
-    setNewTask({ title: "", link: "", status: "pending", dueDate: "" });
+    setNewTask({
+      title: "",
+      link: "",
+      status: "pending",
+      dueDate: "",
+      id: Date.now(),
+    });
     setEditIndex(null);
   };
 
@@ -78,12 +84,7 @@ const TaskPage = () => {
       minWidth: 30,
       flex: 0.5,
       renderCell: (params) => (
-        <div
-          className="text-[#fefefe]"
-          onClick={() => navigate(`/roadmap/${params.row.id}`)}
-        >
-          {params.row.id}
-        </div>
+        <div className="text-[#fefefe]">{params.row.id}</div>
       ),
     },
     {
@@ -92,12 +93,7 @@ const TaskPage = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => (
-        <div
-          className="text-[#fefefe]"
-          onClick={() => navigate(`/roadmap/${params.row.id}`)}
-        >
-          {params.row.title}
-        </div>
+        <div className="text-[#fefefe]">{params.row.title}</div>
       ),
     },
     {
@@ -106,12 +102,7 @@ const TaskPage = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => (
-        <div
-          className="text-[#fefefe]"
-          onClick={() => navigate(`/roadmap/${params.row.id}`)}
-        >
-          {params.row.link}
-        </div>
+        <div className="text-[#fefefe]">{params.row.link}</div>
       ),
     },
     {
@@ -120,12 +111,7 @@ const TaskPage = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => (
-        <div
-          className="text-[#fefefe]"
-          onClick={() => navigate(`/roadmap/${params.row.id}`)}
-        >
-          {params.row.status}
-        </div>
+        <div className="text-[#fefefe]">{params.row.status}</div>
       ),
     },
     {
@@ -134,12 +120,7 @@ const TaskPage = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => (
-        <div
-          className="text-[#fefefe]"
-          onClick={() => navigate(`/roadmap/${params.row.id}`)}
-        >
-          {params.row.dueDate}
-        </div>
+        <div className="text-[#fefefe]">{params.row.dueDate}</div>
       ),
     },
     {
@@ -148,33 +129,45 @@ const TaskPage = () => {
       type: "text",
       flex: 0.5,
       renderCell: (params) => (
-        <div
-          className="flex flex-row justify-center items-center p-3 cursor-pointer gap-5"
-          onClick={() => navigate("/tasks")}
-        >
-          <MdEdit color="white" size={20} />
-          <MdDelete color="white" size={20} />
+        <div className="flex flex-row justify-center items-center p-3 cursor-pointer gap-5">
+          <div onClick={() => handleEditTask(params.row.index)}>
+            <MdEdit color="white" size={20} />
+          </div>
+          <div onClick={() => handleDeleteTask(params.row.index)}>
+            <MdDelete color="white" size={20} />
+          </div>
         </div>
       ),
     },
   ];
 
   const rows = [
-    {
-      id: 1,
-      title: "What is Software Engineering?",
-      link: "https://example.com/projects",
-      status: "pending",
-      dueDate: "23-12-2024",
-    },
+    // {
+    //   id: 1,
+    //   title: "What is Software Engineering?",
+    //   link: "https://example.com/projects",
+    //   status: "pending",
+    //   dueDate: "23-12-2024",
+    // },
   ];
+
+  taskData &&
+    taskData.forEach((item, index) => {
+      rows.push({
+        id: item.id,
+        title: item.title,
+        link: item.link,
+        status: item.status,
+        dueDate: item.dueDate,
+        index: index,
+      });
+    });
 
   return (
     <>
       <div
         className={`bg-[#161616] min-h-[100vh] font-Poppins flex items-end flex-col p-10`}
       >
-        {/* {taskData.length === 0 && !creatingTask ? ( */}
         <button
           onClick={handleCreateTask}
           className={`bg-[#fefefe] text-[#000000] p-2 rounded-md cursor-pointer font-Poppins`}
