@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { MdClose, MdDeleteOutline, MdOutlineMode } from "react-icons/md";
-import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,6 +10,7 @@ const RoadmapPage = () => {
     description: "",
   });
   const [creatingRoadmap, setCreatingRoadmap] = useState(false);
+  const [editingRoadmapId, setEditingRoadmapId] = useState(null);
 
   useEffect(() => {
     const storedRoadmapData = JSON.parse(localStorage.getItem("roadmapData"));
@@ -45,20 +45,64 @@ const RoadmapPage = () => {
     localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
     setCreatingRoadmap(false);
     setNewRoadmap({ title: "", description: "" });
+    toast.success("Roadmap Created Successfully", { position: "bottom-left" });
+  };
+
+  const handleDeleteRoadmap = (id) => {
+    const updatedRoadmapData = roadmapData.filter(
+      (roadmap) => roadmap.id !== id
+    );
+    setRoadmapData(updatedRoadmapData);
+    localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
+    toast.success("Roadmap Deleted Successfully", { position: "bottom-left" });
+  };
+
+  const handleEditRoadmap = (id) => {
+    const roadmapToEdit = roadmapData.find((roadmap) => roadmap.id === id);
+    if (roadmapToEdit) {
+      setNewRoadmap({
+        title: roadmapToEdit.title,
+        description: roadmapToEdit.description,
+      });
+      setEditingRoadmapId(id);
+      setCreatingRoadmap(true);
+    }
+  };
+
+  const handleUpdateRoadmap = () => {
+    if (!newRoadmap.title || !newRoadmap.description) {
+      toast.error("Please Fill in All Fields", { position: "bottom-left" });
+      return;
+    }
+
+    const updatedRoadmapData = roadmapData.map((roadmap) =>
+      roadmap.id === editingRoadmapId ? { ...roadmap, ...newRoadmap } : roadmap
+    );
+
+    setRoadmapData(updatedRoadmapData);
+    localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
+    setCreatingRoadmap(false);
+    setNewRoadmap({ title: "", description: "" });
+    setEditingRoadmapId(null);
+    toast.success("Roadmap Updated Successfully", { position: "bottom-left" });
   };
 
   return (
     <>
       <div
-        className={`bg-[#161616] min-h-[100vh] font-Poppins flex items-end flex-col px-10 pt-5`}
+        className={`bg-[#161616] min-h-screen font-Poppins flex items-end flex-col px-10 pt-5`}
       >
         <div className="flex flex-row items-center justify-between w-full my-8">
-          <h3 className="text-[22px] text-[white] font-Poppins ml-10">
+          <h3 className="text-white text-2xl font-Poppins ml-10">
             All Roadmaps
           </h3>
           <button
-            onClick={() => setCreatingRoadmap(true)}
-            className={`bg-[#fefefe] text-[#000000] p-2 rounded-md cursor-pointer font-Poppins`}
+            onClick={() => {
+              setNewRoadmap({ title: "", description: "" });
+              setCreatingRoadmap(true);
+              setEditingRoadmapId(null);
+            }}
+            className={`bg-[#fefefe] text-black p-2 rounded-md cursor-pointer font-Poppins`}
           >
             Create Roadmap
           </button>
@@ -66,46 +110,47 @@ const RoadmapPage = () => {
         <div className="w-full flex justify-center pt-2">
           <div className="w-[97%]">
             <div className="flex flex-wrap gap-9">
-              {roadmapData &&
-                roadmapData.map((i, index) => (
-                  <div
-                    className="w-[350px] min-h-[380px] border-[#2e2e2e] border-[3px] shadow-[#0000006c] shadow-md rounded-[35px] flex flex-col py-10 px-8 items-start justify-between"
-                    key={index}
-                  >
-                    <div>
-                      <h1 className="text-[#fefefe] text-[22px] font-Roboto font-medium mb-8">
-                        {i.title}
-                      </h1>
-                      <p className="text-[#fefefe] text-[18px] font-Roboto">
-                        {i.description.length > 50
-                          ? `${i.description.slice(0, 190)}...`
-                          : i.description}
-                      </p>
-                    </div>
-                    <div className="flex flex-row items-center justify-start gap-[5px]">
-                      <Link to={"/tasks"}>
-                        <button className="bg-[#fefefe] p-2 h-9 min-w-20 text-[#121212] rounded-md duration-300 hover:bg-[#dedede] flex flex-row justify-center items-center gap-2">
-                          Edit
-                          <span>
-                            <MdOutlineMode size={18} />
-                          </span>
-                        </button>
-                      </Link>
-                      <button className="bg-[#fefefe] p-2 h-9 w-10 text-[#494949] rounded-md duration-300 hover:bg-[#ff0000d5] hover:text-[black] flex justify-center items-center">
-                        <span>
-                          <MdDeleteOutline size={20} />
-                        </span>
-                      </button>
-                    </div>
+              {roadmapData.map((roadmap) => (
+                <div
+                  className={`w-[350px] min-h-[380px] border-gray-700 border-[3px] shadow-[#0000006c] shadow-md rounded-[35px] flex flex-col py-10 px-8 items-start justify-between bg-[#2e2e2e]`}
+                  key={roadmap.id}
+                >
+                  <div>
+                    <h1 className="text-white text-2xl font-medium mb-8">
+                      {roadmap.title}
+                    </h1>
+                    <p className="text-white font-Roboto">
+                      {roadmap.description.length > 50
+                        ? `${roadmap.description.slice(0, 190)}...`
+                        : roadmap.description}
+                    </p>
                   </div>
-                ))}
+                  <div className="flex flex-row items-center justify-start gap-[5px]">
+                    <button
+                      onClick={() => handleEditRoadmap(roadmap.id)}
+                      className="bg-[#fefefe] p-2 h-9 min-w-[80px] text-black rounded-md duration-300 hover:bg-blue-800 flex items-center justify-center gap-2"
+                    >
+                      Edit
+                      <span>
+                        <MdOutlineMode size={18} />
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => handleDeleteRoadmap(roadmap.id)}
+                      className="bg-[#fefefe] p-2 h-9 min-w-[80px] text-black rounded-md duration-300 hover:bg-red-800 hover:text-white flex items-center justify-center"
+                    >
+                      <span>
+                        <MdDeleteOutline size={20} />
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
         {creatingRoadmap && (
-          <div
-            className={`fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm`}
-          >
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm">
             <div className={`bg-[#2e2e2e] w-[80vh] p-5 rounded-lg fixed`}>
               <MdClose
                 className="cursor-pointer right-2 absolute"
@@ -113,40 +158,40 @@ const RoadmapPage = () => {
                 color="#fefefe"
                 onClick={() => setCreatingRoadmap(false)}
               />
-              <h3
-                className={`text-[#fefefe] font-Poppins text-[20px] font-semibold mb-6 text-center`}
-              >
-                Create New Roadmap
+              <h3 className="text-white font-Poppins text-2xl font-semibold mb-6 text-center">
+                {editingRoadmapId ? "Edit Roadmap" : "Create New Roadmap"}
               </h3>
               <form
                 className="flex flex-col items-end"
                 onSubmit={(e) => e.preventDefault()}
               >
-                <div className="mb-3 flex flex-row w-[100%] justify-between items-center">
-                  <label className={`text-[#fefefe] mr-2`}>Title:</label>
+                <div className="mb-3 flex flex-row w-full justify-between items-center">
+                  <label className="text-white mr-2">Title:</label>
                   <input
                     type="text"
                     name="title"
                     value={newRoadmap.title}
                     onChange={handleChange}
-                    className={`p-2 rounded-md border-[#000000] w-[70%]`}
+                    className="p-2 rounded-md border-gray-700 w-[80%]"
                   />
                 </div>
-                <div className="mb-3 flex flex-row w-[100%] justify-between items-center">
-                  <label className={`text-[#fefefe] mr-2`}>Description:</label>
+                <div className="mb-3 flex flex-row w-full justify-between items-center">
+                  <label className="text-white mr-2">Description:</label>
                   <input
                     type="text"
                     name="description"
                     value={newRoadmap.description}
                     onChange={handleChange}
-                    className={`p-2 rounded-md border-[#000000] w-[70%]`}
+                    className="p-2 rounded-md border-gray-700 w-[80%]"
                   />
                 </div>
                 <button
-                  onClick={handleCreateRoadmap}
-                  className={`bg-[#fefefe] text-[#000000] p-2 rounded-md cursor-pointer font-Poppins w-[20%] mt-5 hover:bg-[#dedede] duration-300`}
+                  onClick={
+                    editingRoadmapId ? handleUpdateRoadmap : handleCreateRoadmap
+                  }
+                  className="bg-[#fefefe] text-black p-2 rounded-md cursor-pointer font-Poppins w-[20%] mt-5 hover:bg-gray-400 duration-300"
                 >
-                  Create
+                  {editingRoadmapId ? "Update" : "Create"}
                 </button>
               </form>
             </div>
