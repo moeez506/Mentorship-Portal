@@ -1,10 +1,13 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const TaskPage = () => {
+  const { id } = useParams();
+  const [roadmapData, setRoadmapData] = useState([]);
   const [taskData, setTaskData] = useState([]);
   const [newTask, setNewTask] = useState({
     title: "",
@@ -14,13 +17,26 @@ const TaskPage = () => {
   });
   const [editIndex, setEditIndex] = useState(null);
   const [creatingTask, setCreatingTask] = useState(false);
+  const [updateTask, setUpdateTask] = useState(false);
 
   useEffect(() => {
     const storedTaskData = JSON.parse(localStorage.getItem("taskData"));
     if (storedTaskData) {
       setTaskData(storedTaskData);
     }
-  }, []);
+
+    const storedRoadmapData = JSON.parse(localStorage.getItem("roadmapData"));
+    if (storedRoadmapData) {
+      setRoadmapData(storedRoadmapData);
+    }
+    const roadmapItem1 =
+      roadmapData && roadmapData.find((item) => item.id === id);
+
+    const roadmap1Tasks = roadmapItem1 && roadmapItem1.tasks;
+    if (roadmap1Tasks) {
+      setTaskData(roadmap1Tasks);
+    }
+  }, [id, roadmapData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,33 +48,60 @@ const TaskPage = () => {
 
   const handleAddTask = () => {
     if (!newTask.title || !newTask.link || !newTask.dueDate) {
-      toast.error("Please Fill in All Fields", { position: "bottom-left" });
+      toast.error("Please enter all fields to create a new task", {
+        position: "bottom-left",
+      });
       return;
     }
 
-    if (editIndex !== null) {
-      const updatedTasks = [...taskData];
-      updatedTasks[editIndex] = newTask;
-      setTaskData(updatedTasks);
-      localStorage.setItem("taskData", JSON.stringify(updatedTasks));
-      toast.success("Task Updated Successfully", { position: "bottom-left" });
+    let updatedRoadmapData = [...roadmapData];
+    if (updateTask && editIndex !== null) {
+      updatedRoadmapData = roadmapData.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            tasks: item.tasks.map((task, index) =>
+              index === editIndex ? newTask : task
+            ),
+          };
+        }
+        return item;
+      });
     } else {
-      const updatedTaskData = [...taskData, newTask];
-      setTaskData(updatedTaskData);
-      localStorage.setItem("taskData", JSON.stringify(updatedTaskData));
-      toast.success("Task Added Successfully", { position: "bottom-left" });
+      updatedRoadmapData = roadmapData.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            tasks: [...item.tasks, newTask],
+          };
+        }
+        return item;
+      });
     }
 
-    setNewTask({ title: "", link: "", status: "pending", dueDate: "" });
-    setEditIndex(null);
+    setRoadmapData(updatedRoadmapData);
+    localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
+
+    toast.success(
+      updateTask ? "Task Updated Successfully" : "Task created successfully",
+      { position: "bottom-left" }
+    );
     setCreatingTask(false);
+    setUpdateTask(false);
   };
 
-  const handleEditTask = (index) => {
+  const handleEditTask = (id) => {
+    setUpdateTask(true);
     setCreatingTask(true);
-    setNewTask(taskData[index]);
-    setEditIndex(index);
-    setCreatingTask(true);
+
+    const updatingTask = taskData && taskData.find((task) => task.id === id);
+    setNewTask(updatingTask);
+
+    if (updatingTask) {
+      setEditIndex(taskData.indexOf(updatingTask));
+    } else {
+      console.error("Task not found in taskData");
+    }
   };
 
   const handleDeleteTask = (index) => {
@@ -70,6 +113,19 @@ const TaskPage = () => {
 
   const handleCreateTask = () => {
     setCreatingTask(true);
+    setNewTask({
+      title: "",
+      link: "",
+      status: "pending",
+      dueDate: "",
+      id: Date.now(),
+    });
+    setEditIndex(null);
+  };
+
+  const handleClose = () => {
+    setCreatingTask(false);
+    setUpdateTask(false);
     setNewTask({
       title: "",
       link: "",
@@ -136,7 +192,7 @@ const TaskPage = () => {
           <MdEdit
             color="white"
             size={20}
-            onClick={() => handleEditTask(params.row.index)}
+            onClick={() => handleEditTask(params.row.id)}
             style={{ cursor: "pointer" }}
           />
           <MdDelete
@@ -152,17 +208,23 @@ const TaskPage = () => {
 
   const rows = [];
 
-  taskData &&
-    taskData.forEach((item, index) => {
-      rows.push({
-        id: item.id,
-        title: item.title,
-        link: item.link,
-        status: item.status,
-        dueDate: item.dueDate,
-        index: index,
-      });
-    });
+  roadmapData.map((item) => {
+    if (item.id === id) {
+      const task1Data = item.tasks;
+      task1Data &&
+        task1Data.forEach((item) => {
+          rows.push({
+            id: item.id,
+            title: item.title,
+            link: item.link,
+            status: item.status,
+            dueDate: item.dueDate,
+            index: task1Data.indexOf(item),
+          });
+        });
+    }
+    return item;
+  });
 
   return (
     <>
@@ -190,7 +252,7 @@ const TaskPage = () => {
             </div>
           </div>
         </div>
-        {creatingTask && (
+        {(creatingTask || updateTask) && (
           <div
             className={`fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm`}
           >
@@ -199,7 +261,7 @@ const TaskPage = () => {
             >
               <button
                 className="cursor-pointer absolute top-4 right-4 text-gray-300 hover:text-white"
-                onClick={() => setCreatingTask(false)}
+                onClick={handleClose}
               >
                 <svg
                   className="h-6 w-6"
@@ -296,7 +358,7 @@ const TaskPage = () => {
                     className="bg-gray-100 text-black p-2 rounded-md cursor-pointer self-center w-[20%]"
                     type="button"
                   >
-                    {editIndex !== null ? "Update Task" : "Add Task"}
+                    {updateTask ? "Update Task" : "Add Task"}
                   </button>
                 </div>
               </form>

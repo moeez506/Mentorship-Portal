@@ -135,7 +135,7 @@ const SignUp = () => {
             </h2>
             <h2
               className={`cursor-pointer ${
-                !isMentor ? `text-${theme.secondary} pb-1` : `text-[#fefefe]`
+                !isMentor ? `text-${theme.buttons} pb-1` : `text-[#fefefe]`
               } transition-colors transition-padding`}
               onClick={() => setIsMentor(false)}
             >
