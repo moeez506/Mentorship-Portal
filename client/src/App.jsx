@@ -9,8 +9,7 @@ import {
   RequestPage,
   RoadmapPage,
   SignUpPage,
-  Task1Page,
-  TaskPage
+  TaskPage,
 } from "./Routes/Routes";
 
 const App = () => {
@@ -23,10 +22,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/roadmaps" element={<RoadmapPage />} />
-          <Route path="/tasks" element={<TaskPage />} />
           <Route path="/requests" element={<RequestPage />} />
           <Route path="/dashboard" element={<ProfilePage />} />
-          <Route path="/task/:id" element={<Task1Page />} />
+          <Route path="/task/:id" element={<TaskPage />} />
         </Routes>
       </BrowserRouter>
     </>
