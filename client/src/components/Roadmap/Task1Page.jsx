@@ -75,13 +75,7 @@ const Task1Page = () => {
     setCreatingTask(true);
 
     const updatingTask = taskData && taskData.find((task) => task.id === id);
-    setNewTask({
-      id: updatingTask.id,
-      title: updatingTask.title,
-      link: updatingTask.link,
-      status: updatingTask.status,
-      dueDate: updatingTask.dueDate,
-    });
+    setNewTask(updatingTask);
     console.log(newTask);
 
     const taskToUpdate = taskData && taskData.find((item) => item.id === id);
