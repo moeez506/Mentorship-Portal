@@ -136,13 +136,13 @@ const TaskPage = () => {
           <MdEdit
             color="white"
             size={20}
-            onClick={() => handleEditTask(params.row.id - 1)}
+            onClick={() => handleEditTask(params.row.index)}
             style={{ cursor: "pointer" }}
           />
           <MdDelete
             color="white"
             size={20}
-            onClick={() => handleDeleteTask(params.row.id - 1)}
+            onClick={() => handleDeleteTask(params.row.index)}
             style={{ cursor: "pointer" }}
           />
         </div>
@@ -150,10 +150,7 @@ const TaskPage = () => {
     },
   ];
 
-  const rows = taskData.map((task, index) => ({
-    id: index + 1,
-    ...task,
-  }));
+  const rows = [];
 
   taskData &&
     taskData.forEach((item, index) => {

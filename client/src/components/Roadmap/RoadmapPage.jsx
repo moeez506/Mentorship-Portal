@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdClose, MdDeleteOutline, MdOutlineMode } from "react-icons/md";
+import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,7 +37,7 @@ const RoadmapPage = () => {
     const newRoadmapData = {
       title: newRoadmap.title,
       description: newRoadmap.description,
-      id: Date.now(),
+      id: Date.now().toString(),
       tasks: [],
     };
 
@@ -116,8 +117,21 @@ const RoadmapPage = () => {
                   key={roadmap.id}
                 >
                   <div>
-                    <h1 className="text-white text-2xl font-medium mb-8">
-                      {roadmap.title}
+                    <h1 className="text-white text-2xl font-medium mb-8 cursor-pointer">
+                      <Link
+                        to={`/task/${roadmap.id}`}
+                        roadmapData={roadmapData}
+                        setRoadmapData={setRoadmapData}
+                      >
+                        {roadmap.title}
+                      </Link>
+                      {/* {setNextMove && (
+                        <Task1Page
+                          selectedRoadmapId={roadmap.id}
+                          roadmapData={roadmapData}
+                          setRoadmapData={setRoadmapData}
+                        />
+                      )} */}
                     </h1>
                     <p className="text-white font-Roboto">
                       {roadmap.description.length > 50

@@ -5,11 +5,12 @@ import Navbar from "./components/Layout/Navbar";
 import {
   HomePage,
   LoginPage,
+  ProfilePage,
+  RequestPage,
   RoadmapPage,
   SignUpPage,
-  TaskPage,
-  RequestPage,
-  ProfilePage,
+  Task1Page,
+  TaskPage
 } from "./Routes/Routes";
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/tasks" element={<TaskPage />} />
           <Route path="/requests" element={<RequestPage />} />
           <Route path="/dashboard" element={<ProfilePage />} />
+          <Route path="/task/:id" element={<Task1Page />} />
         </Routes>
       </BrowserRouter>
     </>

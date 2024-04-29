@@ -1,17 +1,13 @@
-import SignUpPage from "../pages/SignUpPage";
-import LoginPage from "../pages/LoginPage";
-import HomePage from "../pages/HomePage";
-import ProfilePage from "../pages/ProfilePage";
-import TaskPage from "../components/Roadmap/TaskPage";
-import RoadmapPage from "../components/Roadmap/RoadmapPage";
 import RequestPage from "../components/Requests/RequestsPage";
+import RoadmapPage from "../components/Roadmap/RoadmapPage";
+import Task1Page from "../components/Roadmap/Task1Page";
+import TaskPage from "../components/Roadmap/TaskPage";
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
+import ProfilePage from "../pages/ProfilePage";
+import SignUpPage from "../pages/SignUpPage";
 
 export {
-  SignUpPage,
-  LoginPage,
-  HomePage,
-  ProfilePage,
-  TaskPage,
-  RoadmapPage,
-  RequestPage,
+  HomePage, LoginPage, ProfilePage, RequestPage, RoadmapPage, SignUpPage, Task1Page, TaskPage
 };
+
