@@ -13,12 +13,12 @@ const Sidebar = () => {
   const handleLogout = () => {
     if (!isStudentLoggedIn && !isMentorLoggedIn) {
       toast.info("No user is logged in", {
-        position: "bottom-left",
+        position: "bottom-center",
       });
     } else {
       logout().then(() =>
         toast.success("Logged out successfully!", {
-          position: "bottom-left",
+          position: "bottom-center",
         })
       );
     }
@@ -87,7 +87,7 @@ const Sidebar = () => {
           </Link>
         </div>
       </div>
-      <ToastContainer position="bottom-left" />
+      <ToastContainer position="bottom-center" />
     </>
   );
 };

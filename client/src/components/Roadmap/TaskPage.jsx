@@ -49,7 +49,7 @@ const TaskPage = () => {
   const handleAddTask = () => {
     if (!newTask.title || !newTask.link || !newTask.dueDate) {
       toast.error("Please enter all fields to create a new task", {
-        position: "bottom-left",
+        position: "bottom-center",
       });
       return;
     }
@@ -84,7 +84,7 @@ const TaskPage = () => {
 
     toast.success(
       updateTask ? "Task Updated Successfully" : "Task created successfully",
-      { position: "bottom-left" }
+      { position: "bottom-center" }
     );
     setCreatingTask(false);
     setUpdateTask(false);
@@ -108,7 +108,7 @@ const TaskPage = () => {
     const updatedTasks = taskData.filter((_, i) => i !== index);
     setTaskData(updatedTasks);
     localStorage.setItem("taskData", JSON.stringify(updatedTasks));
-    toast.success("Task Deleted Successfully", { position: "bottom-left" });
+    toast.success("Task Deleted Successfully", { position: "bottom-center" });
   };
 
   const handleCreateTask = () => {
@@ -365,7 +365,7 @@ const TaskPage = () => {
             </div>
           </div>
         )}
-        <ToastContainer position="bottom-left" />
+        <ToastContainer position="bottom-center" />
       </div>
     </>
   );

@@ -30,7 +30,7 @@ const RoadmapPage = () => {
 
   const handleCreateRoadmap = () => {
     if (!newRoadmap.title || !newRoadmap.description) {
-      toast.error("Please Fill in All Fields", { position: "bottom-left" });
+      toast.error("Please Fill in All Fields", { position: "bottom-center" });
       return;
     }
 
@@ -46,7 +46,7 @@ const RoadmapPage = () => {
     localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
     setCreatingRoadmap(false);
     setNewRoadmap({ title: "", description: "" });
-    toast.success("Roadmap Created Successfully", { position: "bottom-left" });
+    toast.success("Roadmap Created Successfully", { position: "bottom-center" });
   };
 
   const handleDeleteRoadmap = (id) => {
@@ -55,7 +55,7 @@ const RoadmapPage = () => {
     );
     setRoadmapData(updatedRoadmapData);
     localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
-    toast.success("Roadmap Deleted Successfully", { position: "bottom-left" });
+    toast.success("Roadmap Deleted Successfully", { position: "bottom-center" });
   };
 
   const handleEditRoadmap = (id) => {
@@ -72,7 +72,7 @@ const RoadmapPage = () => {
 
   const handleUpdateRoadmap = () => {
     if (!newRoadmap.title || !newRoadmap.description) {
-      toast.error("Please Fill in All Fields", { position: "bottom-left" });
+      toast.error("Please Fill in All Fields", { position: "bottom-center" });
       return;
     }
 
@@ -85,7 +85,7 @@ const RoadmapPage = () => {
     setCreatingRoadmap(false);
     setNewRoadmap({ title: "", description: "" });
     setEditingRoadmapId(null);
-    toast.success("Roadmap Updated Successfully", { position: "bottom-left" });
+    toast.success("Roadmap Updated Successfully", { position: "bottom-center" });
   };
 
   return (
@@ -211,7 +211,7 @@ const RoadmapPage = () => {
             </div>
           </div>
         )}
-        <ToastContainer position="bottom-left" />
+        <ToastContainer position="bottom-center" />
       </div>
     </>
   );

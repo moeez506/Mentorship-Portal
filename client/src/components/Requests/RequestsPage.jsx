@@ -55,7 +55,7 @@ const RequestsPage = () => {
           </div>
         </div>
       </div>
-      <ToastContainer position="bottom-left" />
+      <ToastContainer position="bottom-center" />
     </div>
   );
 };

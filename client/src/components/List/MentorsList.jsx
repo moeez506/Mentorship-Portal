@@ -98,7 +98,7 @@
 //           </div>
 //         </div>
 //       )}
-//       <ToastContainer position="bottom-left" />
+//       <ToastContainer position="bottom-center" />
 //     </div>
 //   );
 // };
@@ -219,7 +219,7 @@ const MentorsList = () => {
           </div>
         </div>
       )}
-      <ToastContainer position="bottom-left" />
+      <ToastContainer position="bottom-center" />
     </div>
   );
 };

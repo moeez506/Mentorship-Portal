@@ -319,7 +319,7 @@ const SignUp = () => {
             </div>
           </form>
         </div>
-        <ToastContainer position="bottom-left" />
+        <ToastContainer position="bottom-center" />
       </div>
     </>
   );

@@ -40,14 +40,14 @@ const Login = () => {
       if (isValidMentor) {
         loginAsMentor();
         toast.success("Mentor Login Successful!", {
-          position: "bottom-left",
+          position: "bottom-center",
           onClose: () => {
             navigate("/dashboard");
           },
         });
       } else {
         toast.error("Invalid Email or Password. Please Try Again.", {
-          position: "bottom-left",
+          position: "bottom-center",
         });
       }
     } else if (userType === "student") {
@@ -59,14 +59,14 @@ const Login = () => {
       if (isValidStudent) {
         loginAsStudent();
         toast.success("Student Login Successful!", {
-          position: "bottom-left",
+          position: "bottom-center",
           onClose: () => {
             navigate("/dashboard");
           },
         });
       } else {
         toast.error("Invalid Email or Password. Please Try Again.", {
-          position: "bottom-left",
+          position: "bottom-center",
         });
       }
     }
@@ -135,7 +135,7 @@ const Login = () => {
           </form>
         </div>
         <div>
-          <ToastContainer position="bottom-left" />
+          <ToastContainer position="bottom-center" />
         </div>
       </div>
     </>
