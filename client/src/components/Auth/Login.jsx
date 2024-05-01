@@ -27,11 +27,17 @@ const Login = () => {
 
     const { email, password, userType } = loginData;
     const storedUserData = JSON.parse(localStorage.getItem(`${userType}Data`));
+    const mentorLogin = localStorage.getItem("mentorLogin");
+    const studentLogin = localStorage.getItem("studentLogin");
 
     console.log("Login Data:", loginData);
     console.log("Stored User Data:", storedUserData);
 
     if (userType === "mentor") {
+      if (studentLogin) {
+        localStorage.removeItem("studentLogin");
+      }
+
       const isValidMentor = storedUserData.some(
         (mentor) =>
           mentor.mentorEmail === email && mentor.mentorPassword === password
@@ -39,6 +45,7 @@ const Login = () => {
 
       if (isValidMentor) {
         loginAsMentor();
+        localStorage.setItem("mentorLogin", email);
         toast.success("Mentor Login Successful!", {
           position: "bottom-center",
           onClose: () => {
@@ -51,6 +58,10 @@ const Login = () => {
         });
       }
     } else if (userType === "student") {
+      if (mentorLogin) {
+        localStorage.removeItem("mentorLogin");
+      }
+
       const isValidStudent = storedUserData.some(
         (student) =>
           student.studentEmail === email && student.studentPassword === password
@@ -58,6 +69,7 @@ const Login = () => {
 
       if (isValidStudent) {
         loginAsStudent();
+        localStorage.setItem("studentLogin", email);
         toast.success("Student Login Successful!", {
           position: "bottom-center",
           onClose: () => {

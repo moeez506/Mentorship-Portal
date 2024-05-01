@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import Hero from "./components/Route/Hero/Hero";
 import Navbar from "./components/Layout/Navbar";
@@ -14,13 +14,20 @@ import MentorsList from "./components/List/MentorsList";
 import StudentsList from "./components/List/StudentsList";
 
 const App = () => {
+  const isMentorLoggedIn = localStorage.getItem("mentorLogin");
+  const isStudentLoggedIn = localStorage.getItem("studentLogin");
+
   return (
     <>
       <BrowserRouter>
         <Navbar />
         <Sidebar />
         <Routes>
-          <Route path="/" element={<Hero />} />
+          {isMentorLoggedIn || isStudentLoggedIn ? (
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+          ) : (
+            <Route path="/" element={<Hero />} />
+          )}
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/roadmaps" element={<RoadmapPage />} />

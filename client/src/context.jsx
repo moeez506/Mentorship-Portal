@@ -18,8 +18,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem("mentorLogin");
+    localStorage.removeItem("studentLogin");
     setUser(null);
     setUserType(null);
+    window.location.href = "/";
   };
 
   return (

@@ -1,17 +1,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context";
 import { IoPersonSharp } from "react-icons/io5";
 import Sidebar from "./Sidebar";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isStudentLoggedIn, isMentorLoggedIn } = useAuth();
+  const isUser =
+    localStorage.getItem("mentorLogin") || localStorage.getItem("studentLogin");
 
   const handleUserIconClick = () => {
-    if (!isStudentLoggedIn && !isMentorLoggedIn) {
+    if (!isUser) {
       navigate("/sign-up");
-    } else if (isMentorLoggedIn || isStudentLoggedIn) {
+    } else if (isUser) {
       navigate("/dashboard");
     }
   };

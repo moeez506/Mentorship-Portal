@@ -8,20 +8,13 @@ import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../../context";
 
 const Sidebar = () => {
-  const { isStudentLoggedIn, isMentorLoggedIn, logout } = useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    if (!isStudentLoggedIn && !isMentorLoggedIn) {
-      toast.info("No user is logged in", {
-        position: "bottom-center",
-      });
-    } else {
-      logout().then(() =>
-        toast.success("Logged out successfully!", {
-          position: "bottom-center",
-        })
-      );
-    }
+    logout();
+    toast.success("Logged Out Successfully!", {
+      position: "bottom-center",
+    });
   };
 
   return (
