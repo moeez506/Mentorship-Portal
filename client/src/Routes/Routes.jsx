@@ -1,15 +1,15 @@
 import RequestPage from "../components/Requests/RequestsPage";
 import RoadmapPage from "../components/Roadmap/RoadmapPage";
 import TaskPage from "../components/Roadmap/TaskPage";
-import HomePage from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import ProfilePage from "../pages/ProfilePage";
-import SignUpPage from "../pages/SignUpPage";
+import Hero from "../components/Route/Hero/Hero";
+import LoginPage from "../components/Auth/Login";
+import ProfilePage from "../components/Profile/Profile";
+import SignUpPage from "../components/Auth/SignUp";
 import MentorsList from "../components/List/MentorsList";
 import StudentsList from "../components/List/StudentsList";
 
 export {
-  HomePage,
+  Hero,
   LoginPage,
   ProfilePage,
   RequestPage,
