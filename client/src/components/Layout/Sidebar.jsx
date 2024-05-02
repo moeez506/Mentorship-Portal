@@ -21,7 +21,7 @@ const Sidebar = ({ active }) => {
   return (
     <>
       <div className="w-[300px] h-[90vh] shadow-lg sticky overflow-x-hidden z-10 flex flex-col bg-[#161616] py-[1%]">
-        <div className="fixed flex flex-col bg-[#2a2a2a] text-[#fefefe] h-[85%] justify-between">
+        <div className="fixed flex flex-col bg-[#2a2a2a] text-[#fefefe] h-[85%] justify-between rounded-tr-[8px] rounded-br-[8px]">
           <div className="p-5 flex flex-col gap-2">
             <Link
               to="/dashboard"

@@ -11,6 +11,7 @@ import RequestsPage from "./components/Requests/RequestsPage";
 import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
 import Hero from "./components/Route/Hero/Hero";
+import DashboardPage from "./Dashboard/DashboardPage";
 
 const App = () => {
   const isMentorLoggedIn = localStorage.getItem("mentorLogin");
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/roadmaps" element={<RoadmapPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/task/:id" element={<TaskPage />} />
           <Route path="/requests" element={<RequestsPage />} />
           <Route path="/profile" element={<Profile />} />
