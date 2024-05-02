@@ -13,7 +13,6 @@ import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
 import Hero from "./components/Route/Hero/Hero";
 
-
 const App = () => {
   const isMentorLoggedIn = localStorage.getItem("mentorLogin");
   const isStudentLoggedIn = localStorage.getItem("studentLogin");
