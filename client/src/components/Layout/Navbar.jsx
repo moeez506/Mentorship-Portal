@@ -1,7 +1,6 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { IoPersonSharp } from "react-icons/io5";
-import Sidebar from "./Sidebar";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -42,7 +41,7 @@ const Navbar = () => {
           />
         </div>
       </div>
-      <Sidebar />
+      {/* <Sidebar /> */}
     </>
   );
 };
