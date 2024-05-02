@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
+import DashboardPage from "./components/Dashboard/DashboardPage";
 import Navbar from "./components/Layout/Navbar";
 import MentorsList from "./components/List/MentorsList";
 import StudentsList from "./components/List/StudentsList";
@@ -11,7 +12,7 @@ import RequestsPage from "./components/Requests/RequestsPage";
 import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
 import Hero from "./components/Route/Hero/Hero";
-import DashboardPage from "./Dashboard/DashboardPage";
+
 
 const App = () => {
   const isMentorLoggedIn = localStorage.getItem("mentorLogin");

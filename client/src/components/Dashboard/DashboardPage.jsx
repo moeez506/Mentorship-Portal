@@ -3,7 +3,7 @@ import { FaTasks } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { IoPersonOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import Sidebar from "../components/Layout/Sidebar";
+import Sidebar from "../Layout/Sidebar";
 
 const DashboardPage = () => {
   return (
