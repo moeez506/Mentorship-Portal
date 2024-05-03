@@ -70,7 +70,15 @@ const SignUp = () => {
         localStorage.getItem(isMentor ? "mentorData" : "studentData") || "[]"
       );
 
-      const updatedData = [...existingData, formData];
+      const id = Math.random().toString(36).substr(2, 9);
+
+      const updatedFormData = { ...formData, id };
+
+      if (isMentor) {
+        updatedFormData.mentees = [];
+      }
+
+      const updatedData = [...existingData, updatedFormData];
 
       localStorage.setItem(
         isMentor ? "mentorData" : "studentData",

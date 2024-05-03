@@ -1,37 +1,65 @@
 import React, { useState } from "react";
 import { IoMdPersonAdd } from "react-icons/io";
 import { FiEye } from "react-icons/fi";
+import { MdDoneAll } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
 
 const MentorsList = () => {
   const mentorData = JSON.parse(localStorage.getItem("mentorData")) || [];
+  const studentData = JSON.parse(localStorage.getItem("studentData")) || [];
+  const requestData = JSON.parse(localStorage.getItem("requestData")) || [];
   const [showPopup, setShowPopup] = useState(false);
   const [selectedMentor, setSelectedMentor] = useState(null);
+  const studentEmail = localStorage.getItem("studentLogin");
+
+  const isMentee = mentorData.some(
+    (m) =>
+      m.mentees &&
+      m.mentees.some((mentee) => mentee.studentEmail === studentEmail)
+  );
+
+  const canSendRequest = mentorData.every(
+    (m) =>
+      !m.mentees ||
+      !m.mentees.some((mentee) => mentee.studentEmail === studentEmail)
+  );
 
   const handleAddMentor = (mentor) => {
-    const isStudentLogin = localStorage.getItem("studentLogin");
-    if (!isStudentLogin) {
-      toast.error("Only students can add mentors!");
+    if (!canSendRequest) {
+      toast.error("You are Already a Mentee of One of the Mentors");
       return;
     }
 
-    const studentData = JSON.parse(localStorage.getItem("studentData")) || [];
-    const currentStudent = studentData.find(
-      (student) => student.studentEmail === isStudentLogin
+    const existingRequest = requestData.find(
+      (request) => request.studentEmail === studentEmail
     );
-    if (!currentStudent) {
-      toast.error("Student data not found!");
+
+    if (existingRequest) {
+      toast.error("Request Already Sent");
       return;
     }
 
-    const existingRequests =
-      JSON.parse(localStorage.getItem("requestData")) || [];
-    const newRequest = currentStudent;
+    const student = studentData.find(
+      (student) => student.studentEmail === studentEmail
+    );
 
-    const updatedRequests = [...existingRequests, newRequest];
+    if (!student) {
+      toast.error("Student data not found");
+      return;
+    }
 
+    const newRequest = {
+      mentorId: mentor.id,
+      mentorEmail: mentor.mentorEmail,
+      studentId: student.id,
+      studentEmail: student.studentEmail,
+      studentFirstName: student.studentFirstName,
+      studentLastName: student.studentLastName,
+    };
+
+    const updatedRequests = [...requestData, newRequest];
     localStorage.setItem("requestData", JSON.stringify(updatedRequests));
     toast.success("Request Sent!");
   };
@@ -76,7 +104,11 @@ const MentorsList = () => {
                       className="bg-[#fefefe] p-2 h-9 min-w-[80px] text-black rounded-md duration-300 hover:bg-blue-800 flex items-center justify-center"
                       onClick={() => handleAddMentor(mentor)}
                     >
-                      <IoMdPersonAdd size={18} />
+                      {isMentee ? (
+                        <MdDoneAll size={18} />
+                      ) : (
+                        <IoMdPersonAdd size={18} />
+                      )}
                     </button>
                     <button
                       className="bg-[#fefefe] p-2 h-9 min-w-[80px] text-black rounded-md duration-300 hover:bg-red-800 hover:text-white flex items-center justify-center"

@@ -4,13 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const isUser =
-    localStorage.getItem("mentorLogin") || localStorage.getItem("studentLogin");
+  const isStudentLogin = localStorage.getItem("studentLogin");
+  const isMentorLogin = localStorage.getItem("mentorLogin");
 
   const handleUserIconClick = () => {
-    if (!isUser) {
+    if (!isStudentLogin && !isMentorLogin) {
       navigate("/sign-up");
-    } else if (isUser) {
+    } else if (isStudentLogin || isMentorLogin) {
       navigate("/dashboard");
     }
   };
@@ -28,9 +28,14 @@ const Navbar = () => {
           >
             Dashboard
           </Link>
-          <Link to="/mentees" className="text-[#fefefe] text-2xl no-underline">
-            My Mentees
-          </Link>
+          {isMentorLogin && (
+            <Link
+              to="/mentees"
+              className="text-[#fefefe] text-2xl no-underline"
+            >
+              My Mentees
+            </Link>
+          )}
           <Link to="/reports" className="text-[#fefefe] text-2xl no-underline">
             Reports
           </Link>
@@ -41,7 +46,6 @@ const Navbar = () => {
           />
         </div>
       </div>
-      {/* <Sidebar /> */}
     </>
   );
 };
