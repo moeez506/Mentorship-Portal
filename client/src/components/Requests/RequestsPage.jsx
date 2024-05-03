@@ -22,7 +22,6 @@ const RequestsPage = () => {
         <div
           className={`bg-[#161616] min-h-full w-full font-Poppins flex items-start flex-col px-10 pt-5`}
         >
-          {/* <div className="bg-[#161616] min-h-screen font-Poppins flex items-end flex-col px-10 pt-5"> */}
           <h3 className="text-white text-2xl font-Poppins">Requests</h3>
           <div className="w-full flex justify-center pt-2">
             <div className="w-[97%]">

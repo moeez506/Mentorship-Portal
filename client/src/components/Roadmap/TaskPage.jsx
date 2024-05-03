@@ -233,134 +233,132 @@ const TaskPage = () => {
         <Sidebar />
 
         <div
-          // className={`bg-[#161616] min-h-[100vh] font-Poppins flex items-end flex-col p-10`}
           className={`bg-[#161616] min-h-full w-full font-Poppins flex items-center flex-col px-10 pt-5`}
         >
-            <div className="flex flex-col w-full">
-              <div className="flex flex-row justify-between my-5">
-                <h3 className="text-[24px] text-[white] pb-2 font-Roboto font-semibold">
-                  Complete Roadmap
-                </h3>
-                <button
-                  onClick={handleCreateTask}
-                  className={`bg-[#fefefe] text-[#000000] p-2 rounded-md cursor-pointer font-Poppins`}
-                >
-                  Create Task
-                </button>
-              </div>
-              <div className="bg-[#2e2e34] rounded w-full">
-                <DataGrid
-                  rows={rows}
-                  columns={columns}
-                  autoPageSize
-                  autoHeight={true}
-                />
-              </div>
+          <div className="flex flex-col w-full">
+            <div className="flex flex-row justify-between my-5">
+              <h3 className="text-[24px] text-[white] pb-2 font-Roboto font-semibold">
+                Complete Roadmap
+              </h3>
+              <button
+                onClick={handleCreateTask}
+                className={`bg-[#fefefe] text-[#000000] p-2 rounded-md cursor-pointer font-Poppins`}
+              >
+                Create Task
+              </button>
+            </div>
+            <div className="bg-[#2e2e34] rounded w-full">
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                autoPageSize
+                autoHeight={true}
+              />
             </div>
           </div>
-          {(creatingTask || updateTask) && (
-            <div
-              className={`fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm`}
-            >
-              <div
-                className={`bg-[#2e2e2e] max-h-[90%] w-[40%] p-5 rounded-lg ml-5 flex flex-col items-center fixed`}
-              >
-                <button
-                  className="cursor-pointer absolute top-4 right-4 text-gray-300 hover:text-white"
-                  onClick={handleClose}
-                >
-                  <MdClose size={22} />
-                </button>
-                <h3 className="text-white font-semibold text-2xl mb-6 text-center">
-                  New Task
-                </h3>
-                <form
-                  className="flex flex-col justify-between w-full"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <div className="flex flex-col mb-4">
-                    <div className="mb-4 flex items-center">
-                      <label
-                        htmlFor="title"
-                        className="text-white text-sm w-[20%]"
-                      >
-                        Title:
-                      </label>
-                      <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value={newTask.title}
-                        onChange={handleChange}
-                        className="p-3 rounded border border-gray-700 w-full"
-                      />
-                    </div>
-                    <div className="mb-4 flex items-center">
-                      <label
-                        htmlFor="link"
-                        className="text-white text-sm w-[20%]"
-                      >
-                        Link:
-                      </label>
-                      <input
-                        type="text"
-                        id="link"
-                        name="link"
-                        value={newTask.link}
-                        onChange={handleChange}
-                        className="p-3 rounded border border-gray-700 w-full"
-                      />
-                    </div>
-                    <div className="mb-4 flex items-center">
-                      <label
-                        htmlFor="status"
-                        className="text-white text-sm w-[20%]"
-                      >
-                        Status:
-                      </label>
-                      <select
-                        id="status"
-                        name="status"
-                        value={newTask.status}
-                        onChange={handleChange}
-                        className="p-3 rounded border border-gray-700 w-full"
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="in progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                      </select>
-                    </div>
-                    <div className="mb-4 flex items-center">
-                      <label
-                        htmlFor="dueDate"
-                        className="text-white text-sm w-[20%]"
-                      >
-                        Due Date:
-                      </label>
-                      <input
-                        type="date"
-                        id="dueDate"
-                        name="dueDate"
-                        value={newTask.dueDate}
-                        onChange={handleChange}
-                        className="p-3 rounded border border-gray-700 w-full"
-                      />
-                    </div>
-                    <button
-                      onClick={handleAddTask}
-                      className="bg-gray-100 text-black p-2 rounded-md cursor-pointer self-center w-[20%]"
-                      type="button"
-                    >
-                      {updateTask ? "Update Task" : "Add Task"}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          )}
-          <ToastContainer position="bottom-center" />
         </div>
-
+        {(creatingTask || updateTask) && (
+          <div
+            className={`fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm`}
+          >
+            <div
+              className={`bg-[#2e2e2e] max-h-[90%] w-[40%] p-5 rounded-lg ml-5 flex flex-col items-center fixed`}
+            >
+              <button
+                className="cursor-pointer absolute top-4 right-4 text-gray-300 hover:text-white"
+                onClick={handleClose}
+              >
+                <MdClose size={22} />
+              </button>
+              <h3 className="text-white font-semibold text-2xl mb-6 text-center">
+                New Task
+              </h3>
+              <form
+                className="flex flex-col justify-between w-full"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <div className="flex flex-col mb-4">
+                  <div className="mb-4 flex items-center">
+                    <label
+                      htmlFor="title"
+                      className="text-white text-sm w-[20%]"
+                    >
+                      Title:
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      value={newTask.title}
+                      onChange={handleChange}
+                      className="p-3 rounded border border-gray-700 w-full"
+                    />
+                  </div>
+                  <div className="mb-4 flex items-center">
+                    <label
+                      htmlFor="link"
+                      className="text-white text-sm w-[20%]"
+                    >
+                      Link:
+                    </label>
+                    <input
+                      type="text"
+                      id="link"
+                      name="link"
+                      value={newTask.link}
+                      onChange={handleChange}
+                      className="p-3 rounded border border-gray-700 w-full"
+                    />
+                  </div>
+                  <div className="mb-4 flex items-center">
+                    <label
+                      htmlFor="status"
+                      className="text-white text-sm w-[20%]"
+                    >
+                      Status:
+                    </label>
+                    <select
+                      id="status"
+                      name="status"
+                      value={newTask.status}
+                      onChange={handleChange}
+                      className="p-3 rounded border border-gray-700 w-full"
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="in progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </div>
+                  <div className="mb-4 flex items-center">
+                    <label
+                      htmlFor="dueDate"
+                      className="text-white text-sm w-[20%]"
+                    >
+                      Due Date:
+                    </label>
+                    <input
+                      type="date"
+                      id="dueDate"
+                      name="dueDate"
+                      value={newTask.dueDate}
+                      onChange={handleChange}
+                      className="p-3 rounded border border-gray-700 w-full"
+                    />
+                  </div>
+                  <button
+                    onClick={handleAddTask}
+                    className="bg-gray-100 text-black p-2 rounded-md cursor-pointer self-center w-[20%]"
+                    type="button"
+                  >
+                    {updateTask ? "Update Task" : "Add Task"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+        <ToastContainer position="bottom-center" />
+      </div>
     </>
   );
 };

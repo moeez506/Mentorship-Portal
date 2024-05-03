@@ -134,13 +134,6 @@ const RoadmapPage = () => {
                         >
                           {roadmap.title}
                         </Link>
-                        {/* {setNextMove && (
-                        <Task1Page
-                          selectedRoadmapId={roadmap.id}
-                          roadmapData={roadmapData}
-                          setRoadmapData={setRoadmapData}
-                        />
-                      )} */}
                       </h1>
                       <p className="text-white font-Roboto">
                         {roadmap.description.length > 50
