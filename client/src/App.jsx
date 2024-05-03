@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./components/Auth/Login";
@@ -14,14 +14,23 @@ import TaskPage from "./components/Roadmap/TaskPage";
 import Hero from "./components/Route/Hero/Hero";
 
 const App = () => {
+  const [isNavbarActive, setIsNavbarActive] = useState(false);
   const isMentorLoggedIn = localStorage.getItem("mentorLogin");
   const isStudentLoggedIn = localStorage.getItem("studentLogin");
+
+  useEffect(() => {
+    if (
+      window.location.pathname !== "/login" &&
+      window.location.pathname !== "/sign-up"
+    ) {
+      setIsNavbarActive(true);
+    }
+  }, []);
 
   return (
     <>
       <BrowserRouter>
-        <Navbar />
-        {/* <Sidebar /> */}
+        {isNavbarActive && <Navbar />}
         <Routes>
           {isMentorLoggedIn || isStudentLoggedIn ? (
             <Route path="/" element={<Navigate to="/dashboard" />} />
