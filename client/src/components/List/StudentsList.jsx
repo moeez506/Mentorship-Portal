@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FiEye } from "react-icons/fi";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
 
@@ -61,7 +61,6 @@ const StudentsList = () => {
                 {selectedStudent.studentLastName}
               </h2>
               <p className="text-lg">Email: {selectedStudent.studentEmail}</p>
-              {/* Display other student details if needed */}
               <button
                 className="mt-6 bg-red-500 text-white px-6 py-3 rounded-md"
                 onClick={() => setShowPopup(false)}

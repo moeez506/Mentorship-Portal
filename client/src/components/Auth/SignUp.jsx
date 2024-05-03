@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
@@ -65,60 +65,60 @@ const SignUp = () => {
       return;
     }
 
-    // Retrieve existing data from localStorage
-    const existingData = JSON.parse(
-      localStorage.getItem(isMentor ? "mentorData" : "studentData") || "[]"
-    );
+    try {
+      const existingData = JSON.parse(
+        localStorage.getItem(isMentor ? "mentorData" : "studentData") || "[]"
+      );
 
-    // Append new data to existing data array
-    const updatedData = [...existingData, formData];
+      const updatedData = [...existingData, formData];
 
-    // Save updated data array back to localStorage
-    localStorage.setItem(
-      isMentor ? "mentorData" : "studentData",
-      JSON.stringify(updatedData)
-    );
+      localStorage.setItem(
+        isMentor ? "mentorData" : "studentData",
+        JSON.stringify(updatedData)
+      );
 
-    // Reset form data
-    if (isMentor) {
-      setMentorData({
-        mentorFirstName: "",
-        mentorLastName: "",
-        mentorExperience: "",
-        mentorCompany: "",
-        mentorDob: "",
-        mentorGender: "",
-        mentorEmail: "",
-        mentorPassword: "",
-        mentorSemester: "",
-        mentorPhoneNumber: "",
-        mentorShift: "",
-        mentorProgram: "",
-      });
-    } else {
-      setStudentData({
-        studentFirstName: "",
-        studentLastName: "",
-        studentDob: "",
-        studentGender: "",
-        studentEmail: "",
-        studentPassword: "",
-        studentPhoneNumber: "",
-        studentSemester: "",
-        studentShift: "",
-        studentProgram: "",
-      });
+      if (isMentor) {
+        setMentorData({
+          mentorFirstName: "",
+          mentorLastName: "",
+          mentorExperience: "",
+          mentorCompany: "",
+          mentorDob: "",
+          mentorGender: "",
+          mentorEmail: "",
+          mentorPassword: "",
+          mentorSemester: "",
+          mentorPhoneNumber: "",
+          mentorShift: "",
+          mentorProgram: "",
+        });
+
+        toast.success("Mentor Registration Successful!");
+      } else {
+        setStudentData({
+          studentFirstName: "",
+          studentLastName: "",
+          studentDob: "",
+          studentGender: "",
+          studentEmail: "",
+          studentPassword: "",
+          studentPhoneNumber: "",
+          studentSemester: "",
+          studentShift: "",
+          studentProgram: "",
+        });
+
+        toast.success("Student Registration Successful!");
+      }
+    } catch (error) {
+      console.error("Error saving data to localStorage:", error);
+      toast.error("An error occurred. Please try again later.");
     }
-
-    toast.success("Signup Successful!", {
-      onClose: () => {
-        navigate("/login");
-      },
-    });
   };
 
   return (
     <>
+      <ToastContainer position="bottom-center" />
       <div
         className={`bg-[#161616] fixed left-0 w-full h-full font-Poppins flex items-center justify-center`}
       >
@@ -164,8 +164,12 @@ const SignUp = () => {
                     />
                     <FormInput
                       label="Last Name"
-                      name="mentorFirstName"
-                      value={mentorData.mentorLastName}
+                      name={isMentor ? "mentorLastName" : "studentLastName"}
+                      value={
+                        isMentor
+                          ? mentorData.mentorLastName
+                          : studentData.studentLastName
+                      }
                       onChange={handleChange}
                     />
                   </div>
@@ -208,8 +212,12 @@ const SignUp = () => {
                     />
                     <FormSelect
                       label="Gender"
-                      name="mentorGender"
-                      value={mentorData.mentorGender}
+                      name={isMentor ? "mentorGender" : "studentGender"}
+                      value={
+                        isMentor
+                          ? mentorData.mentorGender
+                          : studentData.studentGender
+                      }
                       onChange={handleChange}
                       options={["Select", "Male", "Female", "Other"]}
                     />
