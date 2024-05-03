@@ -120,7 +120,7 @@ const SignUp = () => {
     <>
       <ToastContainer position="bottom-center" />
       <div
-        className={`bg-[#161616] fixed left-0 w-full h-full font-Poppins flex items-center justify-center`}
+        className={`bg-[#1b1b1d] fixed left-0 w-full h-full font-Poppins flex items-center justify-center`}
       >
         <div className="bg-[#24262a] w-[50%] h-[90vh] rounded-md border-[#636363] border-[1px] shadow-sm shadow-[#202427]">
           <div className="w-full h-full mx-auto mb-8 flex flex-col items-center gap-5">
