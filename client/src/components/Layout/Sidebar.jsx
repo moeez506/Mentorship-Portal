@@ -11,6 +11,9 @@ const Sidebar = ({ active }) => {
   const { logout } = useAuth();
   console.log(active);
 
+  const isMentorLogin = localStorage.getItem("mentorLogin");
+  const isStudentLogin = localStorage.getItem("studentLogin");
+
   const handleLogout = () => {
     logout();
     toast.success("Logged Out Successfully!", {
@@ -32,24 +35,39 @@ const Sidebar = ({ active }) => {
               <HiUserGroup className="mr-2" />
               Dashboard
             </Link>
-            <Link
-              to="/requests"
-              className={`flex items-center ${
-                active === 1 ? "bg-[#161616]" : ""
-              } hover:bg-[#161616] rounded-full p-2 no-underline`}
-            >
-              <MdImportContacts className="mr-2" />
-              Requests
-            </Link>
-            <Link
-              to="/unassigned-students"
-              className={`flex items-center ${
-                active === 2 ? "bg-[#161616]" : ""
-              } hover:bg-[#161616] rounded-full p-2 no-underline`}
-            >
-              <FaCheckCircle className="mr-2" />
-              Unassigned Students
-            </Link>
+            {isMentorLogin && (
+              <Link
+                to="/requests"
+                className={`flex items-center ${
+                  active === 1 ? "bg-[#161616]" : ""
+                } hover:bg-[#161616] rounded-full p-2 no-underline`}
+              >
+                <MdImportContacts className="mr-2" />
+                Requests
+              </Link>
+            )}
+            {isMentorLogin && (
+              <Link
+                to="/unassigned-students"
+                className={`flex items-center ${
+                  active === 2 ? "bg-[#161616]" : ""
+                } hover:bg-[#161616] rounded-full p-2 no-underline`}
+              >
+                <FaCheckCircle className="mr-2" />
+                Unassigned Students
+              </Link>
+            )}
+            {isStudentLogin && (
+              <Link
+                to="/mentors"
+                className={`flex items-center ${
+                  active === 2 ? "bg-[#161616]" : ""
+                } hover:bg-[#161616] rounded-full p-2 no-underline`}
+              >
+                <FaUserGroup className="mr-2" />
+                Mentors
+              </Link>
+            )}
             <Link
               to="/roadmaps"
               className={`flex items-center ${

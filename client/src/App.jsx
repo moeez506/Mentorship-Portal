@@ -45,7 +45,7 @@ const App = () => {
           <Route path="/requests" element={<RequestsPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/mentors" element={<MentorsList />} />
-          <Route path="/students" element={<StudentsList />} />
+          <Route path="/unassigned-students" element={<StudentsList />} />
         </Routes>
       </BrowserRouter>
     </>

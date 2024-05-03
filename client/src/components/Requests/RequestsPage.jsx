@@ -5,7 +5,10 @@ import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
 
 const RequestsPage = () => {
-  const requestData = JSON.parse(localStorage.getItem("requestData")) || [];
+  const isMentorLogin = localStorage.getItem("mentorLogin");
+  const requestData = isMentorLogin
+    ? JSON.parse(localStorage.getItem("requestData")) || []
+    : [];
 
   const handleAcceptRequest = () => {
     toast.success("Request Accepted");
@@ -26,7 +29,7 @@ const RequestsPage = () => {
           <div className="w-full flex justify-center pt-2">
             <div className="w-[97%]">
               <div className="flex flex-wrap gap-9">
-                {requestData.map((mentor, index) => (
+                {requestData.map((request, index) => (
                   <div
                     className="w-[350px] min-h-[380px] border-gray-700 border-[3px] shadow-[#0000006c] shadow-md rounded-[35px] flex flex-col items-center justify-between bg-[#2e2e2e] text-white py-10 px-8"
                     key={index}
@@ -38,9 +41,11 @@ const RequestsPage = () => {
                         className="w-40 h-40 rounded-full mx-auto mb-4"
                       />
                       <h1 className="text-2xl font-medium mb-1">
-                        {mentor.mentorFirstName} {mentor.mentorLastName}
+                        {request.studentFirstName}
+                        {" "}
+                        {request.studentLastName}
                       </h1>
-                      <p className="text-sm">Email: {mentor.mentorEmail}</p>
+                      <p className="text-sm">Email: {request.studentEmail}</p>
                     </div>
                     <div className="flex justify-center space-x-5 mt-5">
                       <button
