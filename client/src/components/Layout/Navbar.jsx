@@ -24,19 +24,19 @@ const Navbar = () => {
         <div className="flex items-center gap-8">
           <Link
             to="/dashboard"
-            className="text-[#fefefe] text-2xl no-underline"
+            className="text-[#fefefe] text-xl no-underline"
           >
             Dashboard
           </Link>
           {isMentorLogin && (
             <Link
               to="/mentees"
-              className="text-[#fefefe] text-2xl no-underline"
+              className="text-[#fefefe] text-xl no-underline"
             >
               My Mentees
             </Link>
           )}
-          <Link to="/reports" className="text-[#fefefe] text-2xl no-underline">
+          <Link to="/reports" className="text-[#fefefe] text-xl no-underline">
             Reports
           </Link>
           <IoPersonSharp

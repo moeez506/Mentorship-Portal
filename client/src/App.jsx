@@ -5,6 +5,7 @@ import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
 import DashboardPage from "./components/Dashboard/DashboardPage";
 import Navbar from "./components/Layout/Navbar";
+import MenteesList from "./components/List/MenteesList";
 import MentorsList from "./components/List/MentorsList";
 import StudentsList from "./components/List/StudentsList";
 import Profile from "./components/Profile/Profile";
@@ -12,7 +13,6 @@ import RequestsPage from "./components/Requests/RequestsPage";
 import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
 import Hero from "./components/Route/Hero/Hero";
-import MenteesList from "./components/List/MenteesList";
 
 const App = () => {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
@@ -22,7 +22,8 @@ const App = () => {
   useEffect(() => {
     if (
       window.location.pathname !== "/login" &&
-      window.location.pathname !== "/sign-up"
+      window.location.pathname !== "/sign-up" &&
+      window.location.pathname !== "/"
     ) {
       setIsNavbarActive(true);
     }

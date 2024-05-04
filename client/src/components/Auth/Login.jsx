@@ -48,6 +48,8 @@ const Login = () => {
         localStorage.setItem("mentorLogin", email);
         toast.success("Mentor Login Successful!", {
           position: "bottom-center",
+          autoClose: 1000,
+          onClose: () => navigate("/dashboard"),
         });
       } else {
         toast.error("Invalid Email or Password. Please Try Again.", {
@@ -69,6 +71,8 @@ const Login = () => {
         localStorage.setItem("studentLogin", email);
         toast.success("Student Login Successful!", {
           position: "bottom-center",
+          autoClose: 1000,
+          onClose: () => navigate("/dashboard"),
         });
       } else {
         toast.error("Invalid Email or Password. Please Try Again.", {

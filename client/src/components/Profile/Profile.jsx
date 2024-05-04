@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Sidebar from "../Layout/Sidebar";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Sidebar from "../Layout/Sidebar";
 
 function UserProfile() {
   const [user, setUser] = useState({});
