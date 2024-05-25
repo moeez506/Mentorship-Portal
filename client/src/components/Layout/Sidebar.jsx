@@ -1,6 +1,5 @@
 import React from "react";
-import { FaCheckCircle } from "react-icons/fa";
-import { FaUserGroup } from "react-icons/fa6";
+import { FaCheckCircle, FaUsers } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi2";
 import { MdImportContacts, MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -9,7 +8,6 @@ import { useAuth } from "../../context";
 
 const Sidebar = ({ active }) => {
   const { logout } = useAuth();
-  console.log(active);
 
   const isMentorLogin = localStorage.getItem("mentorLogin");
   const isStudentLogin = localStorage.getItem("studentLogin");
@@ -22,85 +20,137 @@ const Sidebar = ({ active }) => {
   };
 
   return (
-    <>
-      <div className="w-[300px] h-[90vh] sticky overflow-x-hidden z-10 flex flex-col bg-[#161616] py-[1%]">
-        <div className="fixed flex flex-col shadow-lg bg-[#2a2a2a] text-[#fefefe] h-[85%] justify-between rounded-tr-[8px] rounded-br-[8px]">
-          <div className="p-5 flex flex-col gap-2">
-            <Link
-              to="/dashboard"
-              className={`flex items-center ${
-                active === 0 ? "bg-[#161616]" : ""
-              } hover:bg-[#161616] rounded-full p-2 no-underline`}
-            >
-              <HiUserGroup className="mr-2" />
+    <div className="fixed top-0 bottom-0 left-0 w-[20vw] flex flex-col bg-gray-100 py-4 border-r border-gray-300 rounded-lg">
+      <div className="flex flex-col flex-shrink-0 items-center gap-2.5 self-stretch pl-4 pr-4 p-0">
+        <Link
+          to="/dashboard"
+          className={`content flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-20 rounded-2xl ${
+            active === 0
+              ? "bg-green-500 hover:bg-green-500"
+              : "bg-gray-200 hover:bg-gray-200"
+          }`}
+        >
+          <div className="icontext flex flex-wrap items-center content-center rounded-lg">
+            <div className="flex justify-center items-center rounded-lg">
+              <HiUserGroup size={24} />
+            </div>
+            <div className="text flex flex-col justify-center items-start rounded-lg text-black ml-4">
               Dashboard
-            </Link>
-            {isMentorLogin && (
-              <Link
-                to="/requests"
-                className={`flex items-center ${
-                  active === 1 ? "bg-[#161616]" : ""
-                } hover:bg-[#161616] rounded-full p-2 no-underline`}
-              >
-                <MdImportContacts className="mr-2" />
+            </div>
+          </div>
+        </Link>
+        {isMentorLogin && (
+          <Link
+            to="/requests"
+            className={`content-1 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-20 rounded-2xl ${
+              active === 1
+                ? "bg-green-500 hover:bg-green-500"
+                : "bg-gray-200 hover:bg-gray-200"
+            }`}
+          >
+            <div className="icontext-1 flex flex-wrap items-center content-center rounded-lg">
+              <div className="flex justify-center items-center rounded-lg">
+                <FaCheckCircle size={24} />
+              </div>
+              <div className="text-2 flex flex-col justify-center items-start rounded-lg text-black ml-4">
                 Requests
-              </Link>
-            )}
-            {isMentorLogin && (
-              <Link
-                to="/unassigned-students"
-                className={`flex items-center ${
-                  active === 2 ? "bg-[#161616]" : ""
-                } hover:bg-[#161616] rounded-full p-2 no-underline`}
-              >
-                <FaCheckCircle className="mr-2" />
+              </div>
+            </div>
+          </Link>
+        )}
+        {isMentorLogin && (
+          <Link
+            to="/unassigned-students"
+            className={`content-2 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-20 rounded-2xl ${
+              active === 2
+                ? "bg-green-500 hover:bg-green-500"
+                : "bg-gray-200 hover:bg-gray-200"
+            }`}
+          >
+            <div className="icontext-2 flex flex-wrap items-center content-center rounded-lg">
+              <div className="flex justify-center items-center rounded-lg">
+                <FaUsers size={24} />
+              </div>
+              <div className="flex flex-col justify-center items-start rounded-lg text-black ml-4">
                 Unassigned Students
-              </Link>
-            )}
-            {isStudentLogin && (
-              <Link
-                to="/mentors"
-                className={`flex items-center ${
-                  active === 2 ? "bg-[#161616]" : ""
-                } hover:bg-[#161616] rounded-full p-2 no-underline`}
-              >
-                <FaUserGroup className="mr-2" />
+              </div>
+            </div>
+          </Link>
+        )}
+        {isStudentLogin && (
+          <Link
+            to="/mentors"
+            className={`content-3 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-20 rounded-2xl ${
+              active === 2
+                ? "bg-green-500 hover:bg-green-500"
+                : "bg-gray-200 hover:bg-gray-200"
+            }`}
+          >
+            <div className="icontext-3 flex flex-wrap items-center content-center rounded-lg">
+              <div className="flex justify-center items-center rounded-lg">
+                <FaUsers size={24} />
+              </div>
+              <div className="text-6 flex flex-col justify-center items-start rounded-lg text-black ml-4">
                 Mentors
-              </Link>
-            )}
-            <Link
-              to="/roadmaps"
-              className={`flex items-center ${
-                active === 3 ? "bg-[#161616]" : ""
-              } hover:bg-[#161616] rounded-full p-2 no-underline`}
-            >
-              <FaUserGroup className="mr-2" />
+              </div>
+            </div>
+          </Link>
+        )}
+        <Link
+          to="/roadmaps"
+          className={`content-4 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-20 rounded-2xl ${
+            active === 3
+              ? "bg-green-500 hover:bg-green-500"
+              : "bg-gray-200 hover:bg-gray-200"
+          }`}
+        >
+          <div className="icontext-4 flex flex-wrap items-center content-center rounded-lg">
+            <div className="flex justify-center items-center rounded-lg">
+              <FaUsers size={24} />
+            </div>
+            <div className="text-8 flex flex-col justify-center items-start rounded-lg text-black ml-4">
               Roadmaps
-            </Link>
-            <Link
-              to="/messaging"
-              className={`flex items-center ${
-                active === 4 ? "bg-[#161616]" : ""
-              } hover:bg-[#161616] rounded-full p-2 no-underline`}
-            >
-              <MdImportContacts className="mr-2" />
+            </div>
+          </div>
+        </Link>
+        <Link
+          to="/messaging"
+          className={`content-5 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-20 rounded-2xl ${
+            active === 5
+              ? "bg-green-500 hover:bg-green-500"
+              : "bg-gray-200 hover:bg-gray-200"
+          }`}
+        >
+          <div className="icontext-5 flex flex-wrap items-center content-center rounded-lg">
+            <div className="flex justify-center items-center rounded-lg">
+              <MdImportContacts size={24} />
+            </div>
+            <div className="text-10 flex flex-col justify-center items-start rounded-lg text-black ml-4">
               Messaging
-            </Link>
+            </div>
           </div>
-          <div className="p-5 bottom-6 w-64">
-            <Link
-              to="/"
-              className={`flex items-center bg-[#161616] rounded-full p-2 no-underline`}
-              onClick={handleLogout}
-            >
-              <MdLogout className="mr-2" />
+        </Link>
+        <Link
+          to="/"
+          className={`content-6 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-20 rounded-2xl bg-gray-200 ${
+            active === 6
+              ? "bg-green-500 hover:bg-green-500"
+              : "hover:bg-gray-200"
+          }`}
+          onClick={handleLogout}
+        >
+          <div className="icontext-6 flex flex-wrap items-center content-center rounded-lg">
+            <div className="flex justify-bottom items-center rounded-lg">
+              <MdLogout size={24} />
+            </div>
+            <div className="text-12 flex flex-col justify-center items-start rounded-lg text-black ml-4">
               Logout
-            </Link>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
       <ToastContainer position="bottom-center" />
-    </>
+    </div>
   );
 };
 

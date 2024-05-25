@@ -16,37 +16,41 @@ const Navbar = () => {
   };
 
   return (
-    <>
-      <div className="bg-[#2e2e2e] sticky flex justify-between items-center w-full h-20 font-Poppins top-0 left-0 right-0 z-50 px-4">
-        <Link to="/" className="text-[#fefefe] text-2xl no-underline">
-          MentorConnect
+    <div className="fixed top-0 left-0 right-0 h-[10vh] bg-white border border-gray-200 flex justify-between items-center px-4 z-50 ml-[20vw]">
+      <Link
+        to="/"
+        className="text-black text-xl no-underline transition-colors duration-300 hover:text-green-500"
+      >
+        MentorConnect
+      </Link>
+      <div className="flex items-center gap-8">
+        <Link
+          to="/dashboard"
+          className="text-black text-xl no-underline transition-colors duration-300 hover:text-green-500"
+        >
+          Dashboard
         </Link>
-        <div className="flex items-center gap-8">
+        {isMentorLogin && (
           <Link
-            to="/dashboard"
-            className="text-[#fefefe] text-xl no-underline"
+            to="/mentees"
+            className="text-black text-xl no-underline transition-colors duration-300 hover:text-green-500"
           >
-            Dashboard
+            My Mentees
           </Link>
-          {isMentorLogin && (
-            <Link
-              to="/mentees"
-              className="text-[#fefefe] text-xl no-underline"
-            >
-              My Mentees
-            </Link>
-          )}
-          <Link to="/reports" className="text-[#fefefe] text-xl no-underline">
-            Reports
-          </Link>
-          <IoPersonSharp
-            className="text-[#fefefe] cursor-pointer"
-            size={24}
-            onClick={handleUserIconClick}
-          />
-        </div>
+        )}
+        <Link
+          to="/reports"
+          className="text-black text-xl no-underline transition-colors duration-300 hover:text-green-500"
+        >
+          Reports
+        </Link>
+        <IoPersonSharp
+          className="cursor-pointer hover:text-green-500"
+          size={24}
+          onClick={handleUserIconClick}
+        />
       </div>
-    </>
+    </div>
   );
 };
 
