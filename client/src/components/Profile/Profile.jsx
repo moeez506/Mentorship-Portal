@@ -15,19 +15,13 @@ function UserProfile() {
       const mentorData = JSON.parse(localStorage.getItem("mentorData")) || [];
       const studentData = JSON.parse(localStorage.getItem("studentData")) || [];
 
-      let mentorUserData = null;
-      mentorData.forEach((mentor) => {
-        if (mentor.mentorEmail === email) {
-          mentorUserData = mentor;
-        }
-      });
+      const mentorUserData = mentorData.find(
+        (mentor) => mentor.mentorEmail === email
+      );
 
-      let studentUserData = null;
-      studentData.forEach((student) => {
-        if (student.studentEmail === email) {
-          studentUserData = student;
-        }
-      });
+      const studentUserData = studentData.find(
+        (student) => student.studentEmail === email
+      );
 
       if (mentorUserData) {
         setUser(mentorUserData);
@@ -76,35 +70,135 @@ function UserProfile() {
   };
 
   return (
-    <div className="flex flex-row h-full bg-[#161616]">
+    <div className="min-h-screen bg-[#e0f7fa] flex">
       <Sidebar />
-      <div className="flex-grow flex items-center justify-center">
-        <div className="max-w-4xl w-full bg-[#2e2e2e] p-8 rounded-lg">
-          <div className="mb-8 flex justify-center">
+      <div className="flex-grow flex items-center justify-center p-4">
+        <div className="max-w-4xl w-full bg-white p-8 rounded-lg shadow-lg mt-[10vh] ml-[15vw]">
+          <h1 className="text-center text-2xl font-bold mb-6 text-gray-700">
+            Profile
+          </h1>
+          <div className="flex justify-center mb-6">
             <img
-              src={user.profilePic}
+              src={
+                user.profilePic ||
+                "https://thumbs.dreamstime.com/b/user-profile-avatar-icon-134114292.jpg"
+              }
               alt="Profile"
-              className="w-32 h-32 rounded-full"
+              className="w-24 h-24 rounded-full"
             />
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {Object.keys(user).map(
-              (key) =>
-                key !== "profilePic" && (
-                  <div key={key} className="mb-4">
-                    <label className="block mb-2 text-white">
-                      {key.charAt(0).toUpperCase() + key.slice(1)}:
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full bg-[#d3d3d3] rounded-md px-1 py-2 text-black"
-                      name={key}
-                      value={user[key]}
-                      onChange={handleChange}
-                    />
-                  </div>
-                )
-            )}
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label className="block mb-2 text-gray-700">First Name:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="firstName"
+                value={user.firstName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Last Name:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="lastName"
+                value={user.lastName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Phone Number:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="phoneNumber"
+                value={user.phoneNumber || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Experience:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="experience"
+                value={user.experience || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Date of Birth:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="dateOfBirth"
+                value={user.dateOfBirth || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Company:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="company"
+                value={user.company || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Gender:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="gender"
+                value={user.gender || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Program:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="program"
+                value={user.program || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Email:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="email"
+                value={user.email || ""}
+                onChange={handleChange}
+                disabled
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Semester:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="semester"
+                value={user.semester || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700">Shift:</label>
+              <input
+                type="text"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
+                name="shift"
+                value={user.shift || ""}
+                onChange={handleChange}
+              />
+            </div>
           </div>
           <div className="mt-8 flex justify-center">
             <button
