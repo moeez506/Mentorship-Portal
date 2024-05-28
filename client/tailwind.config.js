@@ -6,6 +6,7 @@ module.exports = {
     fontFamily: {
       Roboto: ["Roboto", "sans-serif"],
       Poppins: ["Poppins", "sans-serif"],
+      Eczar: ["Eczar", "serif"]
     },
     extend: {
       screens: {
