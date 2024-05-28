@@ -229,7 +229,116 @@ const TaskPage = () => {
 
   return (
     <>
-      <div className="w-full flex flex-row bg-[#161616]">
+      <Sidebar active={3} />
+      <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
+        <div className="container w-[80%] mx-auto">
+          <br />
+          <br />
+          <div className="flex flex-row justify-between">
+            <h2 className="font-Eczar font-medium text-2xl">
+              Complete Roadmap
+            </h2>
+            <button
+              onClick={handleCreateTask}
+              className="p-2 rounded-md cursor-pointer font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
+            >
+              New Task
+            </button>
+          </div>
+          <br />
+          <div className="text-[black]">
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              autoPageSize
+              autoHeight={true}
+            />
+          </div>
+
+          {/* Creating New Task */}
+          {(creatingTask || updateTask) && (
+            <div
+              className={`fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm bg-[#29affd36]`}
+            >
+              <div
+                className={`bg-[white] max-h-[90%] w-[40%] px-16 p-5 rounded-lg ml-5 flex flex-col items-center fixed shadow-md shadow-[#0000006b]`}
+              >
+                <button
+                  className="cursor-pointer absolute top-4 right-4 text-[#1c1c1c] hover:text-[#56C361]"
+                  onClick={handleClose}
+                >
+                  <MdClose size={22} />
+                </button>
+                <h3 className="text-[#56C361] font-Eczar font-semibold text-[32px] mb-6 text-center">
+                  New Task
+                </h3>
+                <form
+                  className="flex flex-col justify-between w-full font-Eczar"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <div className="flex flex-col mb-4">
+                    <div className="mb-4 flex items-center">
+                      <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="Title of the task"
+                        value={newTask.title}
+                        onChange={handleChange}
+                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#0000002f] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                      />
+                    </div>
+                    <div className="mb-4 flex items-center">
+                      <input
+                        type="text"
+                        id="link"
+                        name="link"
+                        placeholder="Link of the task"
+                        value={newTask.link}
+                        onChange={handleChange}
+                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#0000002f] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                      />
+                    </div>
+                    <div className="mb-4 flex items-center">
+                      <select
+                        id="status"
+                        name="status"
+                        placeholder="Status"
+                        value={newTask.status}
+                        onChange={handleChange}
+                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#0000002f] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                      >
+                        <option value="status">Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                      </select>
+                    </div>
+                    <div className="mb-4 flex items-center">
+                      <input
+                        type="date"
+                        id="dueDate"
+                        name="dueDate"
+                        placeholder="dd/mm/yyyy"
+                        value={newTask.dueDate}
+                        onChange={handleChange}
+                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#0000002f] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                      />
+                    </div>
+                    <button
+                      onClick={handleAddTask}
+                      // className="bg-gray-100 text-black p-2 rounded-md cursor-pointer self-center w-[20%]"
+                      className="rounded-md text-[20px] cursor-pointer self-center px-[30px] py-2 mt-4 font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
+                      type="button"
+                    >
+                      {updateTask ? "Update Task" : "Add Task"}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+          {/* <div className="w-full flex flex-row bg-[#161616]">
         <Sidebar />
 
         <div
@@ -357,7 +466,9 @@ const TaskPage = () => {
             </div>
           </div>
         )}
-        <ToastContainer position="bottom-center" />
+      </div> */}
+          <ToastContainer position="bottom-center" />
+        </div>
       </div>
     </>
   );

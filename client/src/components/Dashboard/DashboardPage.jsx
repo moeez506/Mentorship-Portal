@@ -23,7 +23,7 @@ const DashboardPage = () => {
               <>
                 <DashboardPageCard link="/mentees" title="My Mentees" />
                 <DashboardPageCard link="/roadmaps" title="My Roadmaps" />
-                <div className="min-h-32 bg-[#56c36103] p-4 rounded-[16px] flex flex-row gap-5 shadow-md shadow-[#00000052] items-center justify-center hover:bg-gray-200 duration-300 cursor-pointer">
+                <div className="min-h-32 bg-[#56c36115] p-4 rounded-[16px] flex flex-row gap-5 shadow-md shadow-[#00000052] items-center justify-center hover:bg-gray-200 duration-300 cursor-pointer">
                   <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
                     Total Mentees
                   </h1>
@@ -60,7 +60,7 @@ export default DashboardPage;
 const DashboardPageCard = ({ link, title }) => {
   return (
     <Link to={link}>
-      <div className="min-h-32 bg-[#56c36103] p-[24px] rounded-[16px] min-w-[261px] flex flex-row shadow-md shadow-[#00000052] items-center justify-center hover:bg-gray-200 duration-300 cursor-pointer">
+      <div className="min-h-32 bg-[#56c36115] p-[24px] rounded-[16px] min-w-[261px] flex flex-row shadow-md shadow-[#00000052] items-center justify-center hover:bg-gray-200 duration-300 cursor-pointer">
         <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar w-[190px] text-center">
           {title}
         </h1>

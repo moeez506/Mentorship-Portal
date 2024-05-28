@@ -9,7 +9,7 @@
 }
 
 
-.ag-theme-quartz {
+/* .ag-theme-quartz {
     --ag-foreground-color: #dedede !important;
     --ag-background-color: #2e2e2e !important;
     --ag-header-foreground-color: #dedede !important;
@@ -19,4 +19,14 @@
 
     --ag-font-size: 17px !important;
     --ag-font-family: monospace !important;
-}
+} */
+
+
+/* .backdrop-black {
+    --tw-backdrop-blur: blur(4px);
+    /* Equivalent to backdrop-blur-sm 
+    --tw-backdrop-opacity: 1;
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-opacity);
+    background-color: #000000;
+    /* Example color 
+} */

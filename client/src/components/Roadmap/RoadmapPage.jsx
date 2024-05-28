@@ -112,9 +112,9 @@ const RoadmapPage = () => {
                 setCreatingRoadmap(true);
                 setEditingRoadmapId(null);
               }}
-              className="p-2 rounded-md cursor-pointer font-Poppins bg-[#29affdd2] text-white shadow-sm shadow-[#00000070] duration-150 hover:scale-[1.01]"
+              className="p-2 rounded-md cursor-pointer font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
             >
-              Create Roadmap
+              Create New Roadmap
             </button>
           </div>
           <br />
