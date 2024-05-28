@@ -125,10 +125,10 @@
 
 // export default RequestsPage;
 
-import React, { useState, useEffect } from "react";
-import { FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import profile_pic from "../../assets/Profile Icon.png";
 import Sidebar from "../Layout/Sidebar";
 
 const RequestsPage = () => {
@@ -191,37 +191,36 @@ const RequestsPage = () => {
 
   return (
     <>
-      <div className="w-full flex flex-row bg-[#f0f4f8] min-h-screen">
-        <Sidebar active={1} />
-        <div
-          className={`min-h-full w-full font-Poppins flex items-start flex-col px-10 pt-5`}
-          style={{ marginLeft: "20vw", marginTop: "10vh" }}
-        >
-          <h3 className="text-black text-2xl font-Poppins">Pending Requests</h3>
-          <div className="w-full flex justify-center pt-2">
-            <div className="w-[97%]">
-              <div className="grid grid-cols-3 gap-6">
-                {requests.map((request, index) => (
+      <Sidebar active={1} />
+      <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
+        <div className="container w-[80%] mx-auto">
+          <br />
+          <br />
+          <h2 className="font-Eczar font-medium text-2xl">Pending Requests</h2>
+          <br />
+
+          <div className="flex flex-wrap gap-5">
+          {requests.map((request, index) => (
                   <div
-                    className="request_card w-[350px] min-h-[380px] border-gray-300 border-[1px] shadow-sm rounded-[10px] flex flex-col items-center justify-between bg-white text-black py-6 px-4"
+                    className="min-w-[202px] min-h-[244px] shadow-md shadow-[#00000040] rounded-[12px] flex flex-col items-center bg-[#29affd13] py-6 px-4"
                     key={index}
                   >
                     <div className="flex flex-col items-center">
                       <img
-                        src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"
+                        src={profile_pic}
                         alt="Student"
-                        className="w-24 h-24 rounded-full mx-auto mb-4"
+                        className="w-[90px] h-[90px] rounded-full mx-auto mb-4"
                       />
-                      <h1 className="text-xl font-medium mb-1">
+                      <h1 className="text-[18px] font-Eczar font-medium mb-1">
                         {request.studentFirstName} {request.studentLastName}
                       </h1>
-                      <p className="text-sm text-gray-600">
-                        Email: {request.studentEmail}
+                      <p className="text-sm text-[#666666]">
+                        {request.studentEmail}
                       </p>
                     </div>
                     <div className="flex justify-center space-x-4 mt-5">
                       <button
-                        className="bg-green-500 p-2 h-9 min-w-[80px] text-white rounded-md duration-300 hover:bg-green-700 flex items-center justify-center"
+                        className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
                         onClick={() =>
                           handleAcceptRequest(
                             request.studentId,
@@ -231,19 +230,17 @@ const RequestsPage = () => {
                           )
                         }
                       >
-                        <FaRegThumbsUp size={18} />
+                        Accept
                       </button>
                       <button
-                        className="bg-red-500 p-2 h-9 min-w-[80px] text-white rounded-md duration-300 hover:bg-red-700 flex items-center justify-center"
+                        className="bg-[#a81616cf] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
                         onClick={() => handleRejectRequest(request.studentId)}
                       >
-                        <FaRegThumbsDown size={18} />
+                        Reject
                       </button>
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
           </div>
         </div>
         <ToastContainer position="bottom-center" />

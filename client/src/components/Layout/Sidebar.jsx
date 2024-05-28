@@ -33,15 +33,15 @@ const Sidebar = ({ active }) => {
       <div className="flex flex-col flex-shrink-0 items-center gap-2.5 self-stretch pl-4 pr-4 p-0">
         <Link
           to="/dashboard"
-          className={`content flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-[66px] rounded-2xl ${
+          className={`w-full px-5 h-[66px] rounded-2xl ${
             active === 0 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
           }`}
         >
-          <div className="icontext flex flex-wrap items-center content-center rounded-lg">
-            <div className="flex justify-center items-center rounded-lg">
+          <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+            <div>
               <PiChartPieSliceFill size={24} />
             </div>
-            <div className="text flex flex-col justify-center items-start rounded-lg ml-4">
+            <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
               Dashboard
             </div>
           </div>
@@ -49,15 +49,15 @@ const Sidebar = ({ active }) => {
         {isMentorLogin && (
           <Link
             to="/requests"
-            className={`content-1 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-[66px] rounded-2xl ${
+            className={`w-full px-5 h-[66px] rounded-2xl ${
               active === 1 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
             }`}
           >
-            <div className="icontext-1 flex flex-wrap items-center content-center rounded-lg">
-              <div className="flex justify-center items-center rounded-lg">
+            <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+              <div>
                 <PiShoppingBagOpenDuotone size={24} />
               </div>
-              <div className="text-2 flex flex-col justify-center items-start rounded-lg ml-4">
+              <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
                 Requests
               </div>
             </div>
@@ -66,15 +66,15 @@ const Sidebar = ({ active }) => {
         {isMentorLogin && (
           <Link
             to="/unassigned-students"
-            className={`content-2 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-[66px] rounded-2xl ${
+            className={`content-2 w-full px-5 h-[66px] rounded-2xl ${
               active === 2 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
             }`}
           >
-            <div className="icontext-2 flex flex-wrap items-center content-center rounded-lg">
-              <div className="flex justify-center items-center rounded-lg">
+            <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+              <div>
                 <RiFolder6Line size={24} />
               </div>
-              <div className="flex flex-col justify-center items-start rounded-lg ml-4">
+              <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
                 Unassigned Students
               </div>
             </div>
@@ -83,15 +83,15 @@ const Sidebar = ({ active }) => {
         {isStudentLogin && (
           <Link
             to="/mentors"
-            className={`content-3 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-[66px] rounded-2xl ${
+            className={`content-3 w-full px-5 h-[66px] rounded-2xl ${
               active === 2 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
             }`}
           >
-            <div className="icontext-3 flex flex-wrap items-center content-center rounded-lg">
-              <div className="flex justify-center items-center rounded-lg">
+            <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+              <div>
                 <FaUsers size={24} />
               </div>
-              <div className="text-6 flex flex-col justify-center items-start rounded-lg ml-4">
+              <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
                 Mentors
               </div>
             </div>
@@ -99,44 +99,44 @@ const Sidebar = ({ active }) => {
         )}
         <Link
           to="/roadmaps"
-          className={`content-4 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-[66px] rounded-2xl ${
+          className={`content-4 w-full px-5 h-[66px] rounded-2xl ${
             active === 3 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
           }`}
         >
-          <div className="icontext-4 flex flex-wrap items-center content-center rounded-lg">
-            <div className="flex justify-center items-center rounded-lg">
+          <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+            <div>
               <IoBookOutline size={24} />
             </div>
-            <div className="text-8 flex flex-col justify-center items-start rounded-lg ml-4">
+            <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
               Roadmaps
             </div>
           </div>
         </Link>
         <Link
           to="/messaging"
-          className={`content-5 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-[66px] rounded-2xl ${
+          className={`content-5 w-full px-5 h-[66px] rounded-2xl ${
             active === 5 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
           }`}
         >
-          <div className="icontext-5 flex flex-wrap items-center content-center rounded-lg">
-            <div className="flex justify-center items-center rounded-lg">
+          <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+            <div>
               <TiMessages size={24} />
             </div>
-            <div className="text-10 flex flex-col justify-center items-start rounded-lg ml-4">
+            <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
               Messages
             </div>
           </div>
         </Link>
         <Link
           to="/"
-          className={`content-6 flex flex-shrink-0 flex-wrap items-center content-center self-stretch pt-4 pl-4 pr-4 py-3 px-5 h-[66px] rounded-2xl bg-[#F2F9FF]`}
+          className={`w-full px-5 h-[66px] rounded-2xl`}
           onClick={handleLogout}
         >
-          <div className="icontext-6 flex flex-wrap items-center content-center rounded-lg">
-            <div className="flex justify-bottom items-center rounded-lg">
+          <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+            <div>
               <MdLogout size={24} />
             </div>
-            <div className="text-12 flex flex-col justify-center items-start rounded-lg ml-4">
+            <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
               Logout
             </div>
           </div>

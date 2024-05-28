@@ -3,6 +3,7 @@ import { FaTasks } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import Sidebar from "../Layout/Sidebar";
+import StudentStatisticsCard from "./StudentStatisticsCard.jsx";
 
 const DashboardPage = () => {
   const isMentor = localStorage.getItem("mentorLogin");
@@ -10,8 +11,8 @@ const DashboardPage = () => {
 
   return (
     <>
-      <div className="w-full flex flex-row bg-gray-100 p-5 pl-[20vw] pt-[10vh] border border-gray-300">
-        <Sidebar active={0} />
+      <Sidebar active={0} />
+      <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
         <div className="container w-[80%] mx-auto">
           <br />
           <br />
@@ -46,9 +47,10 @@ const DashboardPage = () => {
                 />
               </>
             )}
-          </div>{" "}
+          </div>
         </div>
       </div>
+        <StudentStatisticsCard />
     </>
   );
 };
