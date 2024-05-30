@@ -13,6 +13,7 @@ import RequestsPage from "./components/Requests/RequestsPage";
 import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
 import Hero from "./components/Route/Hero/Hero";
+import Message from "./components/Messaging/Message";
 
 const App = () => {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="/mentors" element={<MentorsList />} />
           <Route path="/unassigned-students" element={<StudentsList />} />
           <Route path="/mentees" element={<MenteesList />} />
+          <Route path="/messaging" element={<Message />} />
         </Routes>
       </BrowserRouter>
     </>
