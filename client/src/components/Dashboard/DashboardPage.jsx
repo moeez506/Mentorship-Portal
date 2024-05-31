@@ -37,7 +37,12 @@ const DashboardPage = () => {
               <>
                 <DashboardPageCard
                   link="/tasks"
-                  title="Tasks"
+                  title="My Learning"
+                  icon={<FaTasks size={30} />}
+                />
+                <DashboardPageCard
+                  link="/mentors"
+                  title="Mentors"
                   icon={<FaTasks size={30} />}
                 />
                 <DashboardPageCard
@@ -50,7 +55,7 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
-        <StudentStatisticsCard />
+      <StudentStatisticsCard />
     </>
   );
 };

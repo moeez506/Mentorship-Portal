@@ -9,7 +9,7 @@ const Message = () => {
   return (
     <>
       <Sidebar active={5} />
-      <div className="w-full flex flex-row bg-white p-5 pl-[13vw] pt-[7vh]">
+      <div className="w-full flex flex-row bg-white p-5 pl-[20vw] pt-[7vh]">
         <div className="container w-[80%] mx-auto">
           <br />
           <br />

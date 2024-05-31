@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
 
 function UserProfile() {
   const [user, setUser] = useState({});
+  const [isMentor, setIsMentor] = useState(false);
 
   useEffect(() => {
     const loggedInUser =
@@ -25,193 +24,117 @@ function UserProfile() {
 
       if (mentorUserData) {
         setUser(mentorUserData);
+        setIsMentor(true);
       } else if (studentUserData) {
         setUser(studentUserData);
+        setIsMentor(false);
       }
     }
   }, []);
 
-  const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
-  const handleSave = () => {
-    const loggedInUser =
-      localStorage.getItem("mentorLogin") ||
-      localStorage.getItem("studentLogin");
-    if (loggedInUser) {
-      const email = loggedInUser.trim();
-      const mentorData = JSON.parse(localStorage.getItem("mentorData")) || [];
-      const studentData = JSON.parse(localStorage.getItem("studentData")) || [];
-
-      let updatedUserData;
-      if (user.mentorEmail) {
-        updatedUserData = mentorData.map((mentor) =>
-          mentor.mentorEmail === email ? { ...user } : mentor
-        );
-        localStorage.setItem("mentorData", JSON.stringify(updatedUserData));
-      } else if (user.studentEmail) {
-        updatedUserData = studentData.map((student) =>
-          student.studentEmail === email ? { ...user } : student
-        );
-        localStorage.setItem("studentData", JSON.stringify(updatedUserData));
-      }
-
-      const updatedUser = updatedUserData.find(
-        (userData) =>
-          userData.mentorEmail === email || userData.studentEmail === email
-      );
-      setUser(updatedUser);
-
-      toast.success("Profile Updated Successfully", {
-        position: "bottom-center",
-      });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#e0f7fa] flex">
+    <>
       <Sidebar />
-      <div className="flex-grow flex items-center justify-center p-4">
-        <div className="max-w-4xl w-full bg-white p-8 rounded-lg shadow-lg mt-[10vh] ml-[15vw]">
-          <h1 className="text-center text-2xl font-bold mb-6 text-gray-700">
-            Profile
-          </h1>
-          <div className="flex justify-center mb-6">
-            <img
-              src={
-                user.profilePic ||
-                "https://thumbs.dreamstime.com/b/user-profile-avatar-icon-134114292.jpg"
-              }
-              alt="Profile"
-              className="w-24 h-24 rounded-full"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <label className="block mb-2 text-gray-700">First Name:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="firstName"
-                value={user.firstName || ""}
-                onChange={handleChange}
-              />
+      <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[15vh]">
+        <div className="container w-[80%] mx-auto">
+          <h2 className="font-Eczar font-medium text-4xl">Profile</h2>
+          <br />
+          <br />
+          <div className="max-w-6xl w-full bg-[#E9F5FE] p-12 rounded-xl shadow-lg mt-[8vh]">
+            <div className="flex">
+              <div className="w-1/3 flex flex-col items-center mt-10">
+                <img
+                  src={
+                    user.profilePic ||
+                    "https://thumbs.dreamstime.com/b/user-profile-avatar-icon-134114292.jpg"
+                  }
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full mb-6"
+                />
+                <div className="text-center">
+                  <div className="flex flex-row justify-center">
+                    <p className="mb-2 mr-2 font-semibold text-blue-600 text-2xl font-Eczar">
+                      {isMentor ? user.mentorFirstName : user.studentFirstName}
+                    </p>
+                    <p className="mb-2 font-semibold text-blue-600 text-2xl font-Eczar">
+                      {isMentor ? user.mentorLastName : user.studentLastName}
+                    </p>
+                  </div>
+                  <div className="flex flex-row">
+                    <p className="mr-2 font-semibold text-blue-600 text-xl font-Eczar">
+                      Email:{" "}
+                    </p>
+                    <p className="mb-2 text-xl font-Eczar">
+                      {isMentor ? user.mentorEmail : user.studentEmail}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="w-2/3 grid grid-cols-2 gap-6 text-gray-700 text-xl font-Eczar">
+                <div>
+                  <p className="font-semibold text-blue-600 text-2xl font-Eczar">
+                    Date of Birth
+                  </p>
+                  <p className="mb-2 text-xl font-Eczar">
+                    {isMentor ? user.mentorDob : user.studentDob}
+                  </p>
+                  <p className="font-semibold text-blue-600 text-2xl font-Eczar">
+                    Gender
+                  </p>
+                  <p className="mb-2 text-xl font-Eczar">
+                    {isMentor ? user.mentorGender : user.studentGender}
+                  </p>
+                  <p className="font-semibold text-blue-600 text-2xl font-Eczar">
+                    Experience
+                  </p>
+                  <p className="mb-2 text-xl font-Eczar">
+                    {isMentor
+                      ? user.mentorExperience
+                      : user.studentExperience || "N/A"}
+                  </p>
+                  <p className="font-semibold text-blue-600 text-2xl font-Eczar">
+                    Phone Number
+                  </p>
+                  <p className="mb-2 text-xl font-Eczar">
+                    {isMentor
+                      ? user.mentorPhoneNumber
+                      : user.studentPhoneNumber}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-blue-600 text-2xl font-Eczar">
+                    Company
+                  </p>
+                  <p className="mb-2 text-xl font-Eczar">
+                    {isMentor
+                      ? user.mentorCompany
+                      : user.studentCompany || "N/A"}
+                  </p>
+                  <p className="font-semibold text-blue-600 text-2xl font-Eczar">
+                    Program
+                  </p>
+                  <p className="mb-2 text-xl font-Eczar">
+                    {isMentor ? user.mentorProgram : user.studentProgram}
+                  </p>
+                  <p className="font-semibold text-blue-600 text-2xl font-Eczar">
+                    Semester
+                  </p>
+                  <p className="mb-2 text-xl font-Eczar">
+                    {isMentor ? user.mentorSemester : user.studentSemester}
+                  </p>
+                  <p className="font-semibold text-blue-600 text-2xl font-Eczar">
+                    Shift
+                  </p>
+                  <p className="mb-2 text-xl font-Eczar">
+                    {isMentor ? user.mentorShift : user.studentShift}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Last Name:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="lastName"
-                value={user.lastName || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Phone Number:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="phoneNumber"
-                value={user.phoneNumber || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Experience:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="experience"
-                value={user.experience || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Date of Birth:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="dateOfBirth"
-                value={user.dateOfBirth || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Company:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="company"
-                value={user.company || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Gender:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="gender"
-                value={user.gender || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Program:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="program"
-                value={user.program || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Email:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="email"
-                value={user.email || ""}
-                onChange={handleChange}
-                disabled
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Semester:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="semester"
-                value={user.semester || ""}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700">Shift:</label>
-              <input
-                type="text"
-                className="w-full bg-gray-200 rounded-md px-3 py-2 text-black"
-                name="shift"
-                value={user.shift || ""}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-          <div className="mt-8 flex justify-center">
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-              onClick={handleSave}
-            >
-              Save
-            </button>
           </div>
         </div>
       </div>
-      <ToastContainer />
-    </div>
+    </>
   );
 }
 
