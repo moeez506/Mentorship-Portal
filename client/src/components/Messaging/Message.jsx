@@ -36,7 +36,7 @@ const Message = () => {
                   >
                     <div className="relative">
                       <img
-                        src="path/to/profile/image"
+                        src="https://media.licdn.com/dms/image/D4D03AQEoUlbVH8FU_w/profile-displayphoto-shrink_800_800/0/1716205933498?e=1722470400&v=beta&t=6xh-WMI97RB1ctXiuO0ywahyguuWhFfDVTykyCxKwO0"
                         alt="Profile"
                         className="w-10 h-10 rounded-full"
                       />
@@ -57,13 +57,13 @@ const Message = () => {
               <div className="flex items-center justify-between p-4 border-b border-gray-300">
                 <div className="flex items-center">
                   <img
-                    src="path/to/profile/image"
+                    src="https://media.licdn.com/dms/image/D4D03AQEoUlbVH8FU_w/profile-displayphoto-shrink_800_800/0/1716205933498?e=1722470400&v=beta&t=6xh-WMI97RB1ctXiuO0ywahyguuWhFfDVTykyCxKwO0"
                     alt="Profile"
                     className="w-10 h-10 rounded-full mr-2"
                   />
                   <div>
                     <h2 className="font-bold text-lg">Moeez Ahmad</h2>
-                    <p className="text-sm text-gray-500">Hi there...</p>
+                    <p className="text-sm text-gray-500">Tying...</p>
                   </div>
                 </div>
                 <div className="flex space-x-2">
@@ -79,7 +79,7 @@ const Message = () => {
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-start space-x-2">
                     <img
-                      src="path/to/profile/image"
+                      src="https://media.licdn.com/dms/image/D4D03AQEoUlbVH8FU_w/profile-displayphoto-shrink_800_800/0/1716205933498?e=1722470400&v=beta&t=6xh-WMI97RB1ctXiuO0ywahyguuWhFfDVTykyCxKwO0"
                       alt="Profile"
                       className="w-10 h-10 rounded-full"
                     />
