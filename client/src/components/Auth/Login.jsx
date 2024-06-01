@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context";
+import { FiChevronDown } from "react-icons/fi";
+import logo from "../../assets/logo.png"; // Import the logo image
 
 const Login = () => {
   const navigate = useNavigate();
@@ -29,9 +31,6 @@ const Login = () => {
     const storedUserData = JSON.parse(localStorage.getItem(`${userType}Data`));
     const mentorLogin = localStorage.getItem("mentorLogin");
     const studentLogin = localStorage.getItem("studentLogin");
-
-    console.log("Login Data:", loginData);
-    console.log("Stored User Data:", storedUserData);
 
     if (userType === "mentor") {
       if (studentLogin) {
@@ -86,117 +85,77 @@ const Login = () => {
 
   return (
     <>
-      <div
-        className={`bg-[#161616] fixed left-0 w-full h-full font-Poppins flex items-center justify-center`}
-      >
-        <div className="bg-[#24262a] w-[50%] max-h-[90vh] rounded-md border-[#636363] border-[1px] shadow-sm shadow-[#202427]">
-          <div className="w-[80%] h-full mx-auto mb-8 flex flex-col items-center gap-5 m-6">
-            <h1 className=" text-3xl font-Roboto text-[#f9faff] mb-2">Login</h1>
-
-            <form
-              onSubmit={handleLogin}
-              className="flex flex-col overflow-y-auto no-scrollbar gap-8 w-[88%]"
-            >
-              <FormInput
-                label="Email"
+      <div className="flex h-screen">
+        <div className="w-1/2 bg-green-200 p-10 flex flex-col justify-center items-center relative">
+          <div className="absolute inset-0 flex flex-col justify-center items-center">
+            <h1 className="text-white text-3xl font-bold mb-10 text-center">
+              Welcome to Struggle.io
+            </h1>
+            <img src={logo} alt="Logo" className="mt-6 h-60 w-60" />{" "}
+          </div>
+        </div>
+        <div className="w-1/2 bg-gray-100 flex flex-col justify-center items-center">
+          <h2 className="text-3xl font-bold mb-8">Sign-in</h2>
+          <form onSubmit={handleLogin} className="w-3/4">
+            <div className="mb-4">
+              <input
+                className="w-full p-3 rounded-[12px] shadow-md shadow-[#66C871] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                type="email"
                 name="email"
+                id="email"
                 value={loginData.email}
                 onChange={handleChange}
-                type="email"
-                placeholder="Enter your email"
+                placeholder="Email"
               />
-              <FormInput
-                label="Password"
+            </div>
+            <div className="mb-4">
+              <input
+                className="w-full p-3 rounded-[12px] shadow-md shadow-[#66C871] placeholder:text-gray-500 border-none bg-[#56c36129]"
                 type="password"
                 name="password"
+                id="password"
                 value={loginData.password}
                 onChange={handleChange}
-                placeholder="Enter your password"
+                placeholder="Password"
               />
-              <FormSelect
-                label="User Type"
+            </div>
+            <div className="mb-6 flex items-center relative">
+              <select
+                placeholder="Status"
+                id="userType"
                 name="userType"
                 value={loginData.userType}
                 onChange={handleChange}
-                id="userType"
-                options={["Mentor", "Student"]}
-              />
-              <div className="flex flex-col gap-2 pb-5">
-                <button
-                  type="submit"
-                  className={`bg-[#40485a] w-full text-[#ffff] p-2 rounded cursor-pointer`}
-                >
-                  Login
-                </button>
-                <p className={`text-[#fefefe]`}>
-                  Don't have any Account?{" "}
-                  <span
-                    onClick={() => navigate("/sign-up")}
-                    className="text-[#5884e9] cursor-pointer"
-                  >
-                    Register
-                  </span>
-                </p>
+                className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#66C871] placeholder:text-gray-500 bg-[#56c36129] appearance-none pr-10"
+              >
+                <option value="mentor">Mentor</option>
+                <option value="student">Student</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <FiChevronDown className="text-green-500" />
               </div>
-            </form>
-          </div>
-          <ToastContainer position="bottom-left" />
+            </div>
+            <button
+              type="submit"
+              className="rounded-md text-[20px] cursor-pointer self-center px-[17.5vw] py-2 mt-4 font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
+            >
+              Login
+            </button>
+          </form>
+          <p className="mt-4">
+            Don’t have an account?{" "}
+            <span
+              onClick={() => navigate("/sign-up")}
+              className="text-blue-600 cursor-pointer"
+            >
+              Signup Here
+            </span>
+          </p>
         </div>
+        <ToastContainer position="bottom-left" />
       </div>
     </>
   );
 };
 
 export default Login;
-
-const FormInput = ({
-  label,
-  name,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
-}) => {
-  return (
-    <>
-      <div>
-        <label className="text-[#fefefe]" htmlFor={name}>
-          {label}
-        </label>
-        <input
-          className={`w-full px-5 py-3 rounded-lg no-scrollbar font-medium border-2 border-transparent placeholder-gray-400 text-sm focus:outline-none  focus:border-2  focus:outline bg-[#302E30] text-white focus:border-white`}
-          type={type}
-          name={name}
-          id={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-        />
-      </div>
-    </>
-  );
-};
-
-const FormSelect = ({ label, name, value, onChange, options }) => {
-  return (
-    <>
-      <div>
-        <label className="text-[#fefefe] mr-2" htmlFor={name}>
-          {label}:
-        </label>
-        <select
-          name={name}
-          value={value}
-          onChange={onChange}
-          className={`w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-400 text-sm focus:outline-none  focus:border-2  focus:outline bg-[#302E30] text-white focus:border-white`}
-        >
-          {options.map((option, index) => (
-            <option key={index} value={option.toLowerCase()}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
-    </>
-  );
-};

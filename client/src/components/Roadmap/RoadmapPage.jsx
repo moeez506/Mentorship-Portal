@@ -159,8 +159,6 @@ const RoadmapPage = () => {
               </Link>
             ))}
           </div>
-
-          {/* Creating Roadmap */}
           {creatingRoadmap && (
             <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm pt-[10vh]">
               <div className="bg-white border-black border-[3px] w-[80vh] p-5 rounded-lg fixed">

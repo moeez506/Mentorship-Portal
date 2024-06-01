@@ -1,6 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { MdClose, MdDelete, MdEdit } from "react-icons/md";
+import { FiChevronDown } from "react-icons/fi"
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -294,7 +295,7 @@ const TaskPage = () => {
                         placeholder="Title of the task"
                         value={newTask.title}
                         onChange={handleChange}
-                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#0000002f] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#66C871] placeholder:text-gray-500 border-none bg-[#56c36129]"
                       />
                     </div>
                     <div className="mb-4 flex items-center">
@@ -305,23 +306,26 @@ const TaskPage = () => {
                         placeholder="Link of the task"
                         value={newTask.link}
                         onChange={handleChange}
-                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#0000002f] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#66C871] placeholder:text-gray-500 border-none bg-[#56c36129]"
                       />
                     </div>
-                    <div className="mb-4 flex items-center">
+                    <div className="mb-4 flex items-center relative">
                       <select
                         id="status"
                         name="status"
                         placeholder="Status"
                         value={newTask.status}
                         onChange={handleChange}
-                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#0000002f] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#66C871] placeholder:text-gray-500 bg-[#56c36129] appearance-none pr-10"
                       >
                         <option value="status">Status</option>
                         <option value="pending">Pending</option>
                         <option value="in progress">In Progress</option>
                         <option value="completed">Completed</option>
                       </select>
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <FiChevronDown className="text-green-500" />
+                      </div>
                     </div>
                     <div className="mb-4 flex items-center">
                       <input
@@ -331,12 +335,12 @@ const TaskPage = () => {
                         placeholder="dd/mm/yyyy"
                         value={newTask.dueDate}
                         onChange={handleChange}
-                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#0000002f] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+                        className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[##66C871] placeholder:text-gray-500 border-none bg-[#56c36129]"
                       />
                     </div>
                     <button
                       onClick={handleAddTask}
-                      className="rounded-md text-[20px] cursor-pointer self-center px-[30px] py-2 mt-4 font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
+                      className="rounded-md text-[20px] cursor-pointer self-center px-[30px] py-2 mt-4 font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#66C871]"
                       type="button"
                     >
                       {updateTask ? "Update Task" : "Add Task"}
