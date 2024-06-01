@@ -111,22 +111,26 @@ const SignUp = () => {
         <div className="w-full bg-[#F2F9FF] flex flex-col justify-center items-center rounded-tl-[50px] rounded-bl-[50px]">
           <div className="w-full h-full mx-auto flex flex-col items-center justify-center">
             <div className="flex flex-row w-full border-b-2 border-[#fff] gap-2 p-3 mb-2 bg-[#c3e9ff] rounded-[8px]">
-                <button
-                  className={`w-full cursor-pointer p-[6px] text-[16px] font-medium rounded-[12px] font-Eczar flex justify-around ${
-                    isMentor ? `bg-[#56c361] text-[#ffff] shadow-md shadow-[#00000037]` : `text-[#1c1c1c] bg-[#d5efff]`
-                  }`}
-                  onClick={() => setIsMentor(true)}
-                >
-                  Mentor
-                </button>
-                <button
-                  className={`w-full cursor-pointer p-[6px] text-[16px] font-medium rounded-[12px] font-Eczar flex justify-around ${
-                    !isMentor ? `bg-[#56c361] text-[#ffff] shadow-md shadow-[#00000037]` : `text-[#1c1c1c] bg-[#d5efff]`
-                  }`}
-                  onClick={() => setIsMentor(false)}
-                >
-                  Student
-                </button>
+              <button
+                className={`w-full cursor-pointer p-[6px] text-[16px] font-medium rounded-[12px] font-Eczar flex justify-around ${
+                  isMentor
+                    ? `bg-[#56c361] text-[#ffff] shadow-md shadow-[#00000037]`
+                    : `text-[#1c1c1c] bg-[#d5efff]`
+                }`}
+                onClick={() => setIsMentor(true)}
+              >
+                Mentor
+              </button>
+              <button
+                className={`w-full cursor-pointer p-[6px] text-[16px] font-medium rounded-[12px] font-Eczar flex justify-around ${
+                  !isMentor
+                    ? `bg-[#56c361] text-[#ffff] shadow-md shadow-[#00000037]`
+                    : `text-[#1c1c1c] bg-[#d5efff]`
+                }`}
+                onClick={() => setIsMentor(false)}
+              >
+                Student
+              </button>
             </div>
             <div className="flex flex-col items-start w-[80%] h-[80vh]">
               <h2 className=" text-3xl font-medium font-Eczar mb-8">
