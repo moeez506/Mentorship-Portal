@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import { FiChevronDown } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../context";
-import { FiChevronDown } from "react-icons/fi";
 import logo from "../../assets/logo.png"; // Import the logo image
+import { useAuth } from "../../context";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -85,51 +85,50 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex h-screen">
-        <div className="w-1/2 bg-green-200 p-10 flex flex-col justify-center items-center relative">
+      <div className="flex flex-row h-screen w-full bg-[#66c871cb]">
+        <div className="w-[50%] p-10 flex flex-col justify-center items-center relative">
           <div className="absolute inset-0 flex flex-col justify-center items-center">
             <h1 className="text-white text-3xl font-bold mb-10 text-center">
               Welcome to Struggle.io
             </h1>
-            <img src={logo} alt="Logo" className="mt-6 h-60 w-60" />{" "}
+            <img src={logo} alt="Logo" className="mt-6 h-60 w-60" />
           </div>
         </div>
-        <div className="w-1/2 bg-gray-100 flex flex-col justify-center items-center">
-          <h2 className="text-3xl font-bold mb-8">Sign-in</h2>
-          <form onSubmit={handleLogin} className="w-3/4">
-            <div className="mb-4">
-              <input
-                className="w-full p-3 rounded-[12px] shadow-md shadow-[#66C871] placeholder:text-[#ABABAB] border-none bg-[#56c36129]"
+
+        
+        <div className="w-full bg-[#F2F9FF] flex flex-col justify-center items-center rounded-tl-[50px] rounded-bl-[50px]">
+          <div className="flex flex-col items-start w-[70%]">
+          <h2 className="text-3xl font-medium font-Eczar mb-8">Sign-in</h2>
+          <form onSubmit={handleLogin} className="flex flex-col gap-6 w-full">
+            <div>
+              <FormInput
                 type="email"
                 name="email"
-                id="email"
                 value={loginData.email}
                 onChange={handleChange}
                 placeholder="Email"
               />
             </div>
-            <div className="mb-4">
-              <input
-                className="w-full p-3 rounded-[12px] shadow-md shadow-[#66C871] placeholder:text-gray-500 border-none bg-[#56c36129]"
+            <div>
+              <FormInput
                 type="password"
                 name="password"
-                id="password"
                 value={loginData.password}
                 onChange={handleChange}
                 placeholder="Password"
               />
             </div>
-            <div className="mb-6 flex items-center relative">
+            <div className="flex items-center relative">
               <select
                 placeholder="Status"
                 id="userType"
                 name="userType"
                 value={loginData.userType}
                 onChange={handleChange}
-                className="p-3 rounded-[12px] border border-gray-700 w-full shadow-md shadow-[#66C871] placeholder:text-gray-500 bg-[#56c36129] appearance-none pr-10"
+                className="p-[10px] rounded-[15px] border h-[45px] border-b-[3px] border-[#66C871] w-full placeholder:text-[#9d9d9d] bg-[#56c36129] appearance-none pr-10"
               >
-                <option value="mentor">Mentor</option>
-                <option value="student">Student</option>
+                <option value="mentor" className="bg-white text-black">Mentor</option>
+                <option value="student" className="bg-white text-black">Student</option>
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <FiChevronDown className="text-green-500" />
@@ -137,20 +136,21 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="rounded-md text-[20px] cursor-pointer self-center px-[17.5vw] py-2 mt-4 font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
+              className="w-full rounded-[8px] cursor-pointer self-center bg-[#56c361] text-white py-2 font-Eczar font-medium text-[20px]"
             >
               Login
             </button>
           </form>
-          <p className="mt-4">
+          <p className="mt-4 self-center font-Eczar">
             Don’t have an account?{" "}
             <span
               onClick={() => navigate("/sign-up")}
-              className="text-blue-600 cursor-pointer"
-            >
-              Signup Here
+              className="text-[#5884e9] cursor-pointer"
+              >
+              Signup
             </span>
           </p>
+              </div>
         </div>
         <ToastContainer position="bottom-left" />
       </div>
@@ -159,3 +159,19 @@ const Login = () => {
 };
 
 export default Login;
+
+
+const FormInput = ({ placeholder, name, value, onChange, type = "text" }) => {
+  return (
+    <>
+      <input
+        className="w-full p-3 rounded-[15px] border border-b-[3px] h-[45px] border-[#66C871] placeholder:text-[#9d9d9d] bg-[#66c8712b]"
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
+    </>
+  );
+};
