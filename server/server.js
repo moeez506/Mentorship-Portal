@@ -6,11 +6,13 @@ import { errorHandler, notFoundMiddleware } from "./middlewares/index.js";
 import { connectDB } from "./config/db.js";
 import routes from "./routes/index.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 
 if (process.env.NODE_ENV !== "production") {

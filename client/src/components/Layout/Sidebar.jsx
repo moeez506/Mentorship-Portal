@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import logo from "../../assets/Struggle.png";
 import { useAuth } from "../../context";
+import axios from "axios";
+import { server } from "../../apiEndPoint/apiEndPoint";
 
 const Sidebar = ({ active }) => {
   const { logout } = useAuth();
@@ -16,11 +18,25 @@ const Sidebar = ({ active }) => {
   const isMentorLogin = localStorage.getItem("mentorLogin");
   const isStudentLogin = localStorage.getItem("studentLogin");
 
-  const handleLogout = () => {
-    logout();
-    toast.success("Logged Out Successfully!", {
-      position: "bottom-center",
-    });
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(`${server}/auth/logout`);
+      const data = response.data;
+
+      if (data.success) {
+        logout();
+        toast.success(data.message, {
+          position: "bottom-center",
+        });
+      } else {
+        throw new Error(data.message || "Failed to logout");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+      toast.error("Failed to logout. Please try again.", {
+        position: "bottom-center",
+      });
+    }
   };
 
   return (

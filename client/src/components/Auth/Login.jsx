@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/logo.png";
-import { useAuth } from "../../context";
 import { server } from "../../apiEndPoint/apiEndPoint";
 import axios from "axios";
+import { useAuth } from "../../context";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const Login = () => {
 
       const data = response.data;
 
-      if (response.status !== 200) {
+      if (!data.success) {
         throw new Error(data.message || "Failed to login");
       }
 
@@ -59,14 +59,11 @@ const Login = () => {
         loginAsStudent();
       }
 
-      toast.success(
-        `${userType === "mentor" ? "Mentor" : "Student"} Login Successful!`,
-        {
-          position: "bottom-center",
-          autoClose: 1000,
-          onClose: () => navigate("/dashboard"),
-        }
-      );
+      toast.success("Login successful!", {
+        position: "bottom-center",
+        autoClose: 1000,
+        onClose: () => navigate("/dashboard"),
+      });
     } catch (error) {
       console.error("Error during login:", error);
       toast.error("Invalid Email or Password. Please Try Again.", {
