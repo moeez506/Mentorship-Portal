@@ -3,8 +3,10 @@ import { FiChevronDown } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import logo from "../../assets/logo.png"; // Import the logo image
+import logo from "../../assets/logo.png";
 import { useAuth } from "../../context";
+import { server } from "../../apiEndPoint/apiEndPoint";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,10 +32,10 @@ const Login = () => {
     const { email, password, userType } = loginData;
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         userType === "mentor"
-          ? "http://localhost:5000/api/auth/mentor-login"
-          : "http://localhost:5000/api/auth/student-login",
+          ? `${server}/api/auth/mentor-login`
+          : `${server}/auth/student-login`,
         {
           method: "POST",
           headers: {
