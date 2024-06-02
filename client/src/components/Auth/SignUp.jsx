@@ -69,22 +69,14 @@ const SignUp = () => {
     }
 
     const url = isMentor
-      ? `${server}/api/mentor/register`
-      : `${server}/api/student/register`;
+      ? `${server}/mentor/register`
+      : `${server}/student/register`;
 
     try {
-      const response = await axios.post(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post(url, formData);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to register");
+      if (response.status !== 201) {
+        throw new Error(response.data.message || "Failed to register");
       }
 
       toast.success(

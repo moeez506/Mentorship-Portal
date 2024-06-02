@@ -34,20 +34,22 @@ const Login = () => {
     try {
       const response = await axios.post(
         userType === "mentor"
-          ? `${server}/api/auth/mentor-login`
+          ? `${server}/auth/mentor-login`
           : `${server}/auth/student-login`,
         {
-          method: "POST",
+          email,
+          password,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, password }),
         }
       );
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(data.message || "Failed to login");
       }
 

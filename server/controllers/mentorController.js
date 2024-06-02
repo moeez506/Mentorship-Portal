@@ -33,6 +33,7 @@ export const mentorSignUp = async (req, res) => {
       !shift ||
       !program
     ) {
+      console.log(req.body);
       return res.status(400).json({ message: "All fields are required" });
     }
 
