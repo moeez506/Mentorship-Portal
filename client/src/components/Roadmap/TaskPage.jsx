@@ -1,9 +1,9 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
+import { FiChevronDown } from "react-icons/fi";
 import { MdClose, MdDelete, MdEdit } from "react-icons/md";
-import { FiChevronDown } from "react-icons/fi"
 import { useParams } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
 
@@ -350,7 +350,6 @@ const TaskPage = () => {
               </div>
             </div>
           )}
-          <ToastContainer position="bottom-center" />
         </div>
       </div>
     </>

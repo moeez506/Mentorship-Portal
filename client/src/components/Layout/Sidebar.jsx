@@ -1,21 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { BiMessageSquareDetail } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { PiChartPieSliceFill, PiShoppingBagOpenDuotone } from "react-icons/pi";
 import { RiFolder6Line } from "react-icons/ri";
-import { TiMessages } from "react-icons/ti";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import logo from "../../assets/Struggle.png";
 import { AuthContext } from "../../context";
 
 const Sidebar = ({ active }) => {
-  const isMentorLogin = localStorage.getItem("mentorLogin");
-  const isStudentLogin = localStorage.getItem("studentLogin");
-
   const navigate = useNavigate();
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+
+  const [isMentor, setIsMentor] = useState(false);
+  const [isStudent, setIsStudent] = useState(false);
+
+  useEffect(() => {
+    if(user && user.role === "mentor") {
+      setIsMentor(true);
+    }
+    if(user && user.role === "student") {
+      setIsStudent(true);
+    }
+  }, [user])
+
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -51,7 +61,7 @@ const Sidebar = ({ active }) => {
             </div>
           </div>
         </Link>
-        {isMentorLogin && (
+        {isMentor && (
           <Link
             to="/requests"
             className={`w-full px-5 h-[66px] rounded-2xl ${
@@ -68,7 +78,7 @@ const Sidebar = ({ active }) => {
             </div>
           </Link>
         )}
-        {isMentorLogin && (
+        {isMentor && (
           <Link
             to="/unassigned-students"
             className={`content-2 w-full px-5 h-[66px] rounded-2xl ${
@@ -85,7 +95,7 @@ const Sidebar = ({ active }) => {
             </div>
           </Link>
         )}
-        {isStudentLogin && (
+        {isStudent && (
           <Link
             to="/mentors"
             className={`content-3 w-full px-5 h-[66px] rounded-2xl ${
@@ -125,7 +135,7 @@ const Sidebar = ({ active }) => {
         >
           <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
             <div>
-              <TiMessages size={24} />
+              <BiMessageSquareDetail size={24} />
             </div>
             <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
               Messages
@@ -133,7 +143,8 @@ const Sidebar = ({ active }) => {
           </div>
         </Link>
         <div
-          className={`w-full px-5 h-[66px] rounded-2xl`}
+          className={`w-full px-5 h-[66px] rounded-2xl cursor-pointer`}
+          aria-readonly
           onClick={handleLogout}
         >
           <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
@@ -146,7 +157,6 @@ const Sidebar = ({ active }) => {
           </div>
         </div>
       </div>
-      <ToastContainer position="bottom-center" />
     </div>
   );
 };

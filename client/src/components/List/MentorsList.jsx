@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FiEye } from "react-icons/fi";
 import { MdDoneAll } from "react-icons/md";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
 
@@ -161,7 +161,6 @@ const MentorsList = () => {
             </div>
           </div>
         )}
-        <ToastContainer position="bottom-center" />
       </div>
     </div>
   );

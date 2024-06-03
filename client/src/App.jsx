@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,25 +15,17 @@ import Profile from "./components/Profile/Profile";
 import RequestsPage from "./components/Requests/RequestsPage";
 import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
+import { AuthContext } from "./context";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 
 const App = () => {
-  const [isNavbarActive, setIsNavbarActive] = useState(false);
-
-  useEffect(() => {
-    if (
-      window.location.pathname !== "/login" &&
-      window.location.pathname !== "/sign-up" &&
-      window.location.pathname !== "/"
-    ) {
-      setIsNavbarActive(true);
-    }
-  }, []);
+  const { user } = useContext(AuthContext);
+  console.log("🚀 ~ App ~ user:", user)
 
   return (
     <>
       <BrowserRouter>
-        {isNavbarActive && <Navbar />}
+        {user ? <Navbar /> : null}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route

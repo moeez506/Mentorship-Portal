@@ -3,7 +3,7 @@ import { FaFilePen } from "react-icons/fa6";
 import { MdClose, MdDelete } from "react-icons/md";
 import { PiGlobe } from "react-icons/pi";
 import { Link } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
 
@@ -206,7 +206,6 @@ const RoadmapPage = () => {
               </div>
             </div>
           )}
-          <ToastContainer position="bottom-center" />
         </div>
       </div>
     </>

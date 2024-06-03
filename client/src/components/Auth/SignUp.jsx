@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { server } from "../../apiEndPoint/apiEndPoint";
 import logo from "../../assets/logo.png";
@@ -91,7 +91,6 @@ const SignUp = () => {
 
   return (
     <>
-      <ToastContainer position="bottom-center" />
       <div className="flex flex-row h-screen w-full bg-[#66c871cb]">
         <div className="w-[50%] p-10 flex flex-col justify-center items-center relative">
           <div className="absolute inset-0 flex flex-col justify-center items-center">
