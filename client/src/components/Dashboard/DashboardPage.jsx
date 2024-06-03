@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaTasks } from "react-icons/fa";
 import { IoPersonOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context.jsx";
 import Sidebar from "../Layout/Sidebar";
 import StudentStatisticsCard from "./StudentStatisticsCard.jsx";
 
 const DashboardPage = () => {
-  const isMentor = localStorage.getItem("mentorLogin");
-  const isStudent = localStorage.getItem("studentLogin");
+  const { user } = useContext(AuthContext);
+
+  const [isMentor, setIsMentor] = useState(false);
+  const [isStudent, setIsStudent] = useState(false);
+
+  useEffect(() => {
+    if(user && user.role === "mentor") {
+      setIsMentor(true);
+    }
+    if(user && user.role === "student") {
+      setIsStudent(true);
+    }
+  }, [user])
 
   return (
     <>
