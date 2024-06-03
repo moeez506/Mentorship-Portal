@@ -36,14 +36,26 @@ const App = () => {
         {isNavbarActive && <Navbar />}
         <Routes>
           <Route path="/login" element={<Login />} />
+          {/* <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          /> */}
           <Route
-            path="/checkout"
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <DashboardPage />
               </ProtectedRoute>
             }
           />
+          {/* <Route
+            path="/dashboard"
+            element={<ProtectedRoute element={<DashboardPage />} />}
+          /> */}
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/roadmaps" element={<RoadmapPage />} />
           <Route path="/task/:id" element={<TaskPage />} />

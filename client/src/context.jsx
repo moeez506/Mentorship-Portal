@@ -144,14 +144,14 @@ const AuthProvider = ({ children }) => {
       try {
         const response = await axios.get(`${server}/auth/get-user`, {
           withCredentials: true,
-        }); // Replace with your endpoint
+        });
         setUser(response.data.user);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-            setUser(null);
-          } else {
-            console.error("Failed to fetch user", error);
-          }  
+          setUser(null);
+        } else {
+          console.error("Failed to fetch user", error);
+        }
       } finally {
         setLoading(false);
       }
@@ -183,8 +183,14 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("/api/auth/logout");
-      setUser(null);
+      await axios
+        .get(`${server}/auth/logout`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          toast.success(res.data.message);
+          setUser(null);
+        });
     } catch (error) {
       console.error("Logout failed", error);
     }
