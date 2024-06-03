@@ -44,6 +44,11 @@ const StudentSchema = new mongoose.Schema({
     type: String, // You might want to use a predefined list of programs or validate this further
     required: true,
   },
+  role: {
+    type: String,
+    required: true,
+    default: "student",
+  },
   mentorId: {
     type: mongoose.Schema.Types.ObjectId, // Assuming mentorId is a reference to another MongoDB document
     ref: "Mentor",

@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import Student from "../models/student.js";
+import jwt from "jsonwebtoken";
 import Mentor from "../models/mentor.js";
+import Student from "../models/student.js";
 
 // Set Cookie
 const setTokenCookie = (res, token, userType) => {
@@ -38,10 +38,16 @@ export const logout = (req, res) => {
   try {
     res.clearCookie("token");
     res.clearCookie("userType");
-    res.status(200).json({ message: "Logout successful", success: true });
+
+    res.status(200).json({
+      success: true,
+      message: "Logout successful",
+    });
   } catch (error) {
     console.error("Error during logout:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
   }
 };
 
@@ -116,5 +122,28 @@ export const mentorLogin = async (req, res) => {
   } catch (error) {
     console.error("Error during mentor login:", error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Get User
+export const getUser = async (req, res) => {
+  try {
+    const { studentId, mentorId } = req.user;
+
+    let user;
+    if (studentId) {
+      user = await Student.findById(studentId).select('-password'); // Exclude password
+    } else if (mentorId) {
+      user = await Mentor.findById(mentorId).select('-password'); // Exclude password
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };

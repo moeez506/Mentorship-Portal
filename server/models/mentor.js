@@ -48,6 +48,11 @@ const MentorSchema = new mongoose.Schema({
     enum: ["morning", "evening"],
     required: true,
   },
+  role: {
+    type: String,
+    required: true,
+    default: "mentor",
+  },
   program: {
     type: String, // You might want to use a predefined list of programs or validate this further
     required: true,
