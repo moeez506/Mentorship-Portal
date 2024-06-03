@@ -1,76 +1,69 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/logo.png";
-import { server } from "../../apiEndPoint/apiEndPoint";
-import axios from "axios";
-import { useAuth } from "../../context";
+import { AuthContext } from "../../context";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginAsStudent, loginAsMentor } = useAuth();
+  const { login } = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userType, setUserType] = useState('mentor');
 
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-    userType: "mentor",
-  });
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setLoginData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLoginData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    const { email, password, userType } = loginData;
-
     try {
-      const response = await axios.post(
-        userType === "mentor"
-          ? `${server}/auth/mentor-login`
-          : `${server}/auth/student-login`,
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const data = response.data;
-
-      if (!data.success) {
-        throw new Error(data.message || "Failed to login");
-      }
-
-      if (userType === "mentor") {
-        loginAsMentor();
-      } else {
-        loginAsStudent();
-      }
-
-      toast.success("Login successful!", {
-        position: "bottom-center",
-        autoClose: 1000,
-        onClose: () => navigate("/dashboard"),
-      });
+      await login(email, password, userType);
+      navigate('/dashboard');
     } catch (error) {
-      console.error("Error during login:", error);
-      toast.error("Invalid Email or Password. Please Try Again.", {
-        position: "bottom-center",
-      });
+      console.error("Login failed", error);
+      toast.error("Login failed");
     }
   };
+
+
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+
+  //   const { email, password, userType } = loginData;
+
+  //   try {
+  //     const response = await axios.post(
+  //       userType === "mentor"
+  //         ? `${server}/auth/mentor-login`
+  //         : `${server}/auth/student-login`,
+  //       {
+  //         email,
+  //         password,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     toast.success(response.data.message);
+  //   } catch (error) {
+  //     console.error("Error during login:", error.message);
+  //     toast.error("Invalid Email or Password. Please Try Again.", {
+  //       position: "bottom-center",
+  //     });
+  //   }
+  // };
 
   return (
     <>
@@ -92,8 +85,10 @@ const Login = () => {
                 <FormInput
                   type="email"
                   name="email"
-                  value={loginData.email}
-                  onChange={handleChange}
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  // value={loginData.email}
+                  // onChange={handleChange}
                   placeholder="Email"
                 />
               </div>
@@ -101,8 +96,10 @@ const Login = () => {
                 <FormInput
                   type="password"
                   name="password"
-                  value={loginData.password}
-                  onChange={handleChange}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  // value={loginData.password}
+                  // onChange={handleChange}
                   placeholder="Password"
                 />
               </div>
@@ -111,8 +108,10 @@ const Login = () => {
                   placeholder="Status"
                   id="userType"
                   name="userType"
-                  value={loginData.userType}
-                  onChange={handleChange}
+                  value={userType}
+                  onChange={e => setUserType(e.target.value)}
+                  // value={loginData.userType}
+                  // onChange={handleChange}
                   className="p-[10px] rounded-[15px] border h-[45px] border-b-[3px] border-[#66C871] w-full placeholder:text-[#9d9d9d] bg-[#56c36129] appearance-none pr-10"
                 >
                   <option value="mentor" className="bg-white text-black">
@@ -144,7 +143,6 @@ const Login = () => {
             </p>
           </div>
         </div>
-        <ToastContainer position="bottom-left" />
       </div>
     </>
   );

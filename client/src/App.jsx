@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
@@ -8,12 +10,12 @@ import Navbar from "./components/Layout/Navbar";
 import MenteesList from "./components/List/MenteesList";
 import MentorsList from "./components/List/MentorsList";
 import StudentsList from "./components/List/StudentsList";
+import Message from "./components/Messaging/Message";
 import Profile from "./components/Profile/Profile";
 import RequestsPage from "./components/Requests/RequestsPage";
 import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
-import Hero from "./components/Route/Hero/Hero";
-import Message from "./components/Messaging/Message";
+import ProtectedRoute from "./Routes/ProtectedRoute";
 
 const App = () => {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
@@ -35,15 +37,26 @@ const App = () => {
       <BrowserRouter>
         {isNavbarActive && <Navbar />}
         <Routes>
-          {isMentorLoggedIn || isStudentLoggedIn ? (
+          {/* {isMentorLoggedIn || isStudentLoggedIn ? (
             <Route path="/" element={<Navigate to="/dashboard" />} />
           ) : (
             <Route path="/" element={<Hero />} />
-          )}
+          )} */}
           <Route path="/login" element={<Login />} />
+          {/* <Route
+            path="/dashboard"
+            element={<ProtectedRoute component={<DashboardPage />} />}
+          /> */}
+          <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/roadmaps" element={<RoadmapPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/task/:id" element={<TaskPage />} />
           <Route path="/requests" element={<RequestsPage />} />
           <Route path="/profile" element={<Profile />} />
@@ -52,6 +65,19 @@ const App = () => {
           <Route path="/mentees" element={<MenteesList />} />
           <Route path="/messaging" element={<Message />} />
         </Routes>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
       </BrowserRouter>
     </>
   );

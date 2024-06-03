@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { FaUsers } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
@@ -7,35 +8,28 @@ import { RiFolder6Line } from "react-icons/ri";
 import { TiMessages } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import logo from "../../assets/Struggle.png";
-import { useAuth } from "../../context";
-import axios from "axios";
 import { server } from "../../apiEndPoint/apiEndPoint";
+import logo from "../../assets/Struggle.png";
 
 const Sidebar = ({ active }) => {
-  const { logout } = useAuth();
-
   const isMentorLogin = localStorage.getItem("mentorLogin");
   const isStudentLogin = localStorage.getItem("studentLogin");
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post(`${server}/auth/logout`);
-      const data = response.data;
+      const response = await axios.get(`${server}/auth/logout`);
+      toast.success(response.data.message);
 
-      if (data.success) {
-        logout();
-        toast.success(data.message, {
-          position: "bottom-center",
-        });
-      } else {
-        throw new Error(data.message || "Failed to logout");
-      }
+      // if (data.success) {
+      //   toast.success(data.message, {
+      //     position: "bottom-center",
+      //   });
+      // } else {
+      //   throw new Error(data.message || "Failed to logout");
+      // }
     } catch (error) {
       console.error("Error during logout:", error);
-      toast.error("Failed to logout. Please try again.", {
-        position: "bottom-center",
-      });
+      toast.error("Failed to logout. Please try again.");
     }
   };
 
@@ -143,8 +137,7 @@ const Sidebar = ({ active }) => {
             </div>
           </div>
         </Link>
-        <Link
-          to="/"
+        <div
           className={`w-full px-5 h-[66px] rounded-2xl`}
           onClick={handleLogout}
         >
@@ -156,7 +149,7 @@ const Sidebar = ({ active }) => {
               Logout
             </div>
           </div>
-        </Link>
+        </div>
       </div>
       <ToastContainer position="bottom-center" />
     </div>

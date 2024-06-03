@@ -81,7 +81,11 @@ export const studentLogin = async (req, res) => {
 
     setTokenCookie(res, token, "student");
 
-    res.status(200).json({ message: "Login successful", success: true });
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      user: student,
+    });
   } catch (error) {
     console.error("Error during student login:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -118,7 +122,11 @@ export const mentorLogin = async (req, res) => {
 
     setTokenCookie(res, token, "mentor");
 
-    res.status(200).json({ message: "Login successful", success: true });
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      user: mentor,
+    });
   } catch (error) {
     console.error("Error during mentor login:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -132,18 +140,18 @@ export const getUser = async (req, res) => {
 
     let user;
     if (studentId) {
-      user = await Student.findById(studentId).select('-password'); // Exclude password
+      user = await Student.findById(studentId).select("-password"); // Exclude password
     } else if (mentorId) {
-      user = await Mentor.findById(mentorId).select('-password'); // Exclude password
+      user = await Mentor.findById(mentorId).select("-password"); // Exclude password
     }
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({ user });
   } catch (error) {
-    console.error('Error fetching user:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
