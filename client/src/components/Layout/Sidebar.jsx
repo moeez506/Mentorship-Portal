@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FaUsers } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
@@ -16,9 +16,6 @@ const Sidebar = ({ active }) => {
 
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("mentor");
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -30,24 +27,6 @@ const Sidebar = ({ active }) => {
       toast.error("Logout failed");
     }
   };
-
-  // const handleLogout = async () => {
-  //   try {
-  //     const response = await axios.get(`${server}/auth/logout`);
-  //     toast.success(response.data.message);
-
-  //     // if (data.success) {
-  //     //   toast.success(data.message, {
-  //     //     position: "bottom-center",
-  //     //   });
-  //     // } else {
-  //     //   throw new Error(data.message || "Failed to logout");
-  //     // }
-  //   } catch (error) {
-  //     console.error("Error during logout:", error);
-  //     toast.error("Failed to logout. Please try again.");
-  //   }
-  // };
 
   return (
     <div className="fixed top-0 bottom-0 left-0 w-[20vw] flex flex-col bg-[#F2F9FF] py-4 border-r border-gray-300 rounded-lg font-Eczar text-[18px]">

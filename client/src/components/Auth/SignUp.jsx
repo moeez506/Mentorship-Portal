@@ -1,10 +1,10 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import logo from "../../assets/logo.png";
 import { server } from "../../apiEndPoint/apiEndPoint";
-import axios from "axios";
+import logo from "../../assets/logo.png";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -104,36 +104,33 @@ const SignUp = () => {
 
         <div className="w-full bg-[#F2F9FF] flex flex-col justify-center items-center rounded-tl-[50px] rounded-bl-[50px]">
           <div className="w-full h-full mx-auto flex flex-col items-center justify-center">
-            <div className="flex flex-row w-full border-b-2 border-[#fff] gap-2 p-3 mb-2 bg-[#c3e9ff] rounded-[8px]">
-              <button
-                className={`w-full cursor-pointer p-[6px] text-[16px] font-medium rounded-[12px] font-Eczar flex justify-around ${
-                  isMentor
-                    ? `bg-[#56c361] text-[#ffff] shadow-md shadow-[#00000037]`
-                    : `text-[#1c1c1c] bg-[#d5efff]`
-                }`}
-                onClick={() => setIsMentor(true)}
-              >
-                Mentor
-              </button>
-              <button
-                className={`w-full cursor-pointer p-[6px] text-[16px] font-medium rounded-[12px] font-Eczar flex justify-around ${
-                  !isMentor
-                    ? `bg-[#56c361] text-[#ffff] shadow-md shadow-[#00000037]`
-                    : `text-[#1c1c1c] bg-[#d5efff]`
-                }`}
-                onClick={() => setIsMentor(false)}
-              >
-                Student
-              </button>
-            </div>
-            <div className="flex flex-col items-start w-[80%] h-[80vh]">
-              <h2 className=" text-3xl font-medium font-Eczar mb-8">
-                {/* Register as {isMentor ? "Mentor" : "Student"} */}
-                Sign-up
-              </h2>
+            <div className="flex flex-col items-start w-[70%] h-[80vh]">
+              <div className="flex flex-row w-full border-b-2 border-[#fff] gap-2 p-3 mb-2 bg-[#c3e9ff] rounded-[8px]">
+                <button
+                  className={`w-full cursor-pointer p-[6px] text-[16px] font-medium rounded-[12px] font-Eczar flex justify-around ${
+                    isMentor
+                      ? `bg-[#56c361] text-[#ffff] shadow-md shadow-[#00000037]`
+                      : `text-[#1c1c1c] bg-[#d5efff]`
+                  }`}
+                  onClick={() => setIsMentor(true)}
+                >
+                  Mentor
+                </button>
+                <button
+                  className={`w-full cursor-pointer p-[6px] text-[16px] font-medium rounded-[12px] font-Eczar flex justify-around ${
+                    !isMentor
+                      ? `bg-[#56c361] text-[#ffff] shadow-md shadow-[#00000037]`
+                      : `text-[#1c1c1c] bg-[#d5efff]`
+                  }`}
+                  onClick={() => setIsMentor(false)}
+                >
+                  Student
+                </button>
+              </div>
+              <h2 className=" text-3xl font-medium font-Eczar mb-8">Sign-up</h2>
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col overflow-y-auto no-scrollbar gap-8 w-[88%]"
+                className="flex flex-col overflow-y-auto no-scrollbar gap-8 w-[100%]"
               >
                 {isMentor ? (
                   <>
