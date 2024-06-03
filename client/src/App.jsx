@@ -19,8 +19,6 @@ import ProtectedRoute from "./Routes/ProtectedRoute";
 
 const App = () => {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
-  const isMentorLoggedIn = localStorage.getItem("mentorLogin");
-  const isStudentLoggedIn = localStorage.getItem("studentLogin");
 
   useEffect(() => {
     if (
@@ -37,24 +35,15 @@ const App = () => {
       <BrowserRouter>
         {isNavbarActive && <Navbar />}
         <Routes>
-          {/* {isMentorLoggedIn || isStudentLoggedIn ? (
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-          ) : (
-            <Route path="/" element={<Hero />} />
-          )} */}
           <Route path="/login" element={<Login />} />
-          {/* <Route
-            path="/dashboard"
-            element={<ProtectedRoute component={<DashboardPage />} />}
-          /> */}
           <Route
-          path="/checkout"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/roadmaps" element={<RoadmapPage />} />
           <Route path="/task/:id" element={<TaskPage />} />

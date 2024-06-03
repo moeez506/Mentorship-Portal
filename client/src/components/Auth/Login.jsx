@@ -9,61 +9,20 @@ import { AuthContext } from "../../context";
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('mentor');
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setLoginData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
-
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("mentor");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await login(email, password, userType);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login failed", error);
       toast.error("Login failed");
     }
   };
-
-
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-
-  //   const { email, password, userType } = loginData;
-
-  //   try {
-  //     const response = await axios.post(
-  //       userType === "mentor"
-  //         ? `${server}/auth/mentor-login`
-  //         : `${server}/auth/student-login`,
-  //       {
-  //         email,
-  //         password,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     toast.success(response.data.message);
-  //   } catch (error) {
-  //     console.error("Error during login:", error.message);
-  //     toast.error("Invalid Email or Password. Please Try Again.", {
-  //       position: "bottom-center",
-  //     });
-  //   }
-  // };
 
   return (
     <>
@@ -86,9 +45,7 @@ const Login = () => {
                   type="email"
                   name="email"
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  // value={loginData.email}
-                  // onChange={handleChange}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                 />
               </div>
@@ -97,9 +54,7 @@ const Login = () => {
                   type="password"
                   name="password"
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  // value={loginData.password}
-                  // onChange={handleChange}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                 />
               </div>
@@ -109,9 +64,7 @@ const Login = () => {
                   id="userType"
                   name="userType"
                   value={userType}
-                  onChange={e => setUserType(e.target.value)}
-                  // value={loginData.userType}
-                  // onChange={handleChange}
+                  onChange={(e) => setUserType(e.target.value)}
                   className="p-[10px] rounded-[15px] border h-[45px] border-b-[3px] border-[#66C871] w-full placeholder:text-[#9d9d9d] bg-[#56c36129] appearance-none pr-10"
                 >
                   <option value="mentor" className="bg-white text-black">
