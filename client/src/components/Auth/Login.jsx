@@ -13,15 +13,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('mentor');
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setLoginData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
-
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,36 +25,6 @@ const Login = () => {
     }
   };
 
-
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-
-  //   const { email, password, userType } = loginData;
-
-  //   try {
-  //     const response = await axios.post(
-  //       userType === "mentor"
-  //         ? `${server}/auth/mentor-login`
-  //         : `${server}/auth/student-login`,
-  //       {
-  //         email,
-  //         password,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     toast.success(response.data.message);
-  //   } catch (error) {
-  //     console.error("Error during login:", error.message);
-  //     toast.error("Invalid Email or Password. Please Try Again.", {
-  //       position: "bottom-center",
-  //     });
-  //   }
-  // };
 
   return (
     <>

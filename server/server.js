@@ -1,19 +1,24 @@
-import "express-async-errors";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import "express-async-errors";
 import morgan from "morgan";
-import { errorHandler, notFoundMiddleware } from "./middlewares/index.js";
 import { connectDB } from "./config/db.js";
+import { errorHandler, notFoundMiddleware } from "./middlewares/index.js";
 import routes from "./routes/index.js";
-import cors from "cors";
-import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));

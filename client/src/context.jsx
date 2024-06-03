@@ -97,7 +97,6 @@
 //     );
 // };
 
-
 // src/context/AuthContext.js
 // import React, { createContext, useState, useEffect } from 'react';
 // import axios from 'axios';
@@ -129,11 +128,10 @@
 //     );
 // };
 
-
-import axios from 'axios';
-import React, { createContext, useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { server } from './apiEndPoint/apiEndPoint';
+import axios from "axios";
+import React, { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { server } from "./apiEndPoint/apiEndPoint";
 
 const AuthContext = createContext();
 
@@ -144,10 +142,16 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`${server}/auth/get-user`); // Replace with your endpoint
+        const response = await axios.get(`${server}/auth/get-user`, {
+          withCredentials: true,
+        }); // Replace with your endpoint
         setUser(response.data.user);
       } catch (error) {
-        console.error("Failed to fetch user", error);
+        if (error.response && error.response.status === 401) {
+            setUser(null);
+          } else {
+            console.error("Failed to fetch user", error);
+          }  
       } finally {
         setLoading(false);
       }
@@ -158,10 +162,19 @@ const AuthProvider = ({ children }) => {
 
   const login = async (email, password, userType) => {
     try {
-      const response = await axios.post(`${server}/auth/${userType}-login`, { email, password });
-      toast.success(response.data.message);
-      console.log(response)
-      setUser(response.data.user);
+      await axios
+        .post(
+          `${server}/auth/${userType}-login`,
+          { email, password },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          toast.success(res.data.message);
+          console.log(res);
+          setUser(res.data.user);
+        });
     } catch (error) {
       console.error("Login failed", error);
       throw error;
@@ -170,7 +183,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post('/api/auth/logout');
+      await axios.post("/api/auth/logout");
       setUser(null);
     } catch (error) {
       console.error("Logout failed", error);
