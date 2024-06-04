@@ -26,7 +26,7 @@ const StudentsList = () => {
       setStudentData(response.data.students);
     } catch (error) {
       console.error("Error fetching students:", error);
-      toast.error("Failed to fetch students");
+      toast.error(error.response.data.message || "Failed to fetch students");
     }
   };
 
@@ -61,6 +61,11 @@ const StudentsList = () => {
           <br />
 
           <div className="flex flex-wrap gap-5">
+            {studentData && studentData.length === 0 && (
+              <div className="font-Eczar text-center w-full text-3xl mt-5">
+                <p>No Unassigned Students found</p>
+              </div>
+            )}
             {studentData.map((student, index) => (
               <div
                 key={index}

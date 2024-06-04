@@ -139,12 +139,10 @@ export const assignRoadmapToStudent = async (req, res) => {
 
     await studentRoadmap.save();
 
-    res
-      .status(200)
-      .json({
-        message: "Roadmap assigned to student successfully",
-        data: studentRoadmap,
-      });
+    res.status(200).json({
+      message: "Roadmap assigned to student successfully",
+      data: studentRoadmap,
+    });
   } catch (error) {
     console.error("Error during roadmap assignment:", error);
   }
@@ -226,11 +224,9 @@ export const updateTask = async (req, res) => {
     const taskInRoadmap = roadmap.tasks.id(taskId);
 
     if (!taskInRoadmap) {
-      return res
-        .status(404)
-        .json({
-          message: "No task found with this ID in the specified roadmap",
-        });
+      return res.status(404).json({
+        message: "No task found with this ID in the specified roadmap",
+      });
     }
 
     taskInRoadmap.set(task);
@@ -247,7 +243,7 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
   try {
-    const { roadmapId, taskId } = req.body;
+    const { roadmapId, taskId } = req.query;
 
     // Validate request body
     if (!roadmapId || !taskId) {
@@ -266,11 +262,9 @@ export const deleteTask = async (req, res) => {
     const taskInRoadmap = roadmap.tasks.id(taskId);
 
     if (!taskInRoadmap) {
-      return res
-        .status(404)
-        .json({
-          message: "No task found with this ID in the specified roadmap",
-        });
+      return res.status(404).json({
+        message: "No task found with this ID in the specified roadmap",
+      });
     }
 
     roadmap.tasks.pull(taskId);

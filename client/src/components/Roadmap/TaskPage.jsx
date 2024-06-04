@@ -29,6 +29,7 @@ const TaskPage = () => {
   }, []);
 
   const fetchRoadmapById = async () => {
+    console.log("🚀 ~ fetchRoadmapById ~ fetchRoadmapById..............:");
     try {
       const response = await axios.get(`${server}/roadmap/${roadmapId}`);
       setRoadmapData(response.data.data);
@@ -101,11 +102,17 @@ const TaskPage = () => {
     }
   };
 
-  const handleDeleteTask = (index) => {
-    const updatedTasks = taskData.filter((_, i) => i !== index);
-    setTaskData(updatedTasks);
-    localStorage.setItem("taskData", JSON.stringify(updatedTasks));
-    toast.success("Task Deleted Successfully", { position: "bottom-center" });
+  const handleDeleteTask = async (taskId) => {
+    try {
+      await axios.delete(
+        `${server}/roadmap/task/delete?roadmapId=${roadmapId}&taskId=${taskId}`
+      );
+      fetchRoadmapById();
+      toast.success("Task Deleted Successfully");
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      toast.error(error.response.data.message || "Error deleting task");
+    }
   };
 
   const handleCreateTask = () => {
@@ -176,7 +183,7 @@ const TaskPage = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => (
-        <div className="text-[#000000]">{params.row.dueDate}</div>
+        <div className="text-[#000000]">{params.row.dueDate.split("T")[0]}</div>
       ),
     },
     {
@@ -186,16 +193,16 @@ const TaskPage = () => {
       flex: 0.5,
       renderCell: (params) => (
         <div className="flex flex-row justify-center items-center p-3 gap-5">
-          <MdEdit
+          {/* <MdEdit
             color="green"
             size={20}
             onClick={() => handleEditTask(params.row.id)}
             style={{ cursor: "pointer" }}
-          />
+          /> */}
           <MdDelete
             color="red"
             size={20}
-            onClick={() => handleDeleteTask(params.row.index)}
+            onClick={() => handleDeleteTask(params.row.id)}
             style={{ cursor: "pointer" }}
           />
         </div>
