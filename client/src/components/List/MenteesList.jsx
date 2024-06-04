@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
@@ -29,21 +28,6 @@ const MenteesList = () => {
       fetchMentees();
     }
   }, [user]);
-
-  const handleDeleteMentee = async (index, studentId) => {
-    try {
-      await axios.delete(`${server}/student/delete/${studentId}`);
-      const updatedMentees = [
-        ...mentees.slice(0, index),
-        ...mentees.slice(index + 1),
-      ];
-      setMentees(updatedMentees);
-      toast.success("Mentee Removed");
-    } catch (error) {
-      console.error("Error deleting mentee:", error);
-      toast.error("Failed to delete mentee");
-    }
-  };
 
   return (
     <>
