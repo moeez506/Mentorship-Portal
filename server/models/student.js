@@ -53,19 +53,19 @@ const StudentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, // Assuming mentorId is a reference to another MongoDB document
     ref: "Mentor",
   },
-  mentorRequests: [
-    {
-      mentorId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Mentor",
-      },
-      status: {
-        type: String,
-        enum: ["pending", "accepted", "rejected"],
-        default: "pending",
-      },
-    },
-  ],
+  // mentorRequests: [
+  //   {
+  //     mentorId: {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "Mentor",
+  //     },
+  //     status: {
+  //       type: String,
+  //       enum: ["pending", "accepted", "rejected"],
+  //       default: "pending",
+  //     },
+  //   },
+  // ],
 });
 
 // export the Student model

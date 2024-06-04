@@ -1,63 +1,53 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
-import { MdDoneAll } from "react-icons/md";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import profile_pic from "../../assets/Profile Icon.png";
 import Sidebar from "../Layout/Sidebar";
+import { server } from "../../apiEndPoint/apiEndPoint";
+import { AuthContext } from "../../context";
 
 const StudentsList = () => {
-  const studentData = JSON.parse(localStorage.getItem("studentData")) || [];
-  const mentorEmail = localStorage.getItem("mentorLogin");
-  const mentorData = JSON.parse(localStorage.getItem("mentorData")) || [];
+  const { user } = useContext(AuthContext);
+  const [studentData, setStudentData] = useState([]);
+  const [mentorData, setMentorData] = useState([]);
 
-  const [addedStudents, setAddedStudents] = useState([]);
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
+  useEffect(() => {
+    if (user && user.role === "mentor") {
+      setMentorData(user);
+    }
+    fetchStudents();
+  }, [user]);
 
-  const isStudentAssigned = (studentEmail) => {
-    return mentorData.some((mentor) =>
-      mentor.mentees.some((mentee) => mentee.studentEmail === studentEmail)
-    );
-  };
-
-  const addToMentor = (student) => {
-    const mentorIndex = mentorData.findIndex(
-      (mentor) => mentor.mentorEmail === mentorEmail
-    );
-
-    if (mentorIndex !== -1) {
-      const existingMentee = mentorData[mentorIndex].mentees.find(
-        (mentee) => mentee.studentEmail === student.studentEmail
-      );
-
-      if (existingMentee) {
-        toast.error("Mentor Assigned Already!");
-        return;
-      }
-
-      const newMentee = {
-        id: student.id,
-        studentEmail: student.studentEmail,
-        studentFirstName: student.studentFirstName,
-        studentLastName: student.studentLastName,
-      };
-
-      mentorData[mentorIndex].mentees.push(newMentee);
-
-      localStorage.setItem("mentorData", JSON.stringify(mentorData));
-
-      setAddedStudents([...addedStudents, student]);
-
-      toast.success("Student Added to Mentees Successfully!");
-    } else {
-      console.log("Mentor Not Found.");
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get(`${server}/mentor/all-students`);
+      setStudentData(response.data.students);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      toast.error("Failed to fetch students");
     }
   };
 
-  const handleViewDetails = (student) => {
-    setSelectedStudent(student);
-    setShowPopup(true);
+  const addToMentor = async (student) => {
+    try {
+      if (student.mentorId) {
+        toast.error("This Student is Already Assigned to a Mentor");
+        return;
+      }
+
+      const updatedStudent = {
+        ...student,
+        mentorId: mentorData._id,
+      };
+      await axios.put(
+        `${server}/student/update/${student._id}`,
+        updatedStudent
+      );
+      toast.success("Student added to mentor successfully");
+    } catch (error) {
+      console.error("Error adding student to mentor:", error);
+      toast.error("Failed to add student to mentor");
+    }
   };
 
   return (
@@ -73,47 +63,32 @@ const StudentsList = () => {
           <br />
 
           <div className="flex flex-wrap gap-5">
-            {studentData.map(
-              (student, index) =>
-                !addedStudents.includes(student) && (
-                  <div
-                    key={index}
-                    className="min-w-[202px] min-h-[244px] shadow-md shadow-[#00000040] rounded-[12px] flex flex-col items-center bg-[#29affd13] py-6 px-4"
+            {studentData.map((student, index) => (
+              <div
+                key={index}
+                className="min-w-[202px] min-h-[244px] shadow-md shadow-[#00000040] rounded-[12px] flex flex-col items-center bg-[#29affd13] py-6 px-4"
+              >
+                <div className="flex flex-col items-center">
+                  <img
+                    src={profile_pic}
+                    alt="Student"
+                    className="w-[90px] h-[90px] rounded-full mx-auto mb-4"
+                  />
+                  <h1 className="text-[18px] font-Eczar font-medium mb-1">
+                    {student.firstName} {student.lastName}
+                  </h1>
+                  <p className="text-sm text-[#666666]">{student.email}</p>
+                </div>
+                <div className="flex justify-center space-x-4 mt-5">
+                  <button
+                    className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
+                    onClick={() => addToMentor(student)}
                   >
-                    <div className="flex flex-col items-center">
-                      <img
-                        src={profile_pic}
-                        alt="Student"
-                        className="w-[90px] h-[90px] rounded-full mx-auto mb-4"
-                      />
-                      <h1 className="text-[18px] font-Eczar font-medium mb-1">
-                        {student.studentFirstName} {student.studentLastName}
-                      </h1>
-                      <p className="text-sm text-[#666666]">
-                        {student.studentEmail}
-                      </p>
-                    </div>
-                    <div className="flex justify-center space-x-4 mt-5">
-                      {isStudentAssigned(student.studentEmail) ? (
-                        <MdDoneAll size={18} title="Mentor Already Assigned" />
-                      ) : (
-                        <button
-                          className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
-                          onClick={() => addToMentor(student)}
-                        >
-                          Add
-                        </button>
-                      )}
-                      <button
-                        className="bg-[#a81616cf] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
-                        onClick={() => handleViewDetails(student)}
-                      >
-                        Ignore
-                      </button>
-                    </div>
-                  </div>
-                )
-            )}
+                    Add
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

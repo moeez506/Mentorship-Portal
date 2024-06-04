@@ -1,14 +1,16 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { server } from "../../apiEndPoint/apiEndPoint";
 import logo from "../../assets/logo.png";
+import { AuthContext } from "../../context";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [isMentor, setIsMentor] = useState(true);
+  const { user } = useContext(AuthContext);
 
   const [mentorData, setMentorData] = useState({
     firstName: "",
@@ -37,6 +39,12 @@ const SignUp = () => {
     shift: "",
     program: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [navigate, user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

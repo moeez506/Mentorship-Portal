@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoPersonSharp, IoSearch } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const isStudentLogin = localStorage.getItem("studentLogin");
-  const isMentorLogin = localStorage.getItem("mentorLogin");
+  const { user } = useContext(AuthContext);
+  const [isMentor, setIsMentor] = useState(false);
+  const [isStudent, setIsStudent] = useState(false);
 
-  const handleUserIconClick = () => {
-    if (!isStudentLogin && !isMentorLogin) {
-      navigate("/sign-up");
-    } else if (isStudentLogin || isMentorLogin) {
-      navigate("/dashboard");
+  useEffect(() => {
+    if (user && user.role === "mentor") {
+      setIsMentor(true);
     }
-  };
+
+    if (user && user.role === "student") {
+      setIsStudent(true);
+    }
+  }, [isMentor, isStudent, navigate, user]);
 
   return (
     <div className="fixed top-0 left-0 right-0 h-[10vh] bg-white border border-gray-200 flex justify-end items-center px-4 ml-[20vw] gap-16">
@@ -21,7 +25,7 @@ const Navbar = () => {
         <div>
           <div className="fixed">
             <div className="h-full flex item-center justify-center">
-            <IoSearch className="text-[#00000052] absolute left-3 top-3" />
+              <IoSearch className="text-[#00000052] absolute left-3 top-3" />
             </div>
           </div>
         </div>
@@ -37,7 +41,6 @@ const Navbar = () => {
       <IoPersonSharp
         className="cursor-pointer hover:text-green-500"
         size={24}
-        onClick={handleUserIconClick}
       />
     </div>
   );

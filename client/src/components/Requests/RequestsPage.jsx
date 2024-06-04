@@ -1,65 +1,77 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import profile_pic from "../../assets/Profile Icon.png";
 import Sidebar from "../Layout/Sidebar";
+import { server } from "../../apiEndPoint/apiEndPoint";
+import { AuthContext } from "../../context";
 
 const RequestsPage = () => {
   const [requests, setRequests] = useState([]);
-  const mentorEmail = localStorage.getItem("mentorLogin");
-  const mentorData = JSON.parse(localStorage.getItem("mentorData")) || [];
-  const mentor = mentorData.find(
-    (mentor) => mentor.mentorEmail === mentorEmail
-  );
-  const mentorId = mentor ? mentor.id : null;
+  const { user } = useContext(AuthContext);
+  const mentorEmail = user && user.role === "mentor" ? user.email : null;
 
   useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const fetchData = () => {
-    const requestData = JSON.parse(localStorage.getItem("requestData")) || [];
-    const mentorRequests = requestData.filter(
-      (request) => request.mentorId === mentorId
-    );
-    setRequests(mentorRequests);
-  };
-
-  const handleAcceptRequest = (
-    studentId,
-    studentFirstName,
-    studentLastName,
-    studentEmail
-  ) => {
-    if (mentor) {
-      const mentorIndex = mentorData.findIndex((m) => m.id === mentorId);
-      mentorData[mentorIndex].mentees.push({
-        studentId,
-        studentFirstName,
-        studentLastName,
-        studentEmail,
-      });
-      localStorage.setItem("mentorData", JSON.stringify(mentorData));
+    if (mentorEmail) {
+      fetchRequests();
     }
+  }, [mentorEmail]);
 
-    const updatedRequests = requests.filter(
-      (request) => request.studentId !== studentId
-    );
-    localStorage.setItem("requestData", JSON.stringify(updatedRequests));
-    setRequests(updatedRequests);
-
-    toast.success("Request Accepted");
+  const fetchRequests = async () => {
+    try {
+      const response = await axios.post(`${server}/mentor/students-requests`, {
+        mentorEmail,
+      });
+      if (response.data && response.data.requests) {
+        setRequests(response.data.requests);
+      } else {
+        setRequests([]);
+      }
+    } catch (error) {
+      console.error("Error fetching requests:", error);
+      toast.error("Failed to fetch requests");
+      setRequests([]);
+    }
   };
 
-  const handleRejectRequest = (studentId) => {
-    const updatedRequests = requests.filter(
-      (request) => request.studentId !== studentId
-    );
-    localStorage.setItem("requestData", JSON.stringify(updatedRequests));
-    setRequests(updatedRequests);
+  const handleAcceptRequest = async (requestId, studentId) => {
+    try {
+      const response = await axios.post(`${server}/mentor/handle-request`, {
+        mentorEmail,
+        studentId,
+        action: "accept",
+      });
+      if (response.data.success) {
+        setRequests((prevRequests) =>
+          prevRequests.filter((request) => request._id !== requestId)
+        );
+        toast.success("Request Accepted");
+      }
+    } catch (error) {
+      console.error("Error accepting request:", error);
+      toast.error("Failed to accept request");
+    }
+  };
 
-    toast.error("Request Rejected");
+  const handleRejectRequest = async (requestId, studentId) => {
+    try {
+      const response = await axios.post(`${server}/mentor/handle-request`, {
+        mentorEmail,
+        studentId,
+        action: "decline",
+      });
+      if (response.data.success) {
+        setRequests((prevRequests) =>
+          prevRequests.filter((request) => request._id !== requestId)
+        );
+        toast.error("Request Rejected");
+      }
+    } catch (error) {
+      console.error("Error rejecting request:", error);
+      toast.error("Failed to reject request");
+    }
   };
 
   return (
@@ -73,47 +85,50 @@ const RequestsPage = () => {
           <br />
 
           <div className="flex flex-wrap gap-5">
-          {requests.map((request, index) => (
-                  <div
-                    className="min-w-[202px] min-h-[244px] shadow-md shadow-[#00000040] rounded-[12px] flex flex-col items-center bg-[#29affd13] py-6 px-4"
-                    key={index}
-                  >
-                    <div className="flex flex-col items-center">
-                      <img
-                        src={profile_pic}
-                        alt="Student"
-                        className="w-[90px] h-[90px] rounded-full mx-auto mb-4"
-                      />
-                      <h1 className="text-[18px] font-Eczar font-medium mb-1">
-                        {request.studentFirstName} {request.studentLastName}
-                      </h1>
-                      <p className="text-sm text-[#666666]">
-                        {request.studentEmail}
-                      </p>
-                    </div>
-                    <div className="flex justify-center space-x-4 mt-5">
-                      <button
-                        className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
-                        onClick={() =>
-                          handleAcceptRequest(
-                            request.studentId,
-                            request.studentFirstName,
-                            request.studentLastName,
-                            request.studentEmail
-                          )
-                        }
-                      >
-                        Accept
-                      </button>
-                      <button
-                        className="bg-[#a81616cf] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
-                        onClick={() => handleRejectRequest(request.studentId)}
-                      >
-                        Reject
-                      </button>
-                    </div>
+            {requests && requests.length === 0 ? (
+              <div className="font-Eczar text-center w-full text-4xl">
+                <p>No requests found</p>
+              </div>
+            ) : (
+              requests.map((request, index) => (
+                <div
+                  className="min-w-[202px] min-h-[244px] shadow-md shadow-[#00000040] rounded-[12px] flex flex-col items-center bg-[#29affd13] py-6 px-4"
+                  key={index}
+                >
+                  <div className="flex flex-col items-center">
+                    <img
+                      src={profile_pic}
+                      alt="Student"
+                      className="w-[90px] h-[90px] rounded-full mx-auto mb-4"
+                    />
+                    <h1 className="text-[18px] font-Eczar font-medium mb-1">
+                      {request.studentFirstName} {request.studentLastName}
+                    </h1>
+                    <p className="text-sm text-[#666666]">
+                      {request.studentEmail}
+                    </p>
                   </div>
-                ))}
+                  <div className="flex justify-center space-x-4 mt-5">
+                    <button
+                      className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
+                      onClick={() =>
+                        handleAcceptRequest(request._id, request.studentId)
+                      }
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="bg-[#a81616cf] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
+                      onClick={() =>
+                        handleRejectRequest(request._id, request.studentId)
+                      }
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
