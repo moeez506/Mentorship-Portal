@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -15,36 +15,46 @@ import Profile from "./components/Profile/Profile";
 import RequestsPage from "./components/Requests/RequestsPage";
 import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
+import MyLearning from "./components/Roadmap/MyLearning";
 import { AuthContext } from "./context";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 
 const App = () => {
   const { user } = useContext(AuthContext);
-  // console.log("🚀 ~ App ~ user:", user)
 
   return (
     <>
       <BrowserRouter>
         {user ? <Navbar /> : null}
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/roadmaps" element={<RoadmapPage />} />
-          <Route path="/task/:id" element={<TaskPage />} />
-          <Route path="/requests" element={<RequestsPage />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/mentors" element={<MentorsList />} />
-          <Route path="/unassigned-students" element={<StudentsList />} />
-          <Route path="/mentees" element={<MenteesList />} />
-          <Route path="/messaging" element={<Message />} />
+          {user ? (
+            <>
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/roadmaps" element={<RoadmapPage />} />
+              <Route path="/task/:id" element={<TaskPage />} />
+              <Route path="/requests" element={<RequestsPage />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/mentors" element={<MentorsList />} />
+              <Route path="/unassigned-students" element={<StudentsList />} />
+              <Route path="/mentees" element={<MenteesList />} />
+              <Route path="/messaging" element={<Message />} />
+              <Route path="/my-learning" element={<MyLearning />} />
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </>
+          ) : (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </>
+          )}
         </Routes>
         <ToastContainer
           position="bottom-center"

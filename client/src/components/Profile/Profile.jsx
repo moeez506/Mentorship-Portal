@@ -1,36 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Sidebar from "../Layout/Sidebar";
+import { AuthContext } from "../../context";
 
 function UserProfile() {
-  const [user, setUser] = useState({});
-  const [isMentor, setIsMentor] = useState(false);
-
-  useEffect(() => {
-    const loggedInUser =
-      localStorage.getItem("mentorLogin") ||
-      localStorage.getItem("studentLogin");
-    if (loggedInUser) {
-      const email = loggedInUser.trim();
-      const mentorData = JSON.parse(localStorage.getItem("mentorData")) || [];
-      const studentData = JSON.parse(localStorage.getItem("studentData")) || [];
-
-      const mentorUserData = mentorData.find(
-        (mentor) => mentor.mentorEmail === email
-      );
-
-      const studentUserData = studentData.find(
-        (student) => student.studentEmail === email
-      );
-
-      if (mentorUserData) {
-        setUser(mentorUserData);
-        setIsMentor(true);
-      } else if (studentUserData) {
-        setUser(studentUserData);
-        setIsMentor(false);
-      }
-    }
-  }, []);
+  const { user } = useContext(AuthContext);
 
   return (
     <>
@@ -54,19 +27,17 @@ function UserProfile() {
                 <div className="text-center">
                   <div className="flex flex-row justify-center">
                     <p className="mb-2 mr-2 font-semibold text-blue-600 text-2xl font-Eczar">
-                      {isMentor ? user.mentorFirstName : user.studentFirstName}
+                      {user.firstName}
                     </p>
                     <p className="mb-2 font-semibold text-blue-600 text-2xl font-Eczar">
-                      {isMentor ? user.mentorLastName : user.studentLastName}
+                      {user.lastName}
                     </p>
                   </div>
                   <div className="flex flex-row">
                     <p className="mr-2 font-semibold text-blue-600 text-xl font-Eczar">
                       Email:{" "}
                     </p>
-                    <p className="mb-2 text-xl font-Eczar">
-                      {isMentor ? user.mentorEmail : user.studentEmail}
-                    </p>
+                    <p className="mb-2 text-xl font-Eczar">{user.email}</p>
                   </div>
                 </div>
               </div>
@@ -76,58 +47,42 @@ function UserProfile() {
                     Date of Birth
                   </p>
                   <p className="mb-2 text-xl font-Eczar">
-                    {isMentor ? user.mentorDob : user.studentDob}
+                    {user.dob.slice(0, 10)}
                   </p>
                   <p className="font-semibold text-blue-600 text-2xl font-Eczar">
                     Gender
                   </p>
-                  <p className="mb-2 text-xl font-Eczar">
-                    {isMentor ? user.mentorGender : user.studentGender}
-                  </p>
+                  <p className="mb-2 text-xl font-Eczar">{user.gender}</p>
                   <p className="font-semibold text-blue-600 text-2xl font-Eczar">
                     Experience
                   </p>
                   <p className="mb-2 text-xl font-Eczar">
-                    {isMentor
-                      ? user.mentorExperience
-                      : user.studentExperience || "N/A"}
+                    {user.experience || "N/A"}
                   </p>
                   <p className="font-semibold text-blue-600 text-2xl font-Eczar">
                     Phone Number
                   </p>
-                  <p className="mb-2 text-xl font-Eczar">
-                    {isMentor
-                      ? user.mentorPhoneNumber
-                      : user.studentPhoneNumber}
-                  </p>
+                  <p className="mb-2 text-xl font-Eczar">{user.phoneNumber}</p>
                 </div>
                 <div>
                   <p className="font-semibold text-blue-600 text-2xl font-Eczar">
                     Company
                   </p>
                   <p className="mb-2 text-xl font-Eczar">
-                    {isMentor
-                      ? user.mentorCompany
-                      : user.studentCompany || "N/A"}
+                    {user.company || "N/A"}
                   </p>
                   <p className="font-semibold text-blue-600 text-2xl font-Eczar">
                     Program
                   </p>
-                  <p className="mb-2 text-xl font-Eczar">
-                    {isMentor ? user.mentorProgram : user.studentProgram}
-                  </p>
+                  <p className="mb-2 text-xl font-Eczar">{user.program}</p>
                   <p className="font-semibold text-blue-600 text-2xl font-Eczar">
                     Semester
                   </p>
-                  <p className="mb-2 text-xl font-Eczar">
-                    {isMentor ? user.mentorSemester : user.studentSemester}
-                  </p>
+                  <p className="mb-2 text-xl font-Eczar">{user.semester}</p>
                   <p className="font-semibold text-blue-600 text-2xl font-Eczar">
                     Shift
                   </p>
-                  <p className="mb-2 text-xl font-Eczar">
-                    {isMentor ? user.mentorShift : user.studentShift}
-                  </p>
+                  <p className="mb-2 text-xl font-Eczar">{user.shift}</p>
                 </div>
               </div>
             </div>
