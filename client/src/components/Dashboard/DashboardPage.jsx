@@ -13,13 +13,13 @@ const DashboardPage = () => {
   const [isStudent, setIsStudent] = useState(false);
 
   useEffect(() => {
-    if(user && user.role === "mentor") {
+    if (user && user.role === "mentor") {
       setIsMentor(true);
     }
-    if(user && user.role === "student") {
+    if (user && user.role === "student") {
       setIsStudent(true);
     }
-  }, [user])
+  }, [user]);
 
   return (
     <>
@@ -37,10 +37,10 @@ const DashboardPage = () => {
                 <DashboardPageCard link="/roadmaps" title="My Roadmaps" />
                 <div className="min-h-32 bg-[#56c36115] p-4 rounded-[16px] flex flex-row gap-5 shadow-md shadow-[#00000052] items-center justify-center hover:bg-gray-200 duration-300 cursor-pointer">
                   <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
-                    Total Mentees
+                    Total Mentees:
                   </h1>
                   <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
-                    10
+                    {user.mentees.length}
                   </h1>
                 </div>
               </>
@@ -48,7 +48,7 @@ const DashboardPage = () => {
             {isStudent && (
               <>
                 <DashboardPageCard
-                  link="/tasks"
+                  link="/my-learning/"
                   title="My Learning"
                   icon={<FaTasks size={30} />}
                 />

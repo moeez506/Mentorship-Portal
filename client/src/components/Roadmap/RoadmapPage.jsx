@@ -83,41 +83,43 @@ const RoadmapPage = () => {
 
       toast.success("Roadmap Deleted Successfully");
     } catch (error) {
-      console.error("Error deleting roadmaps:", error);
-      toast.error(error.response.data.message || "Error deleting roadmaps");
+      console.error("Error Deleting Roadmap:", error);
+      toast.error(error.response.data.message || "Error Deleting Roadmap");
     }
   };
 
-  const handleEditRoadmap = (id) => {
-    const roadmapToEdit = roadmapList.find((roadmap) => roadmap.id === id);
-    if (roadmapToEdit) {
-      setNewRoadmap({
-        title: roadmapToEdit.title,
-        description: roadmapToEdit.description,
-      });
-      setEditingRoadmapId(id);
-      setCreatingRoadmap(true);
-    }
+  const handleEditRoadmap = (roadmap) => {
+    setNewRoadmap({ ...roadmap });
+    setEditingRoadmapId(roadmap._id);
+    setCreatingRoadmap(true);
   };
 
-  const handleUpdateRoadmap = () => {
+  const handleUpdateRoadmap = async (id) => {
     if (!newRoadmap.title || !newRoadmap.description) {
       toast.error("Please Fill in All Fields", { position: "bottom-center" });
       return;
     }
 
-    const updatedRoadmapData = roadmapList.map((roadmap) =>
-      roadmap.id === editingRoadmapId ? { ...roadmap, ...newRoadmap } : roadmap
-    );
+    try {
+      const updatedRoadmap = await axios.patch(
+        `${server}/roadmap/${id}`,
+        newRoadmap
+      );
 
-    setRoadmapList(updatedRoadmapData);
-    localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
-    setCreatingRoadmap(false);
-    setNewRoadmap({ title: "", description: "" });
-    setEditingRoadmapId(null);
-    toast.success("Roadmap Updated Successfully", {
-      position: "bottom-center",
-    });
+      setRoadmapList((prevState) =>
+        prevState.map((item) =>
+          item._id === editingRoadmapId ? updatedRoadmap.data : item
+        )
+      );
+
+      toast.success("Roadmap Updated Successfully");
+      setNewRoadmap({ title: "", description: "" });
+      setEditingRoadmapId(null);
+      setCreatingRoadmap(false);
+    } catch (error) {
+      console.error("Error updating roadmaps:", error);
+      toast.error(error.response.data.message || "Error Updating Roadmap");
+    }
   };
 
   return (

@@ -54,11 +54,8 @@ const TaskPage = () => {
       return;
     }
 
-    // let updatedRoadmapData = [...roadmapData];
     if (updateTask && editIndex !== null) {
-      //update task api
     } else {
-      // create task api
       console.log("newTask", newTask);
       try {
         const response = await axios.post(`${server}/roadmap/task/create`, {
@@ -76,13 +73,6 @@ const TaskPage = () => {
       }
     }
 
-    // setRoadmapData(updatedRoadmapData);
-    // localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
-
-    // toast.success(
-    //   updateTask ? "Task Updated Successfully" : "Task created successfully",
-    //   { position: "bottom-center" }
-    // );
     setCreatingTask(false);
     setUpdateTask(false);
   };
@@ -104,7 +94,6 @@ const TaskPage = () => {
   const handleDeleteTask = (index) => {
     const updatedTasks = taskData.filter((_, i) => i !== index);
     setTaskData(updatedTasks);
-    localStorage.setItem("taskData", JSON.stringify(updatedTasks));
     toast.success("Task Deleted Successfully", { position: "bottom-center" });
   };
 

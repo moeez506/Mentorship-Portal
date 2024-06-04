@@ -60,21 +60,23 @@ const Sidebar = ({ active }) => {
             </div>
           </div>
         </Link>
-        <Link
-          to="/requests"
-          className={`w-full px-5 h-[66px] rounded-2xl ${
-            active === 1 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
-          }`}
-        >
-          <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
-            <div>
-              <PiShoppingBagOpenDuotone size={24} />
+        {isMentor && (
+          <Link
+            to="/requests"
+            className={`w-full px-5 h-[66px] rounded-2xl ${
+              active === 1 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
+            }`}
+          >
+            <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+              <div>
+                <PiShoppingBagOpenDuotone size={24} />
+              </div>
+              <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
+                Requests
+              </div>
             </div>
-            <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
-              Requests
-            </div>
-          </div>
-        </Link>
+          </Link>
+        )}
         {isMentor && (
           <Link
             to="/unassigned-students"
@@ -109,21 +111,23 @@ const Sidebar = ({ active }) => {
             </div>
           </Link>
         )}
-        <Link
-          to="/roadmaps"
-          className={`content-4 w-full px-5 h-[66px] rounded-2xl ${
-            active === 3 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
-          }`}
-        >
-          <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
-            <div>
-              <IoBookOutline size={24} />
+        {isMentor && (
+          <Link
+            to="/roadmaps"
+            className={`content-4 w-full px-5 h-[66px] rounded-2xl ${
+              active === 3 ? "bg-[#56C361] text-[white]" : "bg-[#F2F9FF]"
+            }`}
+          >
+            <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+              <div>
+                <IoBookOutline size={24} />
+              </div>
+              <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
+                Roadmaps
+              </div>
             </div>
-            <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
-              Roadmaps
-            </div>
-          </div>
-        </Link>
+          </Link>
+        )}
         <Link
           to="/messaging"
           className={`content-5 w-full px-5 h-[66px] rounded-2xl ${
