@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
@@ -6,9 +7,11 @@ import { AuthContext } from "../../context";
 import { server } from "../../apiEndPoint/apiEndPoint";
 import { Button } from "@material-tailwind/react";
 import { MenuItem, Select } from "@mui/material";
+import { toast } from "react-toastify";
+import Loader from "../Layout/Loader";
 
 const MyLearning = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [updatedStatus, setUpdatedStatus] = useState({});
   const [roadmap, setRoadmap] = useState({});
@@ -20,9 +23,9 @@ const MyLearning = () => {
           `${server}/roadmap/get-student-roadmaps/${user._id}`
         );
         setRoadmap(response.data.data);
-        console.log(response.data.data);
       } catch (error) {
         console.error("Error Fetching Roadmap:", error);
+        toast.error(error.response.data.message || "Error fetching Roadmap");
       }
     };
     fetchRoadmap();
@@ -40,8 +43,10 @@ const MyLearning = () => {
 
       const response = await axios.patch(`${server}/roadmap/task/update`, data);
       setTasks(response.data);
+      toast.success(response.data.message || "Task Updated Successfully");
     } catch (error) {
       console.error("Error updating tasks:", error);
+      toast.error(error.response.data.message || "Error Updating Tasks");
     }
   };
 
@@ -124,31 +129,37 @@ const MyLearning = () => {
 
   return (
     <>
-      <Sidebar />
-      <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
-        <div className="container w-[80%] mx-auto">
-          <br />
-          <br />
-          <div className="flex flex-row justify-between">
-            <h2 className="font-Eczar font-medium text-2xl">Task Status</h2>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Sidebar />
+          <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
+            <div className="container w-[80%] mx-auto">
+              <br />
+              <br />
+              <div className="flex flex-row justify-between">
+                <h2 className="font-Eczar font-medium text-2xl">Task Status</h2>
+              </div>
+              <br />
+              <div className="text-[black]">
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  autoPageSize
+                  autoHeight={true}
+                  sx={{
+                    "& .MuiDataGrid-columnHeader--sortable": {
+                      backgroundColor: "#56C361",
+                      color: "#ffffff",
+                    },
+                  }}
+                />
+              </div>
+            </div>
           </div>
-          <br />
-          <div className="text-[black]">
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              autoPageSize
-              autoHeight={true}
-              sx={{
-                "& .MuiDataGrid-columnHeader--sortable": {
-                  backgroundColor: "#56C361",
-                  color: "#ffffff",
-                },
-              }}
-            />
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };

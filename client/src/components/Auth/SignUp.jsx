@@ -93,7 +93,10 @@ const SignUp = () => {
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       console.error("Error during sign-up:", error);
-      toast.error("An error occurred. Please try again later.");
+      toast.error(
+        error.response.data.message ||
+          "An error occurred. Please try again later."
+      );
     }
   };
 

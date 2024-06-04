@@ -10,9 +10,10 @@ import Sidebar from "../Layout/Sidebar";
 import { AuthContext } from "../../context";
 import { server } from "../../apiEndPoint/apiEndPoint";
 import axios from "axios";
+import Loader from "../Layout/Loader";
 
 const RoadmapPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [roadmapList, setRoadmapList] = useState([]);
   const [newRoadmap, setNewRoadmap] = useState({
     title: "",
@@ -32,6 +33,7 @@ const RoadmapPage = () => {
       );
 
       setRoadmapList(response.data.data);
+      toast.success(response.data.message);
     } catch (error) {
       console.error("Error fetching roadmaps:", error);
       toast.error(error.response.data.message || "Error fetching roadmaps");
@@ -65,7 +67,7 @@ const RoadmapPage = () => {
       );
 
       setRoadmapList([...roadmapList, response.data.data]);
-      toast.success("Roadmap Created Successfully");
+      toast.success(response.data.message || "Roadmap Created Successfully");
     } catch (error) {
       console.error("Error fetching roadmaps:", error);
       toast.error(error.response.data.message || "Error fetching roadmaps");
@@ -124,116 +126,126 @@ const RoadmapPage = () => {
 
   return (
     <>
-      <Sidebar active={3} />
-      <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
-        <div className="container w-[80%] mx-auto">
-          <br />
-          <br />
-          <div className="flex flex-row justify-between">
-            <h2 className="font-Eczar font-medium text-2xl">All Roadmaps</h2>
-            <button
-              onClick={() => {
-                setNewRoadmap({ title: "", description: "" });
-                setCreatingRoadmap(true);
-                setEditingRoadmapId(null);
-              }}
-              className="p-2 rounded-md cursor-pointer font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
-            >
-              Create New Roadmap
-            </button>
-          </div>
-          <br />
-          <div className="flex flex-wrap gap-5">
-            {Array.isArray(roadmapList) &&
-              roadmapList.map((roadmap, index) => (
-                <Link
-                  key={index}
-                  to={`/task/${roadmap._id}`}
-                  className="h-[100px] w-[48%] bg-[#29affd13] rounded-[12px] flex flex-row justify-evenly items-center py-4 px-6 shadow-md shadow-[#0000004a] duration-150 hover:scale-[1.01]"
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Sidebar active={3} />
+          <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
+            <div className="container w-[80%] mx-auto">
+              <br />
+              <br />
+              <div className="flex flex-row justify-between">
+                <h2 className="font-Eczar font-medium text-2xl">
+                  All Roadmaps
+                </h2>
+                <button
+                  onClick={() => {
+                    setNewRoadmap({ title: "", description: "" });
+                    setCreatingRoadmap(true);
+                    setEditingRoadmapId(null);
+                  }}
+                  className="p-2 rounded-md cursor-pointer font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
                 >
-                  <div className="rounded-full bg-[#56C361] text-[white] flex items-center justify-center">
-                    <PiGlobe size={45} className="p-[4px]" />
-                  </div>
-                  <div className="font-Eczar text-[#1c1c1c] flex flex-col px-2 items-start">
-                    <h1 className="font-medium text-[14px]">{roadmap.title}</h1>
-                    <p className="">
-                      {roadmap.description.length > 50
-                        ? `${roadmap.description.slice(0, 50)}...`
-                        : roadmap.description}
-                    </p>
-                  </div>
-                  <div className="flex flex-row gap-2">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleEditRoadmap(roadmap._id);
-                      }}
-                      className="text-[#56c361] cursor-pointer"
-                    >
-                      <FaFilePen size={30} />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleDeleteRoadmap(roadmap._id);
-                      }}
-                      className="text-[#a81616e0] cursor-pointer"
-                    >
-                      <MdDelete size={30} />
-                    </button>
-                  </div>
-                </Link>
-              ))}
-          </div>
-          {creatingRoadmap && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm pt-[10vh]">
-              <div className="bg-white border-black border-[3px] w-[80vh] p-5 rounded-lg fixed">
-                <MdClose
-                  className="cursor-pointer right-2 absolute"
-                  size={25}
-                  color="#2e2e2e"
-                  onClick={() => setCreatingRoadmap(false)}
-                />
-                <h3 className="text-green-600 font-Poppins text-2xl font-semibold mb-6 text-center">
-                  {editingRoadmapId ? "Edit Roadmap" : "New Roadmap"}
-                </h3>
-                <form
-                  className="flex flex-col items-center"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Title of the roadmap"
-                    value={newRoadmap.title}
-                    onChange={handleChange}
-                    className="mb-3 p-2 rounded-md border-gray-400 w-full bg-[#e0f7e9] text-black"
-                  />
-                  <input
-                    type="text"
-                    name="description"
-                    placeholder="Description of the roadmap"
-                    value={newRoadmap.description}
-                    onChange={handleChange}
-                    className="mb-3 p-2 rounded-md border-gray-400 w-full bg-[#e0f7e9] text-black"
-                  />
-                  <button
-                    onClick={
-                      editingRoadmapId
-                        ? handleUpdateRoadmap
-                        : handleCreateRoadmap
-                    }
-                    className="rounded-md text-[20px] cursor-pointer self-center px-[30px] py-2 mt-4 font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
-                    type="button"
-                  >
-                    {editingRoadmapId ? "Update Roadmap" : "Create Roadmap"}
-                  </button>
-                </form>
+                  Create New Roadmap
+                </button>
               </div>
+              <br />
+              <div className="flex flex-wrap gap-5">
+                {Array.isArray(roadmapList) &&
+                  roadmapList.map((roadmap, index) => (
+                    <Link
+                      key={index}
+                      to={`/task/${roadmap._id}`}
+                      className="h-[100px] w-[48%] bg-[#29affd13] rounded-[12px] flex flex-row justify-evenly items-center py-4 px-6 shadow-md shadow-[#0000004a] duration-150 hover:scale-[1.01]"
+                    >
+                      <div className="rounded-full bg-[#56C361] text-[white] flex items-center justify-center">
+                        <PiGlobe size={45} className="p-[4px]" />
+                      </div>
+                      <div className="font-Eczar text-[#1c1c1c] flex flex-col px-2 items-start">
+                        <h1 className="font-medium text-[14px]">
+                          {roadmap.title}
+                        </h1>
+                        <p className="">
+                          {roadmap.description.length > 50
+                            ? `${roadmap.description.slice(0, 50)}...`
+                            : roadmap.description}
+                        </p>
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleEditRoadmap(roadmap._id);
+                          }}
+                          className="text-[#56c361] cursor-pointer"
+                        >
+                          <FaFilePen size={30} />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleDeleteRoadmap(roadmap._id);
+                          }}
+                          className="text-[#a81616e0] cursor-pointer"
+                        >
+                          <MdDelete size={30} />
+                        </button>
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+              {creatingRoadmap && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm pt-[10vh]">
+                  <div className="bg-white border-black border-[3px] w-[80vh] p-5 rounded-lg fixed">
+                    <MdClose
+                      className="cursor-pointer right-2 absolute"
+                      size={25}
+                      color="#2e2e2e"
+                      onClick={() => setCreatingRoadmap(false)}
+                    />
+                    <h3 className="text-green-600 font-Poppins text-2xl font-semibold mb-6 text-center">
+                      {editingRoadmapId ? "Edit Roadmap" : "New Roadmap"}
+                    </h3>
+                    <form
+                      className="flex flex-col items-center"
+                      onSubmit={(e) => e.preventDefault()}
+                    >
+                      <input
+                        type="text"
+                        name="title"
+                        placeholder="Title of the roadmap"
+                        value={newRoadmap.title}
+                        onChange={handleChange}
+                        className="mb-3 p-2 rounded-md border-gray-400 w-full bg-[#e0f7e9] text-black"
+                      />
+                      <input
+                        type="text"
+                        name="description"
+                        placeholder="Description of the roadmap"
+                        value={newRoadmap.description}
+                        onChange={handleChange}
+                        className="mb-3 p-2 rounded-md border-gray-400 w-full bg-[#e0f7e9] text-black"
+                      />
+                      <button
+                        onClick={
+                          editingRoadmapId
+                            ? handleUpdateRoadmap
+                            : handleCreateRoadmap
+                        }
+                        className="rounded-md text-[20px] cursor-pointer self-center px-[30px] py-2 mt-4 font-Eczar bg-[#56C361] text-white shadow-sm shadow-[#00000070]"
+                        type="button"
+                      >
+                        {editingRoadmapId ? "Update Roadmap" : "Create Roadmap"}
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
