@@ -16,6 +16,7 @@ import RequestsPage from "./components/Requests/RequestsPage";
 import RoadmapPage from "./components/Roadmap/RoadmapPage";
 import TaskPage from "./components/Roadmap/TaskPage";
 import ProtectedRoute from "./Routes/ProtectedRoute";
+import Notifications from "./components/Notifications/Notification";
 
 const App = () => {
   const [isNavbarActive, setIsNavbarActive] = useState(false);
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/unassigned-students" element={<StudentsList />} />
           <Route path="/mentees" element={<MenteesList />} />
           <Route path="/messaging" element={<Message />} />
+          <Route path="/notifications" element={<Notifications />} />
         </Routes>
         <ToastContainer
           position="bottom-center"
