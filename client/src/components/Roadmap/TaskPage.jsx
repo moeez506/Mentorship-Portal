@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
@@ -6,9 +7,11 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
+import axios from "axios";
+import { server } from "../../apiEndPoint/apiEndPoint";
 
 const TaskPage = () => {
-  const { id } = useParams();
+  const { id: roadmapId } = useParams();
   const [roadmapData, setRoadmapData] = useState([]);
   const [taskData, setTaskData] = useState([]);
   const [newTask, setNewTask] = useState({
@@ -22,23 +25,18 @@ const TaskPage = () => {
   const [updateTask, setUpdateTask] = useState(false);
 
   useEffect(() => {
-    const storedTaskData = JSON.parse(localStorage.getItem("taskData"));
-    if (storedTaskData) {
-      setTaskData(storedTaskData);
-    }
+    fetchRoadmapById();
+  }, []);
 
-    const storedRoadmapData = JSON.parse(localStorage.getItem("roadmapData"));
-    if (storedRoadmapData) {
-      setRoadmapData(storedRoadmapData);
+  const fetchRoadmapById = async () => {
+    try {
+      const response = await axios.get(`${server}/roadmap/${roadmapId}`);
+      setRoadmapData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching roadmaps:", error);
+      toast.error(error.response.data.message || "Error fetching roadmaps");
     }
-    const roadmapItem1 =
-      roadmapData && roadmapData.find((item) => item.id === id);
-
-    const roadmap1Tasks = roadmapItem1 && roadmapItem1.tasks;
-    if (roadmap1Tasks) {
-      setTaskData(roadmap1Tasks);
-    }
-  }, [id, roadmapData]);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +46,7 @@ const TaskPage = () => {
     }));
   };
 
-  const handleAddTask = () => {
+  const handleAddTask = async () => {
     if (!newTask.title || !newTask.link || !newTask.dueDate) {
       toast.error("Please enter all fields to create a new task", {
         position: "bottom-center",
@@ -56,38 +54,35 @@ const TaskPage = () => {
       return;
     }
 
-    let updatedRoadmapData = [...roadmapData];
+    // let updatedRoadmapData = [...roadmapData];
     if (updateTask && editIndex !== null) {
-      updatedRoadmapData = roadmapData.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            tasks: item.tasks.map((task, index) =>
-              index === editIndex ? newTask : task
-            ),
-          };
-        }
-        return item;
-      });
+      //update task api
     } else {
-      updatedRoadmapData = roadmapData.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            tasks: [...item.tasks, newTask],
-          };
+      // create task api
+      console.log("newTask", newTask);
+      try {
+        const response = await axios.post(`${server}/roadmap/task/create`, {
+          roadmapId: roadmapId,
+          task: newTask,
+        });
+        if (response.data) {
+          setRoadmapData(response.data.data);
+
+          toast.success("Task created successfully");
         }
-        return item;
-      });
+      } catch (error) {
+        console.error("Error creating task:", error);
+        toast.error(error.response.data.message || "Error creating task");
+      }
     }
 
-    setRoadmapData(updatedRoadmapData);
-    localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
+    // setRoadmapData(updatedRoadmapData);
+    // localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
 
-    toast.success(
-      updateTask ? "Task Updated Successfully" : "Task created successfully",
-      { position: "bottom-center" }
-    );
+    // toast.success(
+    //   updateTask ? "Task Updated Successfully" : "Task created successfully",
+    //   { position: "bottom-center" }
+    // );
     setCreatingTask(false);
     setUpdateTask(false);
   };
@@ -210,23 +205,18 @@ const TaskPage = () => {
 
   const rows = [];
 
-  roadmapData.map((item) => {
-    if (item.id === id) {
-      const task1Data = item.tasks;
-      task1Data &&
-        task1Data.forEach((item) => {
-          rows.push({
-            id: item.id,
-            title: item.title,
-            link: item.link,
-            status: item.status,
-            dueDate: item.dueDate,
-            index: task1Data.indexOf(item),
-          });
-        });
-    }
-    return item;
-  });
+  const task1Data = roadmapData?.tasks;
+  task1Data &&
+    task1Data.forEach((item, index) => {
+      rows.push({
+        id: item._id,
+        title: item.title,
+        link: item.link,
+        status: item.status,
+        dueDate: item.dueDate,
+        index: task1Data.indexOf(item),
+      });
+    });
 
   return (
     <>

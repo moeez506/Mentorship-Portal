@@ -20,7 +20,9 @@ const StudentsList = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get(`${server}/mentor/all-students`);
+      const response = await axios.get(
+        `${server}/mentor/all-students?unassigned=true`
+      );
       setStudentData(response.data.students);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -28,25 +30,21 @@ const StudentsList = () => {
     }
   };
 
-  const addToMentor = async (student) => {
+  const addToMentor = async (studentId) => {
     try {
-      if (student.mentorId) {
-        toast.error("This Student is Already Assigned to a Mentor");
-        return;
-      }
-
-      const updatedStudent = {
-        ...student,
+      await axios.post(`${server}/mentor/add-mentee`, {
         mentorId: mentorData._id,
-      };
-      await axios.put(
-        `${server}/student/update/${student._id}`,
-        updatedStudent
+        studentId,
+      });
+      setStudentData((prevData) =>
+        prevData.filter((student) => student._id !== studentId)
       );
       toast.success("Student added to mentor successfully");
     } catch (error) {
       console.error("Error adding student to mentor:", error);
-      toast.error("Failed to add student to mentor");
+      toast.error(
+        error.response.data.message || "Failed to add student to mentor"
+      );
     }
   };
 
@@ -82,7 +80,7 @@ const StudentsList = () => {
                 <div className="flex justify-center space-x-4 mt-5">
                   <button
                     className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
-                    onClick={() => addToMentor(student)}
+                    onClick={() => addToMentor(student._id)}
                   >
                     Add
                   </button>

@@ -116,8 +116,14 @@ export const getSingleMentor = async (req, res) => {
 // Route for getting all students
 export const getAllStudents = async (req, res) => {
   try {
+    const { unassigned } = req.query;
+    let students;
     // Find all students in the database
-    const students = await Student.find();
+    if (unassigned) {
+      students = await Student.find({
+        mentorId: { $exists: false },
+      });
+    } else students = await Student.find();
 
     // If there are no students, respond with an appropriate message
     if (!students || students.length === 0) {
@@ -220,7 +226,7 @@ export const deleteMentor = async (req, res) => {
 // Get Students Requests
 export const getAllRequests = async (req, res) => {
   try {
-    const { mentorId } = req.body;
+    const { mentorId } = req.query;
 
     if (!mentorId) {
       res.status(400).json({
@@ -240,6 +246,7 @@ export const getAllRequests = async (req, res) => {
     // Assuming you have a reference to students in the Mentor model
     const studentRequests = await Student.find({
       "mentorRequests.mentorId": mentorId,
+      "mentorRequests.status": "pending",
     }).populate("mentorRequests.mentorId");
 
     res.status(200).json({ success: true, requests: studentRequests });
@@ -285,13 +292,17 @@ export const handleRequest = async (req, res) => {
 
       // Set the mentorId in the student schema
       student.mentorId = mentorId;
+      student.mentorRequests = [];
 
       // Add the student to the mentor's mentees array
       const mentor = await Mentor.findById(mentorId);
       mentor.mentees.push({ studentId });
       await mentor.save();
     } else if (action === "decline") {
-      request.status = "rejected";
+      // Remove the request from the student's mentorRequests array
+      student.mentorRequests = student.mentorRequests.filter(
+        (req) => req.mentorId.toString() !== mentorId
+      );
     } else {
       res.status(400).json({
         success: false,
@@ -311,10 +322,46 @@ export const handleRequest = async (req, res) => {
   }
 };
 
+export const addMentee = async (req, res) => {
+  try {
+    const { mentorId, studentId } = req.body;
+
+    const student = await Student.findById(studentId);
+
+    if (!student) {
+      res.status(404).json({ success: false, message: "Student not found" });
+      return;
+    }
+
+    const mentor = await Mentor.findById(mentorId);
+    if (!mentor) {
+      res.status(404).json({ success: false, message: "Mentor not found" });
+      return;
+    }
+
+    // Set the mentorId in the student schema
+    student.mentorId = mentorId;
+    student.mentorRequests = [];
+
+    // Add the student to the mentor's mentees array
+    mentor.mentees.push({ studentId });
+
+    await mentor.save();
+    await student.save();
+
+    res
+      .status(200)
+      .json({ success: true, message: "Mentee Added  successfully" });
+  } catch (error) {
+    console.error("Error handling request:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 // Get all students of a mentor
 export const getAllStudentsOfMentor = async (req, res) => {
   try {
-    const { mentorId } = req.body;
+    const { mentorId } = req.query;
 
     const mentor = await Mentor.findById(mentorId);
 

@@ -14,9 +14,9 @@ const MenteesList = () => {
   useEffect(() => {
     const fetchMentees = async () => {
       try {
-        const response = await axios.get(`${server}/mentor/all-mentees`, {
-          mentorId: user._id,
-        });
+        const response = await axios.get(
+          `${server}/mentor/all-mentees?mentorId=${user._id}`
+        );
         console.log(response);
         setMentees(response.data.students);
       } catch (error) {
@@ -58,7 +58,7 @@ const MenteesList = () => {
             {mentees && mentees.length > 0 ? (
               mentees.map((mentee, index) => (
                 <div
-                  className="w-[300px] min-h-[350px] border-gray-300 border-[1px] shadow-sm rounded-[10px] flex flex-col items-center justify-between bg-white text-black py-6 px-4"
+                  className="w-[300px] min-h-[250px] border-gray-300 border-[1px] shadow-sm rounded-[10px] flex flex-col items-center justify-between bg-white text-black py-6 px-4"
                   key={index}
                 >
                   <div className="flex flex-col items-center">
@@ -74,14 +74,14 @@ const MenteesList = () => {
                       Email: {mentee.email}
                     </p>
                   </div>
-                  <div className="flex justify-center space-x-3 mt-5">
+                  {/* <div className="flex justify-center space-x-3 mt-5">
                     <button
                       className="bg-red-500 p-2 h-9 min-w-[80px] text-white rounded-md duration-300 hover:bg-red-700 flex items-center justify-center"
                       onClick={() => handleDeleteMentee(index, mentee._id)}
                     >
                       <MdDelete size={18} />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               ))
             ) : (

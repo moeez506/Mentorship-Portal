@@ -11,19 +11,16 @@ import { AuthContext } from "../../context";
 const RequestsPage = () => {
   const [requests, setRequests] = useState([]);
   const { user } = useContext(AuthContext);
-  const mentorEmail = user && user.role === "mentor" ? user.email : null;
 
   useEffect(() => {
-    if (mentorEmail) {
-      fetchRequests();
-    }
-  }, [mentorEmail]);
+    if (user) fetchRequests();
+  }, [user]);
 
   const fetchRequests = async () => {
     try {
-      const response = await axios.post(`${server}/mentor/students-requests`, {
-        mentorEmail,
-      });
+      const response = await axios.get(
+        `${server}/mentor/students-request?mentorId=${user._id}`
+      );
       if (response.data && response.data.requests) {
         setRequests(response.data.requests);
       } else {
@@ -38,8 +35,8 @@ const RequestsPage = () => {
 
   const handleAcceptRequest = async (requestId, studentId) => {
     try {
-      const response = await axios.post(`${server}/mentor/handle-request`, {
-        mentorEmail,
+      const response = await axios.patch(`${server}/mentor/handle-request`, {
+        mentorId: user._id,
         studentId,
         action: "accept",
       });
@@ -47,18 +44,18 @@ const RequestsPage = () => {
         setRequests((prevRequests) =>
           prevRequests.filter((request) => request._id !== requestId)
         );
-        toast.success("Request Accepted");
+        toast.success("Request Accepted Successfully");
       }
     } catch (error) {
       console.error("Error accepting request:", error);
-      toast.error("Failed to accept request");
+      toast.error(error.response.data.message || "Failed to accept request");
     }
   };
 
   const handleRejectRequest = async (requestId, studentId) => {
     try {
-      const response = await axios.post(`${server}/mentor/handle-request`, {
-        mentorEmail,
+      const response = await axios.patch(`${server}/mentor/handle-request`, {
+        mentorId: user._id,
         studentId,
         action: "decline",
       });
@@ -66,11 +63,11 @@ const RequestsPage = () => {
         setRequests((prevRequests) =>
           prevRequests.filter((request) => request._id !== requestId)
         );
-        toast.error("Request Rejected");
+        toast.success("Request Rejected Successfully");
       }
     } catch (error) {
       console.error("Error rejecting request:", error);
-      toast.error("Failed to reject request");
+      toast.error(error.response.data.message || "Failed to reject request");
     }
   };
 
@@ -102,17 +99,15 @@ const RequestsPage = () => {
                       className="w-[90px] h-[90px] rounded-full mx-auto mb-4"
                     />
                     <h1 className="text-[18px] font-Eczar font-medium mb-1">
-                      {request.studentFirstName} {request.studentLastName}
+                      {request.firstName} {request.lastName}
                     </h1>
-                    <p className="text-sm text-[#666666]">
-                      {request.studentEmail}
-                    </p>
+                    <p className="text-sm text-[#666666]">{request.email}</p>
                   </div>
                   <div className="flex justify-center space-x-4 mt-5">
                     <button
                       className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
                       onClick={() =>
-                        handleAcceptRequest(request._id, request.studentId)
+                        handleAcceptRequest(request._id, request._id)
                       }
                     >
                       Accept
@@ -120,7 +115,7 @@ const RequestsPage = () => {
                     <button
                       className="bg-[#a81616cf] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
                       onClick={() =>
-                        handleRejectRequest(request._id, request.studentId)
+                        handleRejectRequest(request._id, request._id)
                       }
                     >
                       Reject

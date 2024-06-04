@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useContext, useEffect, useState } from "react";
 import { FaFilePen } from "react-icons/fa6";
 import { MdClose, MdDelete } from "react-icons/md";
 import { PiGlobe } from "react-icons/pi";
@@ -6,9 +7,13 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
+import { AuthContext } from "../../context";
+import { server } from "../../apiEndPoint/apiEndPoint";
+import axios from "axios";
 
 const RoadmapPage = () => {
-  const [roadmapData, setRoadmapData] = useState([]);
+  const { user } = useContext(AuthContext);
+  const [roadmapList, setRoadmapList] = useState([]);
   const [newRoadmap, setNewRoadmap] = useState({
     title: "",
     description: "",
@@ -17,11 +22,21 @@ const RoadmapPage = () => {
   const [editingRoadmapId, setEditingRoadmapId] = useState(null);
 
   useEffect(() => {
-    const storedRoadmapData = JSON.parse(localStorage.getItem("roadmapData"));
-    if (storedRoadmapData) {
-      setRoadmapData(storedRoadmapData);
+    if (user) fetchRoadmaps();
+  }, [user]);
+
+  const fetchRoadmaps = async () => {
+    try {
+      const response = await axios.get(
+        `${server}/roadmap/get-mentor-roadmaps/${user._id}`
+      );
+
+      setRoadmapList(response.data.data);
+    } catch (error) {
+      console.error("Error fetching roadmaps:", error);
+      toast.error(error.response.data.message || "Error fetching roadmaps");
     }
-  }, []);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +46,7 @@ const RoadmapPage = () => {
     }));
   };
 
-  const handleCreateRoadmap = () => {
+  const handleCreateRoadmap = async () => {
     if (!newRoadmap.title || !newRoadmap.description) {
       toast.error("Please Fill in All Fields", { position: "bottom-center" });
       return;
@@ -40,33 +55,41 @@ const RoadmapPage = () => {
     const newRoadmapData = {
       title: newRoadmap.title,
       description: newRoadmap.description,
-      id: Date.now().toString(),
-      tasks: [],
+      mentorId: user._id,
     };
 
-    const updatedRoadmapData = [...roadmapData, newRoadmapData];
-    setRoadmapData(updatedRoadmapData);
-    localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
+    try {
+      const response = await axios.post(
+        `${server}/roadmap/create`,
+        newRoadmapData
+      );
+
+      setRoadmapList([...roadmapList, response.data.data]);
+      toast.success("Roadmap Created Successfully");
+    } catch (error) {
+      console.error("Error fetching roadmaps:", error);
+      toast.error(error.response.data.message || "Error fetching roadmaps");
+    }
     setCreatingRoadmap(false);
-    setNewRoadmap({ title: "", description: "" });
-    toast.success("Roadmap Created Successfully", {
-      position: "bottom-center",
-    });
   };
 
-  const handleDeleteRoadmap = (id) => {
-    const updatedRoadmapData = roadmapData.filter(
-      (roadmap) => roadmap.id !== id
-    );
-    setRoadmapData(updatedRoadmapData);
-    localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
-    toast.success("Roadmap Deleted Successfully", {
-      position: "bottom-center",
-    });
+  const handleDeleteRoadmap = async (id) => {
+    try {
+      await axios.delete(`${server}/roadmap/${id}`);
+
+      setRoadmapList((prevState) =>
+        prevState.filter((roadmap) => roadmap._id !== id)
+      );
+
+      toast.success("Roadmap Deleted Successfully");
+    } catch (error) {
+      console.error("Error deleting roadmaps:", error);
+      toast.error(error.response.data.message || "Error deleting roadmaps");
+    }
   };
 
   const handleEditRoadmap = (id) => {
-    const roadmapToEdit = roadmapData.find((roadmap) => roadmap.id === id);
+    const roadmapToEdit = roadmapList.find((roadmap) => roadmap.id === id);
     if (roadmapToEdit) {
       setNewRoadmap({
         title: roadmapToEdit.title,
@@ -83,11 +106,11 @@ const RoadmapPage = () => {
       return;
     }
 
-    const updatedRoadmapData = roadmapData.map((roadmap) =>
+    const updatedRoadmapData = roadmapList.map((roadmap) =>
       roadmap.id === editingRoadmapId ? { ...roadmap, ...newRoadmap } : roadmap
     );
 
-    setRoadmapData(updatedRoadmapData);
+    setRoadmapList(updatedRoadmapData);
     localStorage.setItem("roadmapData", JSON.stringify(updatedRoadmapData));
     setCreatingRoadmap(false);
     setNewRoadmap({ title: "", description: "" });
@@ -119,45 +142,46 @@ const RoadmapPage = () => {
           </div>
           <br />
           <div className="flex flex-wrap gap-5">
-            {roadmapData.map((roadmap) => (
-              <Link
-                key={roadmap.id}
-                to={`/task/${roadmap.id}`}
-                className="h-[100px] w-[48%] bg-[#29affd13] rounded-[12px] flex flex-row justify-evenly items-center py-4 px-6 shadow-md shadow-[#0000004a] duration-150 hover:scale-[1.01]"
-              >
-                <div className="rounded-full bg-[#56C361] text-[white] flex items-center justify-center">
-                  <PiGlobe size={45} className="p-[4px]" />
-                </div>
-                <div className="font-Eczar text-[#1c1c1c] flex flex-col px-2 items-start">
-                  <h1 className="font-medium text-[14px]">{roadmap.title}</h1>
-                  <p className="">
-                    {roadmap.description.length > 50
-                      ? `${roadmap.description.slice(0, 50)}...`
-                      : roadmap.description}
-                  </p>
-                </div>
-                <div className="flex flex-row gap-2">
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleEditRoadmap(roadmap.id);
-                    }}
-                    className="text-[#56c361] cursor-pointer"
-                  >
-                    <FaFilePen size={30} />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleDeleteRoadmap(roadmap.id);
-                    }}
-                    className="text-[#a81616e0] cursor-pointer"
-                  >
-                    <MdDelete size={30} />
-                  </button>
-                </div>
-              </Link>
-            ))}
+            {Array.isArray(roadmapList) &&
+              roadmapList.map((roadmap, index) => (
+                <Link
+                  key={index}
+                  to={`/task/${roadmap._id}`}
+                  className="h-[100px] w-[48%] bg-[#29affd13] rounded-[12px] flex flex-row justify-evenly items-center py-4 px-6 shadow-md shadow-[#0000004a] duration-150 hover:scale-[1.01]"
+                >
+                  <div className="rounded-full bg-[#56C361] text-[white] flex items-center justify-center">
+                    <PiGlobe size={45} className="p-[4px]" />
+                  </div>
+                  <div className="font-Eczar text-[#1c1c1c] flex flex-col px-2 items-start">
+                    <h1 className="font-medium text-[14px]">{roadmap.title}</h1>
+                    <p className="">
+                      {roadmap.description.length > 50
+                        ? `${roadmap.description.slice(0, 50)}...`
+                        : roadmap.description}
+                    </p>
+                  </div>
+                  <div className="flex flex-row gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleEditRoadmap(roadmap._id);
+                      }}
+                      className="text-[#56c361] cursor-pointer"
+                    >
+                      <FaFilePen size={30} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDeleteRoadmap(roadmap._id);
+                      }}
+                      className="text-[#a81616e0] cursor-pointer"
+                    >
+                      <MdDelete size={30} />
+                    </button>
+                  </div>
+                </Link>
+              ))}
           </div>
           {creatingRoadmap && (
             <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-filter backdrop-blur-sm pt-[10vh]">

@@ -20,7 +20,7 @@ import ProtectedRoute from "./Routes/ProtectedRoute";
 
 const App = () => {
   const { user } = useContext(AuthContext);
-  console.log("🚀 ~ App ~ user:", user)
+  // console.log("🚀 ~ App ~ user:", user)
 
   return (
     <>
