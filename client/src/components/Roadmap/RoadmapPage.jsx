@@ -13,7 +13,8 @@ import axios from "axios";
 import Loader from "../Layout/Loader";
 
 const RoadmapPage = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
   const [roadmapList, setRoadmapList] = useState([]);
   const [newRoadmap, setNewRoadmap] = useState({
     title: "",
@@ -37,6 +38,8 @@ const RoadmapPage = () => {
     } catch (error) {
       console.error("Error fetching roadmaps:", error);
       toast.error(error.response.data.message || "Error fetching roadmaps");
+    } finally {
+      setLoading(false);
     }
   };
 

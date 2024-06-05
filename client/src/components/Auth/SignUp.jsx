@@ -61,6 +61,16 @@ const SignUp = () => {
     }
   };
 
+  const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePhoneNumber = (phoneNumber) => /^\d+$/.test(phoneNumber);
+  const validatePassword = (password) => password.length >= 6; // You can add more complex validation if needed
+  const validateDOB = (dob) => {
+    const date = new Date(dob);
+    const today = new Date();
+    return !isNaN(date.getTime()) && date < today;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -73,6 +83,37 @@ const SignUp = () => {
         `Please fill up all the ${isMentor ? "Mentor" : "Student"} fields`,
         { autoClose: 2000 }
       );
+      return;
+    }
+
+    if (!validateName(formData.firstName) || !validateName(formData.lastName)) {
+      toast.error("Name should only contain letters and spaces.", {
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    if (!validateEmail(formData.email)) {
+      toast.error("Invalid email address.", { autoClose: 2000 });
+      return;
+    }
+
+    if (!validatePhoneNumber(formData.phoneNumber)) {
+      toast.error("Phone number should only contain numbers.", {
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    if (!validatePassword(formData.password)) {
+      toast.error("Password should be at least 6 characters long.", {
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    if (!validateDOB(formData.dob)) {
+      toast.error("Invalid date of birth.", { autoClose: 2000 });
       return;
     }
 
@@ -94,7 +135,7 @@ const SignUp = () => {
     } catch (error) {
       console.error("Error during sign-up:", error);
       toast.error(
-        error.response.data.message ||
+        error.response?.data?.message ||
           "An error occurred. Please try again later."
       );
     }

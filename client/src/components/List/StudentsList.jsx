@@ -6,9 +6,11 @@ import Sidebar from "../Layout/Sidebar";
 import { server } from "../../apiEndPoint/apiEndPoint";
 import { AuthContext } from "../../context";
 import Loader from "../Layout/Loader";
+import { Link } from "react-router-dom";
 
 const StudentsList = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
   const [studentData, setStudentData] = useState([]);
   const [mentorData, setMentorData] = useState([]);
 
@@ -28,6 +30,8 @@ const StudentsList = () => {
     } catch (error) {
       console.error("Error fetching students:", error);
       toast.error(error.response.data.message || "Failed to fetch students");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,30 +75,32 @@ const StudentsList = () => {
                 </div>
               )}
               {studentData.map((student, index) => (
-                <div
-                  key={index}
-                  className="min-w-[202px] min-h-[244px] shadow-md shadow-[#00000040] rounded-[12px] flex flex-col items-center bg-[#29affd13] py-6 px-4"
-                >
-                  <div className="flex flex-col items-center">
-                    <img
-                      src={profile_pic}
-                      alt="Student"
-                      className="w-[90px] h-[90px] rounded-full mx-auto mb-4"
-                    />
-                    <h1 className="text-[18px] font-Eczar font-medium mb-1">
-                      {student.firstName} {student.lastName}
-                    </h1>
-                    <p className="text-sm text-[#666666]">{student.email}</p>
+                <Link key={index} to={`/profile/${student._id}`}>
+                  <div
+                    key={index}
+                    className="min-w-[202px] min-h-[244px] shadow-md shadow-[#00000040] rounded-[12px] flex flex-col items-center bg-[#29affd13] py-6 px-4"
+                  >
+                    <div className="flex flex-col items-center">
+                      <img
+                        src={profile_pic}
+                        alt="Student"
+                        className="w-[90px] h-[90px] rounded-full mx-auto mb-4"
+                      />
+                      <h1 className="text-[18px] font-Eczar font-medium mb-1">
+                        {student.firstName} {student.lastName}
+                      </h1>
+                      <p className="text-sm text-[#666666]">{student.email}</p>
+                    </div>
+                    <div className="flex justify-center space-x-4 mt-5">
+                      <button
+                        className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
+                        onClick={() => addToMentor(student._id)}
+                      >
+                        Add
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex justify-center space-x-4 mt-5">
-                    <button
-                      className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
-                      onClick={() => addToMentor(student._id)}
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

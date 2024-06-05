@@ -11,7 +11,8 @@ import Loader from "../Layout/Loader";
 
 const RequestsPage = () => {
   const [requests, setRequests] = useState([]);
-  const { user, loading } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     if (user) fetchRequests();
@@ -31,6 +32,8 @@ const RequestsPage = () => {
       console.error("Error fetching requests:", error);
       toast.error(error.response.data.message || "Failed to Fetch Requests");
       setRequests([]);
+    } finally {
+      setLoading(false);
     }
   };
 

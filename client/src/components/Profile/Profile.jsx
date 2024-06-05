@@ -38,10 +38,10 @@ function UserProfile() {
                       </p>
                     </div>
                     <div className="flex flex-row">
-                      <p className="mr-2 font-semibold text-blue-600 text-xl font-Eczar">
+                      {/* <p className="mr-2 font-semibold text-blue-600 text-xl font-Eczar">
                         Email:{" "}
-                      </p>
-                      <p className="mb-2 text-xl font-Eczar">{user.email}</p>
+                      </p> */}
+                      <p className="mb-2 text-lg font-Eczar">{user.email}</p>
                     </div>
                   </div>
                 </div>

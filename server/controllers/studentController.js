@@ -71,26 +71,29 @@ export const studentSignUp = async (req, res) => {
   }
 };
 
-// Route for getting a single student by ID
+// Route for getting a single student & mentor by ID
 export const getSingleStudent = async (req, res) => {
   try {
-    const studentId = req.params.id;
+    const userId = req.params.id;
 
     // Validate if the provided ID is a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(studentId)) {
-      return res.status(400).json({ message: "Invalid student ID" });
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid  ID" });
     }
 
     // Find the student by ID
-    const student = await Student.findById(studentId);
+    let user;
+    user = await Student.findById(userId);
+
+    if (!user) user = await Mentor.findById(userId);
 
     // Check if the student with the given ID exists
-    if (!student) {
-      return res.status(404).json({ message: "Student not found" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found with given ID" });
     }
 
     // If the student is found, send it as a response
-    res.status(200).json({ student });
+    res.status(200).json({ user });
   } catch (error) {
     console.error("Error getting student by ID:", error);
     res.status(500).json({ message: "Internal Server Error" });

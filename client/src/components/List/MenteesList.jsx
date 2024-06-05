@@ -53,9 +53,6 @@ const MenteesList = () => {
   }, [user]);
 
   const handleAssignRoadmap = async (roadmapId) => {
-    console.log("🚀 ~ handleAssignRoadmap ~ roadmapId:", roadmapId);
-    console.log("🚀 ~ handleAssignRoadmap ~ roadmapId:", selectedMentee);
-
     try {
       const response = await axios.post(`${server}/roadmap/assign`, {
         roadmapId,
@@ -85,36 +82,38 @@ const MenteesList = () => {
           <div className="flex flex-wrap gap-5">
             {mentees && mentees.length > 0 ? (
               mentees.map((mentee, index) => (
-                <div
-                  className="w-[300px] min-h-[250px] border-gray-300 border-[1px] shadow-sm rounded-[10px] flex flex-col items-center justify-between bg-white text-black py-6 px-4"
-                  key={index}
-                >
-                  <div className="flex flex-col items-center">
-                    <img
-                      src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"
-                      alt="Mentee"
-                      className="w-24 h-24 rounded-full mx-auto mb-4"
-                    />
-                    <h1 className="text-xl font-medium mb-1">
-                      {mentee.firstName} {mentee.lastName}
-                    </h1>
-                    <p className="text-sm text-gray-600">
-                      Email: {mentee.email}
-                    </p>
-                  </div>
+                <Link key={index} to={`/learning/${mentee._id}`}>
+                  <div
+                    className="w-[300px] min-h-[250px] border-gray-300 border-[1px] shadow-sm rounded-[10px] flex flex-col items-center justify-between bg-white text-black py-6 px-4"
+                    key={index}
+                  >
+                    <div className="flex flex-col items-center">
+                      <img
+                        src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"
+                        alt="Mentee"
+                        className="w-24 h-24 rounded-full mx-auto mb-4"
+                      />
+                      <h1 className="text-xl font-medium mb-1">
+                        {mentee.firstName} {mentee.lastName}
+                      </h1>
+                      <p className="text-sm text-gray-600">
+                        Email: {mentee.email}
+                      </p>
+                    </div>
 
-                  <div className="flex justify-center space-x-3 mt-5">
-                    <button
-                      className="bg-[#56C361] p-2 h-9 min-w-[80px] text-white rounded-md duration-300 hover:bg-[#56c361a5] flex items-center justify-center"
-                      onClick={() => {
-                        setShowAssignRoadmap(true);
-                        setSelectedMentee(mentee._id);
-                      }}
-                    >
-                      Assign roadmap
-                    </button>
+                    <div className="flex justify-center space-x-3 mt-5">
+                      <button
+                        className="bg-[#56C361] p-2 h-9 min-w-[80px] text-white rounded-md duration-300 hover:bg-[#56c361a5] flex items-center justify-center"
+                        onClick={() => {
+                          setShowAssignRoadmap(true);
+                          setSelectedMentee(mentee._id);
+                        }}
+                      >
+                        Assign roadmap
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))
             ) : (
               <div className="font-Eczar text-center w-full text-2xl">

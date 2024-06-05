@@ -20,6 +20,8 @@ import { AuthContext } from "./context";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import Loader from "./components/Layout/Loader";
 import Notifications from "./components/Notifications/Notification";
+import StudentLearning from "./components/Roadmap/StudentLearning";
+import User from "./components/Profile/User";
 
 const App = () => {
   const { user, loading } = useContext(AuthContext);
@@ -47,6 +49,7 @@ const App = () => {
                   <Route path="/task/:id" element={<TaskPage />} />
                   <Route path="/requests" element={<RequestsPage />} />
                   <Route path="/profile" element={<Profile />} />
+                  <Route path="/profile/:id" element={<User />} />
                   <Route path="/mentors" element={<MentorsList />} />
                   <Route
                     path="/unassigned-students"
@@ -56,6 +59,7 @@ const App = () => {
                   <Route path="/messaging" element={<Message />} />
                   <Route path="/notifications" element={<Notifications />} />
                   <Route path="/my-learning" element={<MyLearning />} />
+                  <Route path="/learning/:id" element={<StudentLearning />} />
                   <Route
                     path="*"
                     element={<Navigate to="/dashboard" replace />}

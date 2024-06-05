@@ -19,14 +19,31 @@ const Login = () => {
     }
   }, [navigate, user]);
 
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validatePassword = (password) => password.length >= 6; // Adjust based on your password requirements
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Perform validation
+    if (!email || !validateEmail(email)) {
+      toast.error("Please enter a valid email address.", { autoClose: 2000 });
+      return;
+    }
+
+    if (!password || !validatePassword(password)) {
+      toast.error("Password should be at least 6 characters long.", {
+        autoClose: 2000,
+      });
+      return;
+    }
+
     try {
       await login(email, password, userType);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed", error);
-      toast.error(error.response.data.message || "Login Failed");
+      toast.error(error.response?.data?.message || "Login Failed");
     }
   };
 

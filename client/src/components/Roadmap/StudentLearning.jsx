@@ -9,8 +9,10 @@ import { Button } from "@material-tailwind/react";
 import { MenuItem, Select } from "@mui/material";
 import { toast } from "react-toastify";
 import Loader from "../Layout/Loader";
+import { useParams } from "react-router-dom";
 
-const MyLearning = () => {
+const StudentLearning = () => {
+  const { id } = useParams();
   const { user, loading } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [updatedStatus, setUpdatedStatus] = useState({});
@@ -20,7 +22,7 @@ const MyLearning = () => {
     const fetchRoadmap = async () => {
       try {
         const response = await axios.get(
-          `${server}/roadmap/get-student-roadmaps/${user._id}`
+          `${server}/roadmap/get-student-roadmaps/${id}`
         );
         setRoadmap(response.data.data);
       } catch (error) {
@@ -29,7 +31,7 @@ const MyLearning = () => {
       }
     };
     fetchRoadmap();
-  }, [user._id]);
+  }, [id]);
 
   const handleSave = async (taskId) => {
     try {
@@ -102,22 +104,22 @@ const MyLearning = () => {
         </div>
       ),
     },
-    {
-      field: "save",
-      headerName: "",
-      type: "text",
-      flex: 0.5,
-      renderCell: (params) => (
-        <div className="flex h-[80%] justify-center items-center mt-[5%] w-full">
-          <button
-            className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
-            onClick={() => handleSave(params.row.id)}
-          >
-            Save
-          </button>
-        </div>
-      ),
-    },
+    // {
+    //   field: "save",
+    //   headerName: "",
+    //   type: "text",
+    //   flex: 0.5,
+    //   renderCell: (params) => (
+    //     <div className="flex h-[80%] justify-center items-center mt-[5%] w-full">
+    //       <button
+    //         className="bg-[#56C361] p-2 h-[30px] w-[60px] text-white text-[15px] rounded-[5px] flex items-center justify-center"
+    //         onClick={() => handleSave(params.row.id)}
+    //       >
+    //         Save
+    //       </button>
+    //     </div>
+    //   ),
+    // },
   ];
 
   let rows = [];
@@ -167,4 +169,4 @@ const MyLearning = () => {
   );
 };
 
-export default MyLearning;
+export default StudentLearning;
