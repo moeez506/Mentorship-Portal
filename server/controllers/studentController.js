@@ -230,11 +230,14 @@ export const getAllMentors = async (req, res) => {
 export const requestMentor = async (req, res) => {
   try {
     const { studentId, mentorId } = req.body;
-    console.log("Request Mentor: Request Body", req.body);
 
     const student = await Student.findById(studentId);
     if (!student) {
-      throw new Error("Student not found");
+      return res.status(404).json({ message: "Student not Found" });
+    }
+
+    if (student.mentorId) {
+      return res.status(404).json({ message: "Student already has a mentor" });
     }
 
     const existingRequest = student.mentorRequests.find(
@@ -242,7 +245,9 @@ export const requestMentor = async (req, res) => {
     );
 
     if (existingRequest) {
-      throw new Error("Request already sent to this mentor");
+      return res
+        .status(404)
+        .json({ message: "Request already sent to this mentor" });
     }
 
     student.mentorRequests.push({ mentorId, status: "pending" });

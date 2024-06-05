@@ -1,14 +1,16 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { server } from "../../apiEndPoint/apiEndPoint";
 import logo from "../../assets/logo.png";
+import { AuthContext } from "../../context";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [isMentor, setIsMentor] = useState(true);
+  const { user } = useContext(AuthContext);
 
   const [mentorData, setMentorData] = useState({
     firstName: "",
@@ -37,6 +39,12 @@ const SignUp = () => {
     shift: "",
     program: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [navigate, user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,13 +93,15 @@ const SignUp = () => {
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       console.error("Error during sign-up:", error);
-      toast.error("An error occurred. Please try again later.");
+      toast.error(
+        error.response.data.message ||
+          "An error occurred. Please try again later."
+      );
     }
   };
 
   return (
     <>
-      <ToastContainer position="bottom-center" />
       <div className="flex flex-row h-screen w-full bg-[#66c871cb]">
         <div className="w-[50%] p-10 flex flex-col justify-center items-center relative">
           <div className="absolute inset-0 flex flex-col justify-center items-center">

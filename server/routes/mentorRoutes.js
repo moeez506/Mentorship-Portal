@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addMentee,
   // acceptRequest,
   // declineRequest,
   deleteMentor,
@@ -18,6 +19,7 @@ router.route("/register").post(mentorSignUp);
 router.route("/all-students").get(getAllStudents);
 router.route("/students-request").get(getAllRequests);
 router.route("/handle-request").patch(handleRequest);
+router.route("/add-mentee").post(addMentee);
 // router.route("/decline-request").patch(declineRequest);
 router.route("/all-mentees").get(getAllStudentsOfMentor);
 router.route("/:id").get(getSingleMentor);

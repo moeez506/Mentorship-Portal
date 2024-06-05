@@ -212,6 +212,9 @@ export const updateTask = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Roadmap ID, task ID, and task data are required" });
+      return res
+        .status(400)
+        .json({ message: "Roadmap ID, task ID, and task data are required" });
     }
 
     const roadmap = await Roadmap.findById(roadmapId);
