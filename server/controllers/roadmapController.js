@@ -1,3 +1,4 @@
+import Notification from "../models/notification.js";
 import Roadmap from "../models/roadmap.js";
 import Student from "../models/student.js";
 
@@ -122,16 +123,6 @@ export const assignRoadmapToStudent = async (req, res) => {
     const roadmapCopy = originalRoadmap.toObject();
     delete roadmapCopy._id;
 
-    // Create new tasks
-    const newTasks = roadmapCopy.tasks.map((task) => {
-      const newTask = { ...task };
-      delete newTask._id;
-      return newTask;
-    });
-
-    // Assign new tasks to the roadmap copy
-    roadmapCopy.tasks = newTasks;
-
     const studentRoadmap = new Roadmap({
       ...roadmapCopy,
       studentId: studentId,
@@ -203,12 +194,24 @@ export const createTask = async (req, res) => {
   }
 };
 
+export const sendNotification = async (mentorId, message) => {
+  try {
+    const notification = new Notification({ mentorId, message });
+    await notification.save();
+  } catch (error) {
+    console.error("Error sending notification:", error);
+  }
+};
+
 export const updateTask = async (req, res) => {
   try {
     const { roadmapId, taskId, task } = req.body;
 
     // Validate request body
     if (!roadmapId || !taskId || !task) {
+      return res
+        .status(400)
+        .json({ message: "Roadmap ID, task ID, and task data are required" });
       return res
         .status(400)
         .json({ message: "Roadmap ID, task ID, and task data are required" });
@@ -230,8 +233,15 @@ export const updateTask = async (req, res) => {
     }
 
     taskInRoadmap.set(task);
-
+    // console.log(roadmap);
     const updatedRoadmap = await roadmap.save();
+    // console.log(taskInRoadmap);
+    if (roadmap) {
+      var student = await Student.findById(roadmap.studentId);
+      // console.log(student);
+    }
+    const message = `The ${roadmap.title} with Task "${taskInRoadmap.title}" status changed to ${taskInRoadmap.status} by ${student.firstName}.`;
+    sendNotification(roadmap.mentorId, message);
 
     res
       .status(200)

@@ -131,6 +131,7 @@ export const getAllStudents = async (req, res) => {
     }
 
     // If students are found, send them as a response
+
     res.status(200).json({ students });
   } catch (error) {
     console.error("Error getting all students:", error);

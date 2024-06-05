@@ -19,6 +19,7 @@ import MyLearning from "./components/Roadmap/MyLearning";
 import { AuthContext } from "./context";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import Loader from "./components/Layout/Loader";
+import Notifications from "./components/Notifications/Notification";
 
 const App = () => {
   const { user, loading } = useContext(AuthContext);
@@ -53,6 +54,7 @@ const App = () => {
                   />
                   <Route path="/mentees" element={<MenteesList />} />
                   <Route path="/messaging" element={<Message />} />
+                  <Route path="/notifications" element={<Notifications />} />
                   <Route path="/my-learning" element={<MyLearning />} />
                   <Route
                     path="*"
