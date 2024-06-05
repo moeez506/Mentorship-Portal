@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context.jsx";
 import Sidebar from "../Layout/Sidebar";
 import StudentStatisticsCard from "./StudentStatisticsCard.jsx";
+import Loader from "../Layout/Loader.jsx";
 
 const DashboardPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
 
   const [isMentor, setIsMentor] = useState(false);
   const [isStudent, setIsStudent] = useState(false);
@@ -23,51 +24,57 @@ const DashboardPage = () => {
 
   return (
     <>
-      <Sidebar active={0} />
-      <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
-        <div className="container w-[80%] mx-auto">
-          <br />
-          <br />
-          <h2 className="font-Eczar font-medium text-2xl">Overview</h2>
-          <br />
-          <div className="w-full flex flex-row justify-between">
-            {isMentor && (
-              <>
-                <DashboardPageCard link="/mentees" title="My Mentees" />
-                <DashboardPageCard link="/roadmaps" title="My Roadmaps" />
-                <div className="min-h-32 bg-[#56c36115] p-4 rounded-[16px] flex flex-row gap-5 shadow-md shadow-[#00000052] items-center justify-center hover:bg-gray-200 duration-300 cursor-pointer">
-                  <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
-                    Total Mentees:
-                  </h1>
-                  <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
-                    {user.mentees.length}
-                  </h1>
-                </div>
-              </>
-            )}
-            {isStudent && (
-              <>
-                <DashboardPageCard
-                  link="/my-learning/"
-                  title="My Learning"
-                  icon={<FaTasks size={30} />}
-                />
-                <DashboardPageCard
-                  link="/mentors"
-                  title="Mentors"
-                  icon={<FaTasks size={30} />}
-                />
-                <DashboardPageCard
-                  link="/profile"
-                  title="Profile"
-                  icon={<IoPersonOutline size={30} />}
-                />
-              </>
-            )}
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Sidebar active={0} />
+          <div className="w-full flex flex-row bg-[white] p-5 pl-[20vw] pt-[10vh]">
+            <div className="container w-[80%] mx-auto">
+              <br />
+              <br />
+              <h2 className="font-Eczar font-medium text-2xl">Overview</h2>
+              <br />
+              <div className="w-full flex flex-row justify-between">
+                {isMentor && (
+                  <>
+                    <DashboardPageCard link="/mentees" title="My Mentees" />
+                    <DashboardPageCard link="/roadmaps" title="My Roadmaps" />
+                    <div className="min-h-32 bg-[#56c36115] p-4 rounded-[16px] flex flex-row gap-5 shadow-md shadow-[#00000052] items-center justify-center hover:bg-gray-200 duration-300 cursor-pointer">
+                      <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
+                        Total Mentees:
+                      </h1>
+                      <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
+                        {user.mentees.length}
+                      </h1>
+                    </div>
+                  </>
+                )}
+                {isStudent && (
+                  <>
+                    <DashboardPageCard
+                      link="/my-learning/"
+                      title="My Learning"
+                      icon={<FaTasks size={30} />}
+                    />
+                    <DashboardPageCard
+                      link="/mentors"
+                      title="Mentors"
+                      icon={<FaTasks size={30} />}
+                    />
+                    <DashboardPageCard
+                      link="/profile"
+                      title="Profile"
+                      icon={<IoPersonOutline size={30} />}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <StudentStatisticsCard />
+          <StudentStatisticsCard />
+        </>
+      )}
     </>
   );
 };
