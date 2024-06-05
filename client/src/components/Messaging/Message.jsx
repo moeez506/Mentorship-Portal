@@ -185,8 +185,8 @@ const Message = () => {
                       key={index}
                       className={`flex items-start space-x-2 ${
                         msg.sender.id === user._id
-                          ? "justify-start"
-                          : "justify-end"
+                          ? "justify-end"
+                          : "justify-start"
                       }`}
                     >
                       {/* <img

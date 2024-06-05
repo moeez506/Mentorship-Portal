@@ -177,16 +177,16 @@ const RoadmapPage = () => {
                             : roadmap.description}
                         </p>
                       </div>
-                      <div className="flex flex-row gap-2">
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleEditRoadmap(roadmap._id);
-                          }}
-                          className="text-[#56c361] cursor-pointer"
-                        >
-                          <FaFilePen size={30} />
-                        </button>
+                      <div className="flex flex-row gap-5">
+                        {/* <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleEditRoadmap(roadmap._id);
+                            }}
+                            className="text-[#56c361] cursor-pointer"
+                          >
+                            <FaFilePen size={30} />
+                          </button> */}
                         <button
                           onClick={(e) => {
                             e.preventDefault();

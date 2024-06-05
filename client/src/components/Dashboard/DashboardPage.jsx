@@ -100,7 +100,7 @@ const DashboardPage = () => {
                     />
                     <div className="min-h-32 bg-[#56c36115] p-4 rounded-[16px] flex flex-row gap-5 shadow-md shadow-[#00000052] items-center justify-center hover:bg-gray-200 duration-300 cursor-pointer">
                       <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
-                        {isAdmin ? "Total Mentors" : "Total Mentors:"}
+                        {isAdmin ? "Total Mentors" : "Total Mentees:"}
                       </h1>
                       <h1 className="text-2xl text-[#1c1c1c] font-medium font-Eczar">
                         {isAdmin ? mentorList.length : user.mentees.length}
