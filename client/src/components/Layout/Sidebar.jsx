@@ -13,7 +13,7 @@ import Loader from "./Loader";
 
 const Sidebar = ({ active }) => {
   const navigate = useNavigate();
-  const { user, logout, loading } = useContext(AuthContext);
+  const { user, logout, loading, isAdmin } = useContext(AuthContext);
 
   const [isMentor, setIsMentor] = useState(false);
   const [isStudent, setIsStudent] = useState(false);
@@ -37,6 +37,12 @@ const Sidebar = ({ active }) => {
       toast.error(error.response.data.message || "Logout Failed");
     }
   };
+  const className =
+    isAdmin && active === 8
+      ? "bg-[#56C361] text-[white]"
+      : !isAdmin && active === 2
+      ? "bg-[#56C361] text-[white]"
+      : "bg-[#F2F9FF]";
 
   return (
     <>
@@ -65,7 +71,7 @@ const Sidebar = ({ active }) => {
                 </div>
               </div>
             </Link>
-            {isMentor && (
+            {!isAdmin && isMentor && (
               <Link
                 to="/requests"
                 className={`w-full px-5 h-[66px] rounded-2xl ${
@@ -94,7 +100,7 @@ const Sidebar = ({ active }) => {
                     <RiFolder6Line size={24} />
                   </div>
                   <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
-                    Unassigned Students
+                    {isAdmin ? "Total Students" : "Unassigned Students"}
                   </div>
                 </div>
               </Link>
@@ -161,6 +167,21 @@ const Sidebar = ({ active }) => {
                   </div>
                   <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
                     Notifications
+                  </div>
+                </div>
+              </Link>
+            )}
+            {isAdmin && (
+              <Link
+                to="/mentors"
+                className={`content-3 w-full px-5 h-[66px] rounded-2xl ${className}`}
+              >
+                <div className="flex flex-row items-center content-center rounded-lg w-full h-full">
+                  <div>
+                    <FaUsers size={24} />
+                  </div>
+                  <div className="flex flex-col justify-center items-start rounded-lg ml-4 hover:translate-x-2 hover:justify-center duration-200 w-full h-full">
+                    Mentors
                   </div>
                 </div>
               </Link>

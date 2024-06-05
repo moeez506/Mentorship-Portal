@@ -8,7 +8,7 @@ import { AuthContext } from "../../context";
 import Loader from "../Layout/Loader";
 
 const StudentsList = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading, isAdmin } = useContext(AuthContext);
   const [studentData, setStudentData] = useState([]);
   const [mentorData, setMentorData] = useState([]);
 
@@ -21,9 +21,12 @@ const StudentsList = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get(
-        `${server}/mentor/all-students?unassigned=true`
-      );
+      const endpoint = isAdmin
+        ? `${server}/mentor/all-students`
+        : `${server}/mentor/all-students?unassigned=true`;
+
+      const response = await axios.get(endpoint);
+
       setStudentData(response.data.students);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -60,7 +63,7 @@ const StudentsList = () => {
             <br />
             <br />
             <h2 className="font-Eczar font-medium text-2xl">
-              Unassigned Students
+              {isAdmin ? "Total Students" : "Unassigned Students"}
             </h2>
             <br />
 

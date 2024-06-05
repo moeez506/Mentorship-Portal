@@ -13,7 +13,7 @@ import axios from "axios";
 import Loader from "../Layout/Loader";
 
 const RoadmapPage = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading, isAdmin } = useContext(AuthContext);
   const [roadmapList, setRoadmapList] = useState([]);
   const [newRoadmap, setNewRoadmap] = useState({
     title: "",
@@ -28,9 +28,11 @@ const RoadmapPage = () => {
 
   const fetchRoadmaps = async () => {
     try {
-      const response = await axios.get(
-        `${server}/roadmap/get-mentor-roadmaps/${user._id}`
-      );
+      const endpoint = isAdmin
+        ? `${server}/roadmap/`
+        : `${server}/roadmap/get-mentor-roadmaps/${user._id}`;
+
+      const response = await axios.get(endpoint);
 
       setRoadmapList(response.data.data);
       toast.success(response.data.message);
