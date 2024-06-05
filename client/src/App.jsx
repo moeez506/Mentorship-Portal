@@ -54,6 +54,7 @@ const App = () => {
                   />
                   <Route path="/mentees" element={<MenteesList />} />
                   <Route path="/messaging" element={<Message />} />
+                  <Route path="/notifications" element={<Notifications />} />
                   <Route path="/my-learning" element={<MyLearning />} />
                   <Route
                     path="*"
