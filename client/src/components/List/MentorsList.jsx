@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 const MentorsList = () => {
   const [mentorList, setMentorList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, isAdmin } = useContext(AuthContext);
 
   useEffect(() => {
     fetchMentors();
@@ -61,7 +61,7 @@ const MentorsList = () => {
         <Loader />
       ) : (
         <div className="w-full flex flex-row bg-[#f0f4f8] min-h-screen">
-          <Sidebar active={2} />
+          {isAdmin ? <Sidebar active={8} /> : <Sidebar active={2} />}
           <div
             className={`min-h-full w-full font-Poppins flex items-start flex-col px-10 pt-5`}
             style={{ marginLeft: "20vw", marginTop: "10vh" }}

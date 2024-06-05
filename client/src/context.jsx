@@ -8,6 +8,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -16,6 +17,7 @@ const AuthProvider = ({ children }) => {
           withCredentials: true,
         });
         setUser(response.data.user);
+        console.log("---------------s", response.data.user.email);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           setUser(null);
@@ -44,6 +46,7 @@ const AuthProvider = ({ children }) => {
           toast.success(res.data.message);
           console.log(res);
           setUser(res.data.user);
+          setIsAdmin(res.data.user.email === "mentor@gmail.com" ? true : false);
         });
     } catch (error) {
       console.error("Login failed", error);
@@ -67,11 +70,12 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, loading, login, logout, isAdmin, setIsAdmin }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
 export { AuthContext, AuthProvider };
-

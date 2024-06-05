@@ -9,7 +9,7 @@ import Loader from "../Layout/Loader";
 import { Link } from "react-router-dom";
 
 const StudentsList = () => {
-  const { user } = useContext(AuthContext);
+  const { user, isAdmin } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [studentData, setStudentData] = useState([]);
   const [mentorData, setMentorData] = useState([]);
@@ -23,9 +23,12 @@ const StudentsList = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get(
-        `${server}/mentor/all-students?unassigned=true`
-      );
+      const endpoint = isAdmin
+        ? `${server}/mentor/all-students`
+        : `${server}/mentor/all-students?unassigned=true`;
+
+      const response = await axios.get(endpoint);
+
       setStudentData(response.data.students);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -64,7 +67,7 @@ const StudentsList = () => {
             <br />
             <br />
             <h2 className="font-Eczar font-medium text-2xl">
-              Unassigned Students
+              {isAdmin ? "Total Students" : "Unassigned Students"}
             </h2>
             <br />
 
