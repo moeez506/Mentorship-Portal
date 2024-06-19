@@ -8,6 +8,7 @@ import io from "socket.io-client";
 import { AuthContext } from "../../context";
 import axios from "axios";
 import { server } from "../../apiEndPoint/apiEndPoint";
+import Loader from "../Layout/Loader";
 
 const socket = io("http://localhost:5000");
 
@@ -18,8 +19,9 @@ const Message = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Added state for search query
   const [selectedUser, setSelectedUser] = useState(null);
   const messageEndRef = useRef(null);
+  const [loading, setLoading] = useState(true);
 
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -37,6 +39,8 @@ const Message = () => {
         setUsers(combinedUsers);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     getAllUsers();
@@ -86,7 +90,7 @@ const Message = () => {
   const filteredUsers = users.filter((user) =>
     user.firstName.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+  if (loading) return <Loader />;
   return (
     <>
       <Sidebar active={5} />
@@ -122,7 +126,7 @@ const Message = () => {
                       <img
                         src={
                           user.profilePicture ||
-                          "https://media.licdn.com/dms/image/D4D03AQEoUlbVH8FU_w/profile-displayphoto-shrink_800_800/0/1716205933498?e=1722470400&v=beta&t=6xh-WMI97RB1ctXiuO0ywahyguuWhFfDVTykyCxKwO0"
+                          "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"
                         }
                         alt="Profile"
                         className="w-10 h-10 rounded-full"
@@ -151,7 +155,7 @@ const Message = () => {
                       <img
                         src={
                           selectedUser.profilePicture ||
-                          "https://media.licdn.com/dms/image/D4D03AQEoUlbVH8FU_w/profile-displayphoto-shrink_800_800/0/1716205933498?e=1722470400&v=beta&t=6xh-WMI97RB1ctXiuO0ywahyguuWhFfDVTykyCxKwO0"
+                          "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"
                         }
                         alt="Profile"
                         className="w-10 h-10 rounded-full mr-2"
@@ -160,7 +164,7 @@ const Message = () => {
                         <h2 className="font-bold text-lg">
                           {selectedUser.firstName || "Unknown"}
                         </h2>
-                        <p className="text-sm text-gray-500">Typing...</p>
+                        {/* <p className="text-sm text-gray-500">Typing...</p> */}
                       </div>
                     </div>
                     <div className="flex space-x-2">

@@ -79,11 +79,11 @@ const MentorsList = () => {
               <div className="w-[97%]">
                 <div className="grid grid-cols-3 gap-6">
                   {mentorList.map((mentor, index) => (
-                    <Link key={index} to={`/profile/${mentor._id}`}>
-                      <div
-                        className="w-[300px] min-h-[300px] border-gray-300 border-[1px] shadow-sm rounded-[10px] flex flex-col items-center justify-between bg-white text-black py-6 px-4"
-                        key={index}
-                      >
+                    <div
+                      className="w-[300px] min-h-[300px] border-gray-300 border-[1px] shadow-sm rounded-[10px] flex flex-col items-center justify-between bg-white text-black py-6 px-4"
+                      key={index}
+                    >
+                      <Link key={index} to={`/profile/${mentor._id}`}>
                         <div className="flex flex-col items-center">
                           <img
                             src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"
@@ -97,22 +97,22 @@ const MentorsList = () => {
                             Email: {mentor.email}
                           </p>
                         </div>
-                        <div className="flex justify-center space-x-3 mt-5">
-                          <button
-                            className="bg-green-500 p-2 h-9 min-w-[160px] text-white rounded-md duration-300 hover:bg-green-700 flex items-center justify-center"
-                            onClick={() => handleMentorRequest(mentor._id)}
-                          >
-                            Send Request
-                          </button>
-                          {/* <button
+                      </Link>
+                      <div className="flex justify-center space-x-3 mt-5">
+                        <button
+                          className="bg-green-500 p-2 h-9 min-w-[160px] text-white rounded-md duration-300 hover:bg-green-700 flex items-center justify-center"
+                          onClick={() => handleMentorRequest(mentor._id)}
+                        >
+                          Send Request
+                        </button>
+                        {/* <button
                           className="bg-blue-500 p-2 h-9 min-w-[80px] text-white rounded-md duration-300 hover:bg-blue-700 flex items-center justify-center"
                           onClick={() => handleViewDetails(mentor._id)}
                         >
                           <FiEye size={18} />
                         </button> */}
-                        </div>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               </div>
