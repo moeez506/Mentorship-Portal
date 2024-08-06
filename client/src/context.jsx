@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { server } from "./apiEndPoint/apiEndPoint";
 
 const AuthContext = createContext();

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { MdClose, MdDelete } from "react-icons/md";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-hot-toast";
+
 import Sidebar from "../Layout/Sidebar";
 import axios from "axios"; // Import Axios
 import { AuthContext } from "../../context";

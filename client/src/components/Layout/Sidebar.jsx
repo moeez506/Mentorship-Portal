@@ -6,7 +6,7 @@ import { MdLogout } from "react-icons/md";
 import { PiChartPieSliceFill, PiShoppingBagOpenDuotone } from "react-icons/pi";
 import { RiFolder6Line } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import logo from "../../assets/Struggle.png";
 import { AuthContext } from "../../context";
 import Loader from "./Loader";
@@ -45,7 +45,7 @@ const Sidebar = ({ active }) => {
       : "bg-[#F2F9FF]";
 
   return (
-    <>
+    <section className="sidebar">
       {loading ? (
         <Loader />
       ) : (
@@ -203,7 +203,7 @@ const Sidebar = ({ active }) => {
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 };
 

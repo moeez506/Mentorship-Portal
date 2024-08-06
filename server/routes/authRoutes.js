@@ -5,7 +5,7 @@ import {
   mentorLogin,
   studentLogin,
 } from "../controllers/authController.js";
-import { authenticatedUser } from "../middlewares/auth.js";
+import { authenticatedUser, isVerified } from "../middlewares/auth.js";
 
 const router = express.Router();
 

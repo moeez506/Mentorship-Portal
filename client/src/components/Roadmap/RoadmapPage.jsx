@@ -4,8 +4,8 @@ import { FaFilePen } from "react-icons/fa6";
 import { MdClose, MdDelete } from "react-icons/md";
 import { PiGlobe } from "react-icons/pi";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-hot-toast";
+
 import Sidebar from "../Layout/Sidebar";
 import { AuthContext } from "../../context";
 import { server } from "../../apiEndPoint/apiEndPoint";
