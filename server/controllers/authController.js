@@ -111,6 +111,12 @@ export const mentorLogin = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
+    // check mentor is verified
+
+    if (!mentor.isVerified) {
+      return res.status(400).json({ message: "Mentor is not verified by admin" });
+    }
+
     const isPasswordValid = await bcrypt.compare(password, mentor.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: "Invalid email or password" });

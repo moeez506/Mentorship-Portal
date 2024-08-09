@@ -8,7 +8,7 @@ import StudentStatisticsCard from "./StudentStatisticsCard.jsx";
 import Loader from "../Layout/Loader.jsx";
 import axios from "axios";
 import { server } from "../../apiEndPoint/apiEndPoint.js";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const DashboardPage = () => {
   const { user, loading, isAdmin, setIsAdmin } = useContext(AuthContext);

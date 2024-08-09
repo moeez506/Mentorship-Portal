@@ -57,6 +57,11 @@ const MentorSchema = new mongoose.Schema({
     type: String, // You might want to use a predefined list of programs or validate this further
     required: true,
   },
+  verifiedByAdmin: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   mentees: [
     {
       studentId: {

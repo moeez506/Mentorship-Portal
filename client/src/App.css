@@ -20,3 +20,9 @@
     --ag-font-size: 17px !important;
     --ag-font-family: monospace !important;
 }
+
+.sidebar div{
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}

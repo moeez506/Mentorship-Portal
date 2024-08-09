@@ -7,7 +7,7 @@ import { AuthContext } from "../../context";
 import { server } from "../../apiEndPoint/apiEndPoint";
 import { Button } from "@material-tailwind/react";
 import { MenuItem, Select } from "@mui/material";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import Loader from "../Layout/Loader";
 
 const MyLearning = () => {

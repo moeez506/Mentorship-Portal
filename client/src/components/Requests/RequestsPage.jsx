@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-hot-toast";
+
 import profile_pic from "../../assets/Profile Icon.png";
 import Sidebar from "../Layout/Sidebar";
 import { server } from "../../apiEndPoint/apiEndPoint";
@@ -21,7 +21,11 @@ const RequestsPage = () => {
   const fetchRequests = async () => {
     try {
       const response = await axios.get(
-        `${server}/mentor/students-request?mentorId=${user._id}`
+        `${server}/mentor/students-request?mentorId=${user._id}`,
+        {
+          withCredentials: true,
+        }
+
       );
       if (response.data && response.data.requests) {
         setRequests(response.data.requests);

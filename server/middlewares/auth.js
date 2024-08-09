@@ -32,10 +32,21 @@ export const authenticatedUser = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
+    console.log(error);
     return res.status(401).json({ message: 'Unauthorized' });
   }
 };
+
+
+export const isVerified = async (req, res, next) => {
+
+  const { verifiedByAdmin } = req.user;
+  if (!verifiedByAdmin) {
+    return res.status(401).json({ message: 'You are not verified by admin , Please try again later' });
+  }
+  next();
+}

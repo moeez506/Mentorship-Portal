@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FiEye } from "react-icons/fi";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-hot-toast";
+
 import Sidebar from "../Layout/Sidebar";
 import axios from "axios";
 import { server } from "../../apiEndPoint/apiEndPoint";

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import profile_pic from "../../assets/Profile Icon.png";
 import Sidebar from "../Layout/Sidebar";
 import { server } from "../../apiEndPoint/apiEndPoint";
