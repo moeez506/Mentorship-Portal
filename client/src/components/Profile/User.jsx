@@ -5,7 +5,7 @@ import Loader from "../Layout/Loader";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../apiEndPoint/apiEndPoint";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 function User() {
   const { id } = useParams();

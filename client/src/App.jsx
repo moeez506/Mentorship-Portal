@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { Bounce, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {  Toaster } from "react-hot-toast";
+
 import "./App.css";
 import Login from "./components/Auth/Login";
 import SignUp from "./components/Auth/SignUp";
@@ -75,18 +75,7 @@ const App = () => {
             </Routes>
           </>
         )}
-        <ToastContainer
-          position="bottom-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition={Bounce}
+        <Toaster
         />
       </BrowserRouter>
     </>
